@@ -36,7 +36,8 @@
     margin : .24rem;
 
     &-title {
-      @apply font-secondary uppercase bg-black px-2 font-bold;
+      @apply font-secondary uppercase bg-black pr-2 font-bold;
+      padding-left: 0.9em;
       letter-spacing : 0.4em;
     }
 

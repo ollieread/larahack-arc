@@ -29,6 +29,17 @@
       &--current {
         @apply font-bold;
       }
+
+      &--admin {
+        @apply relative;
+
+        &:before {
+          @apply absolute text-white font-secondary;
+          content : '@';
+          left    : .5rem;
+          bottom  : .1rem;
+        }
+      }
     }
   }
 }

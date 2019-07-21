@@ -25,11 +25,24 @@ export default {
     getters: {},
 
     actions: {
-        async transformUsers({commit, state}, users) {
+        async transformUsers({commit, state}, data) {
+            let users         = data.users;
+            let channel       = data.channel;
             let existingUsers = window._.filter(state.users, existingUser => {
                 return window._.findIndex(users, (rawUser) => {
                     return existingUser.uuid.is(rawUser.id);
                 }) !== -1;
+            });
+
+            existingUsers.forEach(existingUser => {
+                let userIndex = window._.findIndex(users, (rawUser) => {
+                    return existingUser.uuid.is(rawUser.id);
+                });
+
+                if (userIndex > -1) {
+                    let rawUser = users[userIndex];
+                    existingUser.addPermissions(channel.uuid.toString(), rawUser.permissions);
+                }
             });
 
             let newUsers = window._.filter(users, rawUser => {
@@ -38,10 +51,14 @@ export default {
                 }) === -1;
             }).map(rawUser => {
                 if (state.currentUser && state.currentUser.uuid.is(rawUser.id)) {
+                    state.currentUser.addPermissions(channel.uuid.toString(), rawUser.permissions);
                     return state.currentUser;
                 }
 
-                return user(rawUser.id, rawUser.username, rawUser.updated_at);
+                let model = user(rawUser.id, rawUser.username, rawUser.updated_at);
+                model.addPermissions(channel.uuid.toString(), rawUser.permissions);
+
+                return model;
             });
 
             commit('addUsers', newUsers);

@@ -14,7 +14,8 @@
                 <div class="box box--grow box--headerless">
                     <h2 class="box__title">Users</h2>
                     <div class="box__body channel__users">
-                        <a href="#" class="box__item channel__user" :class="{'channel__user--current':user.isCurrent, 'channel__user--offline':! channel.isUserOnline(user)}"
+                        <a href="#" class="box__item channel__user"
+                           :class="{'channel__user--current':user.isCurrent, 'channel__user--offline':! channel.isUserOnline(user), 'channel__user--admin':user.can(channel.uuid.toString(), 64)}"
                            v-for="(user, index) in channel.users" :key="user.uuid.toString()">
                             {{ user.username }}
                         </a>
