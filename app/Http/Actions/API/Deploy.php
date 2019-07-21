@@ -19,7 +19,7 @@ class Deploy extends Action
                 ->setInput([
                     'type'     => Message::ACTION,
                     'action'   => 'deploy.' . $request->json('status'),
-                    'metadata' => $request->json()->all(),
+                    'metadata' => $request->getContent(),
                 ])
                 ->perform();
         } catch (Exception $exception) {
