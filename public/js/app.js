@@ -2095,17 +2095,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.channel = this.getChannel(name);
 
                 if (!this.channel) {
-                  _context3.next = 5;
+                  _context3.next = 7;
                   break;
                 }
 
                 _context3.next = 4;
-                return this.$store.dispatch('Channels/setCurrentChannel', this.channel);
+                return this.$store.commit('Channels/markChannelRead', this.channel);
 
               case 4:
+                _context3.next = 6;
+                return this.$store.dispatch('Channels/setCurrentChannel', this.channel);
+
+              case 6:
                 this.messages = this.channel.messages;
 
-              case 5:
+              case 7:
               case "end":
                 return _context3.stop();
             }
@@ -59873,14 +59877,17 @@ var render = function() {
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "box__body" },
+      { staticClass: "box__body chat__list" },
       _vm._l(_vm.channels, function(channel, index) {
         return _c(
           "router-link",
           {
             key: channel.uuid.toString(),
-            staticClass: "box__item",
-            class: { "box__item--active": _vm.isCurrent(channel) },
+            staticClass: "box__item chat__list-item",
+            class: {
+              "box__item--active": _vm.isCurrent(channel),
+              "chat__list-item--unread": channel.isUnread
+            },
             attrs: {
               to: { name: "channel", params: { channel: channel.name } }
             }
@@ -77366,6 +77373,7 @@ function () {
     this.current = current;
     this.locked = locked;
     this.archived = archived;
+    this.unread = false;
     this.onlineUsers = [];
     this.users = [];
     this.messages = [];
@@ -77502,6 +77510,11 @@ function () {
     key: "isArchived",
     get: function get() {
       return this.archived;
+    }
+  }, {
+    key: "isUnread",
+    get: function get() {
+      return this.unread;
     }
   }]);
 
@@ -78852,6 +78865,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var message = _ref2.message,
           channel = _ref2.channel;
       channel.addMessage(message);
+
+      if (!channel.current) {
+        channel.unread = true;
+      }
     },
     addOnlineUser: function addOnlineUser(state, _ref3) {
       var user = _ref3.user,
@@ -78872,6 +78889,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var user = _ref6.user,
           channel = _ref6.channel;
       channel.removeUser(user);
+    },
+    markChannelRead: function markChannelRead(state, channel) {
+      channel.unread = false;
     }
   },
   getters: {

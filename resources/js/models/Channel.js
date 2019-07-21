@@ -8,6 +8,7 @@ class Channel {
         this.current     = current;
         this.locked      = locked;
         this.archived    = archived;
+        this.unread      = false;
         this.onlineUsers = [];
         this.users       = [];
         this.messages    = [];
@@ -31,6 +32,10 @@ class Channel {
 
     get isArchived() {
         return this.archived;
+    }
+
+    get isUnread() {
+        return this.unread;
     }
 
     setOnlineUsers(users) {
@@ -96,7 +101,7 @@ class Channel {
     }
 
     removeUser(user, sort = true) {
-         window._.remove(this.users, existingUser => {
+        window._.remove(this.users, existingUser => {
             return user.uuid.is(existingUser.uuid);
         });
 

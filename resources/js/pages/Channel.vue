@@ -101,6 +101,7 @@
                 this.channel = this.getChannel(name);
 
                 if (this.channel) {
+                    await this.$store.commit('Channels/markChannelRead', this.channel);
                     await this.$store.dispatch('Channels/setCurrentChannel', this.channel);
                     this.messages = this.channel.messages;
                 }

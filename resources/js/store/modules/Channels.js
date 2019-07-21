@@ -31,6 +31,10 @@ export default {
 
         addChannelMessage(state, {message, channel}) {
             channel.addMessage(message);
+
+            if (!channel.current) {
+                channel.unread = true;
+            }
         },
 
         addOnlineUser(state, {user, channel}) {
@@ -47,6 +51,10 @@ export default {
 
         removeUser(state, {user, channel}) {
             channel.removeUser(user);
+        },
+
+        markChannelRead(state, channel) {
+            channel.unread = false;
         },
     },
 
@@ -200,7 +208,7 @@ export default {
         },
 
         async addChannelMessage({commit, dispatch, state, getters, rootGetters}, {channel, message}) {
-            let user  = rootGetters['Users/getUser'](message.user);
+            let user = rootGetters['Users/getUser'](message.user);
             console.log(user);
             console.log(message);
             let model = new Message(message.id, message.type, message.message, message.created_at, user, message.action, message.metadata, message.mentions);
