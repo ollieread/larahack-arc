@@ -14,6 +14,7 @@ class RouteServiceProvider extends ServiceProvider
     ];
 
     protected $apiRoutes = [
+        Routes\MiscRoutes::class,
         Routes\UserRoutes::class,
         Routes\ChannelRoutes::class,
     ];
