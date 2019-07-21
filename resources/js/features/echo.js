@@ -10,7 +10,10 @@ window.Echo = new Echo({
     wsPort: 6001,
     disableStats: true,
     encrypted: true,
-    enabledTransports: ['ws'],
+    enabledTransports: [
+        'ws',
+        'https',
+    ],
     auth: {
         headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token'),
