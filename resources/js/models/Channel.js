@@ -12,6 +12,7 @@ class Channel {
         this.onlineUsers = [];
         this.users       = [];
         this.messages    = [];
+        this.typingUsers = [];
     }
 
     setUuid(value) {
@@ -38,6 +39,18 @@ class Channel {
         return this.unread;
     }
 
+    startTyping(user) {
+        if (!this.typingUsers.includes(user.uuid.toString())) {
+            this.typingUsers.push(user.uuid.toString());
+        }
+    }
+
+    stopTyping(user) {
+        if (this.typingUsers.includes(user.uuid.toString())) {
+            this.typingUsers.splice(this.typingUsers.indexOf(user.uuid.toString()), 1);
+        }
+    }
+
     setOnlineUsers(users) {
         this.onlineUsers = users.map(user => {
             user.online = true;
@@ -57,6 +70,10 @@ class Channel {
 
     isUserOnline(user) {
         return this.onlineUsers.includes(user.uuid.toString());
+    }
+
+    isUserTyping(user) {
+        return this.typingUsers.includes(user.uuid.toString());
     }
 
     addMessage(message) {

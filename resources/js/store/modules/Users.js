@@ -32,6 +32,8 @@ export default {
 
             return null;
         },
+
+        getCurrentUser: state => state.currentUser
     },
 
     actions: {

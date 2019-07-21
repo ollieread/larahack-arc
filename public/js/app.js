@@ -2013,7 +2013,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       channel: null,
       messages: [],
-      message: ''
+      message: '',
+      timeout: null,
+      typingContinued: false
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
@@ -2129,6 +2131,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     resetMessage: function resetMessage() {
       this.message = '';
       this.inputHeight = '150px';
+      this.stopTyping();
     },
     sendMessage: function sendMessage() {
       if (this.message && this.message !== '') {
@@ -2136,6 +2139,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           this.resetMessage();
         }
       }
+    },
+    startTyping: function startTyping() {
+      var _this = this;
+
+      this.$store.dispatch('Channels/startTyping', this.channel);
+
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+      }
+
+      this.timeout = setTimeout(function () {
+        _this.stopTyping();
+      }, 5000);
+    },
+    stopTyping: function stopTyping() {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+      }
+
+      this.$store.dispatch('Channels/stopTyping', this.channel);
     }
   }
 });
@@ -59968,10 +59991,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChannelUser.vue?vue&type=template&id=12c1915a&scoped=true&":
-/*!**************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ChannelUser.vue?vue&type=template&id=12c1915a&scoped=true& ***!
-  \**************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChannelUser.vue?vue&type=template&id=12c1915a&":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ChannelUser.vue?vue&type=template&id=12c1915a& ***!
+  \**************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -59988,13 +60011,18 @@ var render = function() {
     {
       staticClass: "box__item channel__user",
       class: {
+        "channel__user--typing": _vm.channel.isUserTyping(_vm.user),
         "channel__user--current": _vm.user.isCurrent,
         "channel__user--offline": !_vm.user.isOnline,
         "channel__user--admin": _vm.user.can(_vm.channel.uuid.toString(), 64)
       },
       attrs: { href: "#" }
     },
-    [_vm._v("\n    " + _vm._s(_vm.user.username) + "\n")]
+    [
+      _c("span", { staticClass: "channel__user-name" }, [
+        _vm._v(_vm._s(_vm.user.username))
+      ])
+    ]
   )
 }
 var staticRenderFns = []
@@ -60196,6 +60224,8 @@ var render = function() {
                           },
                           domProps: { value: _vm.message },
                           on: {
+                            keydown: _vm.startTyping,
+                            blur: _vm.stopTyping,
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
@@ -77195,7 +77225,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _ChannelUser_vue_vue_type_template_id_12c1915a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChannelUser.vue?vue&type=template&id=12c1915a&scoped=true& */ "./resources/js/components/ChannelUser.vue?vue&type=template&id=12c1915a&scoped=true&");
+/* harmony import */ var _ChannelUser_vue_vue_type_template_id_12c1915a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChannelUser.vue?vue&type=template&id=12c1915a& */ "./resources/js/components/ChannelUser.vue?vue&type=template&id=12c1915a&");
 /* harmony import */ var _ChannelUser_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ChannelUser.vue?vue&type=script&lang=js& */ "./resources/js/components/ChannelUser.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
@@ -77207,11 +77237,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _ChannelUser_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _ChannelUser_vue_vue_type_template_id_12c1915a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _ChannelUser_vue_vue_type_template_id_12c1915a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _ChannelUser_vue_vue_type_template_id_12c1915a___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ChannelUser_vue_vue_type_template_id_12c1915a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  "12c1915a",
+  null,
   null
   
 )
@@ -77237,19 +77267,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/ChannelUser.vue?vue&type=template&id=12c1915a&scoped=true&":
-/*!********************************************************************************************!*\
-  !*** ./resources/js/components/ChannelUser.vue?vue&type=template&id=12c1915a&scoped=true& ***!
-  \********************************************************************************************/
+/***/ "./resources/js/components/ChannelUser.vue?vue&type=template&id=12c1915a&":
+/*!********************************************************************************!*\
+  !*** ./resources/js/components/ChannelUser.vue?vue&type=template&id=12c1915a& ***!
+  \********************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChannelUser_vue_vue_type_template_id_12c1915a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ChannelUser.vue?vue&type=template&id=12c1915a&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChannelUser.vue?vue&type=template&id=12c1915a&scoped=true&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChannelUser_vue_vue_type_template_id_12c1915a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChannelUser_vue_vue_type_template_id_12c1915a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ChannelUser.vue?vue&type=template&id=12c1915a& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChannelUser.vue?vue&type=template&id=12c1915a&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChannelUser_vue_vue_type_template_id_12c1915a___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChannelUser_vue_vue_type_template_id_12c1915a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChannelUser_vue_vue_type_template_id_12c1915a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -77471,6 +77501,7 @@ function () {
     this.onlineUsers = [];
     this.users = [];
     this.messages = [];
+    this.typingUsers = [];
   }
 
   _createClass(Channel, [{
@@ -77481,6 +77512,20 @@ function () {
       }
 
       this.uuid = value;
+    }
+  }, {
+    key: "startTyping",
+    value: function startTyping(user) {
+      if (!this.typingUsers.includes(user.uuid.toString())) {
+        this.typingUsers.push(user.uuid.toString());
+      }
+    }
+  }, {
+    key: "stopTyping",
+    value: function stopTyping(user) {
+      if (this.typingUsers.includes(user.uuid.toString())) {
+        this.typingUsers.splice(this.typingUsers.indexOf(user.uuid.toString()), 1);
+      }
     }
   }, {
     key: "setOnlineUsers",
@@ -77506,6 +77551,11 @@ function () {
     key: "isUserOnline",
     value: function isUserOnline(user) {
       return this.onlineUsers.includes(user.uuid.toString());
+    }
+  }, {
+    key: "isUserTyping",
+    value: function isUserTyping(user) {
+      return this.typingUsers.includes(user.uuid.toString());
     }
   }, {
     key: "addMessage",
@@ -78987,6 +79037,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     markChannelRead: function markChannelRead(state, channel) {
       channel.unread = false;
+    },
+    userStartedTyping: function userStartedTyping(state, _ref7) {
+      var user = _ref7.user,
+          channel = _ref7.channel;
+      channel.startTyping(user);
+    },
+    userStoppedTyping: function userStoppedTyping(state, _ref8) {
+      var user = _ref8.user,
+          channel = _ref8.channel;
+      channel.stopTyping(user);
     }
   },
   getters: {
@@ -79048,46 +79108,46 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loadChannels: function () {
       var _loadChannels = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee16(_ref7) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee18(_ref9) {
         var commit, dispatch, rootGetters;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee16$(_context16) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee18$(_context18) {
           while (1) {
-            switch (_context16.prev = _context16.next) {
+            switch (_context18.prev = _context18.next) {
               case 0:
-                commit = _ref7.commit, dispatch = _ref7.dispatch, rootGetters = _ref7.rootGetters;
-                _context16.next = 3;
+                commit = _ref9.commit, dispatch = _ref9.dispatch, rootGetters = _ref9.rootGetters;
+                _context18.next = 3;
                 return Object(_services_api__WEBPACK_IMPORTED_MODULE_1__["default"])('api:user:channels', {
                   include: 'users,messages'
                 }).send().then(
                 /*#__PURE__*/
                 function () {
-                  var _ref8 = _asyncToGenerator(
+                  var _ref10 = _asyncToGenerator(
                   /*#__PURE__*/
-                  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee15(response) {
+                  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee17(response) {
                     var channels;
-                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee15$(_context15) {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee17$(_context17) {
                       while (1) {
-                        switch (_context15.prev = _context15.next) {
+                        switch (_context17.prev = _context17.next) {
                           case 0:
                             if (!response.wasSuccess) {
-                              _context15.next = 8;
+                              _context17.next = 8;
                               break;
                             }
 
-                            _context15.next = 3;
+                            _context17.next = 3;
                             return Promise.all(response.response.map(
                             /*#__PURE__*/
                             function () {
-                              var _ref9 = _asyncToGenerator(
+                              var _ref11 = _asyncToGenerator(
                               /*#__PURE__*/
-                              _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee14(data) {
+                              _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee16(data) {
                                 var model;
-                                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee14$(_context14) {
+                                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee16$(_context16) {
                                   while (1) {
-                                    switch (_context14.prev = _context14.next) {
+                                    switch (_context16.prev = _context16.next) {
                                       case 0:
                                         model = Object(_models_Channel__WEBPACK_IMPORTED_MODULE_2__["default"])(data.id, data.name, data.description);
-                                        _context14.next = 3;
+                                        _context16.next = 3;
                                         return dispatch('Users/transformUsers', {
                                           users: data.users.data,
                                           channel: model
@@ -79096,20 +79156,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                         }).then(
                                         /*#__PURE__*/
                                         function () {
-                                          var _ref10 = _asyncToGenerator(
+                                          var _ref12 = _asyncToGenerator(
                                           /*#__PURE__*/
-                                          _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12(users) {
+                                          _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee14(users) {
                                             var events;
-                                            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
+                                            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee14$(_context14) {
                                               while (1) {
-                                                switch (_context12.prev = _context12.next) {
+                                                switch (_context14.prev = _context14.next) {
                                                   case 0:
                                                     model.setUsers(users);
                                                     events = window.Echo.join('channel.' + model.uuid.toString());
                                                     events.here(
                                                     /*#__PURE__*/
                                                     function () {
-                                                      var _ref11 = _asyncToGenerator(
+                                                      var _ref13 = _asyncToGenerator(
                                                       /*#__PURE__*/
                                                       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(onlineUsers) {
                                                         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
@@ -79125,7 +79185,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                                 }).then(
                                                                 /*#__PURE__*/
                                                                 function () {
-                                                                  var _ref12 = _asyncToGenerator(
+                                                                  var _ref14 = _asyncToGenerator(
                                                                   /*#__PURE__*/
                                                                   _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(onlineUsers) {
                                                                     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
@@ -79150,7 +79210,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                                   }));
 
                                                                   return function (_x6) {
-                                                                    return _ref12.apply(this, arguments);
+                                                                    return _ref14.apply(this, arguments);
                                                                   };
                                                                 }());
 
@@ -79163,13 +79223,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                       }));
 
                                                       return function (_x5) {
-                                                        return _ref11.apply(this, arguments);
+                                                        return _ref13.apply(this, arguments);
                                                       };
                                                     }());
                                                     events.joining(
                                                     /*#__PURE__*/
                                                     function () {
-                                                      var _ref13 = _asyncToGenerator(
+                                                      var _ref15 = _asyncToGenerator(
                                                       /*#__PURE__*/
                                                       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(rawUser) {
                                                         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
@@ -79185,7 +79245,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                                 }).then(
                                                                 /*#__PURE__*/
                                                                 function () {
-                                                                  var _ref14 = _asyncToGenerator(
+                                                                  var _ref16 = _asyncToGenerator(
                                                                   /*#__PURE__*/
                                                                   _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(user) {
                                                                     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
@@ -79207,7 +79267,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                                   }));
 
                                                                   return function (_x8) {
-                                                                    return _ref14.apply(this, arguments);
+                                                                    return _ref16.apply(this, arguments);
                                                                   };
                                                                 }());
 
@@ -79220,13 +79280,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                       }));
 
                                                       return function (_x7) {
-                                                        return _ref13.apply(this, arguments);
+                                                        return _ref15.apply(this, arguments);
                                                       };
                                                     }());
                                                     events.leaving(
                                                     /*#__PURE__*/
                                                     function () {
-                                                      var _ref15 = _asyncToGenerator(
+                                                      var _ref17 = _asyncToGenerator(
                                                       /*#__PURE__*/
                                                       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(rawUser) {
                                                         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
@@ -79242,7 +79302,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                                 }).then(
                                                                 /*#__PURE__*/
                                                                 function () {
-                                                                  var _ref16 = _asyncToGenerator(
+                                                                  var _ref18 = _asyncToGenerator(
                                                                   /*#__PURE__*/
                                                                   _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(user) {
                                                                     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
@@ -79264,7 +79324,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                                   }));
 
                                                                   return function (_x10) {
-                                                                    return _ref16.apply(this, arguments);
+                                                                    return _ref18.apply(this, arguments);
                                                                   };
                                                                 }());
 
@@ -79277,13 +79337,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                       }));
 
                                                       return function (_x9) {
-                                                        return _ref15.apply(this, arguments);
+                                                        return _ref17.apply(this, arguments);
                                                       };
                                                     }());
                                                     events.listen('.user.join',
                                                     /*#__PURE__*/
                                                     function () {
-                                                      var _ref17 = _asyncToGenerator(
+                                                      var _ref19 = _asyncToGenerator(
                                                       /*#__PURE__*/
                                                       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8(data) {
                                                         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
@@ -79299,7 +79359,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                                 }).then(
                                                                 /*#__PURE__*/
                                                                 function () {
-                                                                  var _ref18 = _asyncToGenerator(
+                                                                  var _ref20 = _asyncToGenerator(
                                                                   /*#__PURE__*/
                                                                   _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7(user) {
                                                                     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
@@ -79321,7 +79381,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                                   }));
 
                                                                   return function (_x12) {
-                                                                    return _ref18.apply(this, arguments);
+                                                                    return _ref20.apply(this, arguments);
                                                                   };
                                                                 }());
 
@@ -79334,13 +79394,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                       }));
 
                                                       return function (_x11) {
-                                                        return _ref17.apply(this, arguments);
+                                                        return _ref19.apply(this, arguments);
                                                       };
                                                     }());
                                                     events.listen('.message.received',
                                                     /*#__PURE__*/
                                                     function () {
-                                                      var _ref19 = _asyncToGenerator(
+                                                      var _ref21 = _asyncToGenerator(
                                                       /*#__PURE__*/
                                                       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9(data) {
                                                         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
@@ -79362,13 +79422,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                       }));
 
                                                       return function (_x13) {
-                                                        return _ref19.apply(this, arguments);
+                                                        return _ref21.apply(this, arguments);
                                                       };
                                                     }());
                                                     events.listen('.user.leave',
                                                     /*#__PURE__*/
                                                     function () {
-                                                      var _ref20 = _asyncToGenerator(
+                                                      var _ref22 = _asyncToGenerator(
                                                       /*#__PURE__*/
                                                       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11(data) {
                                                         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
@@ -79384,7 +79444,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                                 }).then(
                                                                 /*#__PURE__*/
                                                                 function () {
-                                                                  var _ref21 = _asyncToGenerator(
+                                                                  var _ref23 = _asyncToGenerator(
                                                                   /*#__PURE__*/
                                                                   _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10(user) {
                                                                     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
@@ -79406,7 +79466,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                                   }));
 
                                                                   return function (_x15) {
-                                                                    return _ref21.apply(this, arguments);
+                                                                    return _ref23.apply(this, arguments);
                                                                   };
                                                                 }());
 
@@ -79419,97 +79479,157 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                       }));
 
                                                       return function (_x14) {
-                                                        return _ref20.apply(this, arguments);
+                                                        return _ref22.apply(this, arguments);
+                                                      };
+                                                    }());
+                                                    events.listenForWhisper('typing.start',
+                                                    /*#__PURE__*/
+                                                    function () {
+                                                      var _ref25 = _asyncToGenerator(
+                                                      /*#__PURE__*/
+                                                      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12(_ref24) {
+                                                        var user, channel;
+                                                        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
+                                                          while (1) {
+                                                            switch (_context12.prev = _context12.next) {
+                                                              case 0:
+                                                                user = _ref24.user, channel = _ref24.channel;
+                                                                _context12.next = 3;
+                                                                return commit('userStartedTyping', {
+                                                                  user: user,
+                                                                  channel: channel
+                                                                });
+
+                                                              case 3:
+                                                              case "end":
+                                                                return _context12.stop();
+                                                            }
+                                                          }
+                                                        }, _callee12);
+                                                      }));
+
+                                                      return function (_x16) {
+                                                        return _ref25.apply(this, arguments);
+                                                      };
+                                                    }());
+                                                    events.listenForWhisper('typing.stop',
+                                                    /*#__PURE__*/
+                                                    function () {
+                                                      var _ref27 = _asyncToGenerator(
+                                                      /*#__PURE__*/
+                                                      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13(_ref26) {
+                                                        var user, channel;
+                                                        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
+                                                          while (1) {
+                                                            switch (_context13.prev = _context13.next) {
+                                                              case 0:
+                                                                user = _ref26.user, channel = _ref26.channel;
+                                                                _context13.next = 3;
+                                                                return commit('userStoppedTyping', {
+                                                                  user: user,
+                                                                  channel: channel
+                                                                });
+
+                                                              case 3:
+                                                              case "end":
+                                                                return _context13.stop();
+                                                            }
+                                                          }
+                                                        }, _callee13);
+                                                      }));
+
+                                                      return function (_x17) {
+                                                        return _ref27.apply(this, arguments);
                                                       };
                                                     }());
 
-                                                  case 8:
+                                                  case 10:
                                                   case "end":
-                                                    return _context12.stop();
+                                                    return _context14.stop();
                                                 }
                                               }
-                                            }, _callee12);
+                                            }, _callee14);
                                           }));
 
                                           return function (_x4) {
-                                            return _ref10.apply(this, arguments);
+                                            return _ref12.apply(this, arguments);
                                           };
                                         }());
 
                                       case 3:
-                                        _context14.next = 5;
+                                        _context16.next = 5;
                                         return Promise.all(data.messages.data.map(
                                         /*#__PURE__*/
                                         function () {
-                                          var _ref22 = _asyncToGenerator(
+                                          var _ref28 = _asyncToGenerator(
                                           /*#__PURE__*/
-                                          _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13(data) {
+                                          _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee15(data) {
                                             var user;
-                                            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
+                                            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee15$(_context15) {
                                               while (1) {
-                                                switch (_context13.prev = _context13.next) {
+                                                switch (_context15.prev = _context15.next) {
                                                   case 0:
                                                     user = rootGetters['Users/getUser'](data.user);
-                                                    return _context13.abrupt("return", new _models_Message__WEBPACK_IMPORTED_MODULE_3__["default"](data.id, data.type, data.message, data.created_at, user, data.action, data.metadata, data.messages));
+                                                    return _context15.abrupt("return", new _models_Message__WEBPACK_IMPORTED_MODULE_3__["default"](data.id, data.type, data.message, data.created_at, user, data.action, data.metadata, data.messages));
 
                                                   case 2:
                                                   case "end":
-                                                    return _context13.stop();
+                                                    return _context15.stop();
                                                 }
                                               }
-                                            }, _callee13);
+                                            }, _callee15);
                                           }));
 
-                                          return function (_x16) {
-                                            return _ref22.apply(this, arguments);
+                                          return function (_x18) {
+                                            return _ref28.apply(this, arguments);
                                           };
                                         }()));
 
                                       case 5:
-                                        model.messages = _context14.sent;
-                                        return _context14.abrupt("return", model);
+                                        model.messages = _context16.sent;
+                                        return _context16.abrupt("return", model);
 
                                       case 7:
                                       case "end":
-                                        return _context14.stop();
+                                        return _context16.stop();
                                     }
                                   }
-                                }, _callee14);
+                                }, _callee16);
                               }));
 
                               return function (_x3) {
-                                return _ref9.apply(this, arguments);
+                                return _ref11.apply(this, arguments);
                               };
                             }()));
 
                           case 3:
-                            channels = _context15.sent;
-                            _context15.next = 6;
+                            channels = _context17.sent;
+                            _context17.next = 6;
                             return commit('setChannels', channels);
 
                           case 6:
-                            _context15.next = 8;
+                            _context17.next = 8;
                             return commit('setLoaded', true);
 
                           case 8:
                           case "end":
-                            return _context15.stop();
+                            return _context17.stop();
                         }
                       }
-                    }, _callee15);
+                    }, _callee17);
                   }));
 
                   return function (_x2) {
-                    return _ref8.apply(this, arguments);
+                    return _ref10.apply(this, arguments);
                   };
                 }());
 
               case 3:
               case "end":
-                return _context16.stop();
+                return _context18.stop();
             }
           }
-        }, _callee16);
+        }, _callee18);
       }));
 
       function loadChannels(_x) {
@@ -79521,13 +79641,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loadCurrentChannel: function () {
       var _loadCurrentChannel = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee17(_ref23) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee19(_ref29) {
         var commit, state, currentChannel, channelIndex;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee17$(_context17) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee19$(_context19) {
           while (1) {
-            switch (_context17.prev = _context17.next) {
+            switch (_context19.prev = _context19.next) {
               case 0:
-                commit = _ref23.commit, state = _ref23.state;
+                commit = _ref29.commit, state = _ref29.state;
                 currentChannel = null;
 
                 if (state.current) {
@@ -79543,25 +79663,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 if (!currentChannel) {
-                  _context17.next = 6;
+                  _context19.next = 6;
                   break;
                 }
 
-                _context17.next = 6;
+                _context19.next = 6;
                 return commit('setCurrentChannel', currentChannel);
 
               case 6:
-                return _context17.abrupt("return", currentChannel);
+                return _context19.abrupt("return", currentChannel);
 
               case 7:
               case "end":
-                return _context17.stop();
+                return _context19.stop();
             }
           }
-        }, _callee17);
+        }, _callee19);
       }));
 
-      function loadCurrentChannel(_x17) {
+      function loadCurrentChannel(_x19) {
         return _loadCurrentChannel.apply(this, arguments);
       }
 
@@ -79570,106 +79690,106 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setCurrentChannel: function () {
       var _setCurrentChannel = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee18(_ref24, newChannel) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee20(_ref30, newChannel) {
         var commit, state, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, existingChannel;
 
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee18$(_context18) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee20$(_context20) {
           while (1) {
-            switch (_context18.prev = _context18.next) {
+            switch (_context20.prev = _context20.next) {
               case 0:
-                commit = _ref24.commit, state = _ref24.state;
+                commit = _ref30.commit, state = _ref30.state;
 
                 if (!(state.channels && state.channels.length > 0)) {
-                  _context18.next = 35;
+                  _context20.next = 35;
                   break;
                 }
 
                 if (newChannel instanceof String) {
-                  _context18.next = 7;
+                  _context20.next = 7;
                   break;
                 }
 
-                _context18.next = 5;
+                _context20.next = 5;
                 return commit('setCurrentChannel', newChannel);
 
               case 5:
-                _context18.next = 35;
+                _context20.next = 35;
                 break;
 
               case 7:
                 _iteratorNormalCompletion2 = true;
                 _didIteratorError2 = false;
                 _iteratorError2 = undefined;
-                _context18.prev = 10;
+                _context20.prev = 10;
                 _iterator2 = state.channels[Symbol.iterator]();
 
               case 12:
                 if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-                  _context18.next = 21;
+                  _context20.next = 21;
                   break;
                 }
 
                 existingChannel = _step2.value;
 
                 if (!(existingChannel.uuid.is(newChannel) || existingChannel.name === newChannel)) {
-                  _context18.next = 18;
+                  _context20.next = 18;
                   break;
                 }
 
-                _context18.next = 17;
+                _context20.next = 17;
                 return commit('setCurrentChannel', existingChannel);
 
               case 17:
-                return _context18.abrupt("break", 21);
+                return _context20.abrupt("break", 21);
 
               case 18:
                 _iteratorNormalCompletion2 = true;
-                _context18.next = 12;
+                _context20.next = 12;
                 break;
 
               case 21:
-                _context18.next = 27;
+                _context20.next = 27;
                 break;
 
               case 23:
-                _context18.prev = 23;
-                _context18.t0 = _context18["catch"](10);
+                _context20.prev = 23;
+                _context20.t0 = _context20["catch"](10);
                 _didIteratorError2 = true;
-                _iteratorError2 = _context18.t0;
+                _iteratorError2 = _context20.t0;
 
               case 27:
-                _context18.prev = 27;
-                _context18.prev = 28;
+                _context20.prev = 27;
+                _context20.prev = 28;
 
                 if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
                   _iterator2["return"]();
                 }
 
               case 30:
-                _context18.prev = 30;
+                _context20.prev = 30;
 
                 if (!_didIteratorError2) {
-                  _context18.next = 33;
+                  _context20.next = 33;
                   break;
                 }
 
                 throw _iteratorError2;
 
               case 33:
-                return _context18.finish(30);
+                return _context20.finish(30);
 
               case 34:
-                return _context18.finish(27);
+                return _context20.finish(27);
 
               case 35:
               case "end":
-                return _context18.stop();
+                return _context20.stop();
             }
           }
-        }, _callee18, null, [[10, 23, 27, 35], [28,, 30, 34]]);
+        }, _callee20, null, [[10, 23, 27, 35], [28,, 30, 34]]);
       }));
 
-      function setCurrentChannel(_x18, _x19) {
+      function setCurrentChannel(_x20, _x21) {
         return _setCurrentChannel.apply(this, arguments);
       }
 
@@ -79678,54 +79798,54 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     sendChannelMessage: function () {
       var _sendChannelMessage = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee20(_ref25, message) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee22(_ref31, message) {
         var commit, dispatch, state, getters, channel;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee20$(_context20) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee22$(_context22) {
           while (1) {
-            switch (_context20.prev = _context20.next) {
+            switch (_context22.prev = _context22.next) {
               case 0:
-                commit = _ref25.commit, dispatch = _ref25.dispatch, state = _ref25.state, getters = _ref25.getters;
+                commit = _ref31.commit, dispatch = _ref31.dispatch, state = _ref31.state, getters = _ref31.getters;
                 channel = getters.getCurrentChannel;
-                _context20.next = 4;
+                _context22.next = 4;
                 return Object(_services_api__WEBPACK_IMPORTED_MODULE_1__["default"])('api:channel:post', channel.uuid.toString()).send({
                   message: message
                 }).then(
                 /*#__PURE__*/
                 function () {
-                  var _ref26 = _asyncToGenerator(
+                  var _ref32 = _asyncToGenerator(
                   /*#__PURE__*/
-                  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee19(response) {
-                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee19$(_context19) {
+                  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee21(response) {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee21$(_context21) {
                       while (1) {
-                        switch (_context19.prev = _context19.next) {
+                        switch (_context21.prev = _context21.next) {
                           case 0:
-                            return _context19.abrupt("return", response.wasSuccess);
+                            return _context21.abrupt("return", response.wasSuccess);
 
                           case 1:
                           case "end":
-                            return _context19.stop();
+                            return _context21.stop();
                         }
                       }
-                    }, _callee19);
+                    }, _callee21);
                   }));
 
-                  return function (_x22) {
-                    return _ref26.apply(this, arguments);
+                  return function (_x24) {
+                    return _ref32.apply(this, arguments);
                   };
                 }());
 
               case 4:
-                return _context20.abrupt("return", _context20.sent);
+                return _context22.abrupt("return", _context22.sent);
 
               case 5:
               case "end":
-                return _context20.stop();
+                return _context22.stop();
             }
           }
-        }, _callee20);
+        }, _callee22);
       }));
 
-      function sendChannelMessage(_x20, _x21) {
+      function sendChannelMessage(_x22, _x23) {
         return _sendChannelMessage.apply(this, arguments);
       }
 
@@ -79734,19 +79854,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     addChannelMessage: function () {
       var _addChannelMessage = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee21(_ref27, _ref28) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee23(_ref33, _ref34) {
         var commit, dispatch, state, getters, rootGetters, channel, message, user, model;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee21$(_context21) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee23$(_context23) {
           while (1) {
-            switch (_context21.prev = _context21.next) {
+            switch (_context23.prev = _context23.next) {
               case 0:
-                commit = _ref27.commit, dispatch = _ref27.dispatch, state = _ref27.state, getters = _ref27.getters, rootGetters = _ref27.rootGetters;
-                channel = _ref28.channel, message = _ref28.message;
+                commit = _ref33.commit, dispatch = _ref33.dispatch, state = _ref33.state, getters = _ref33.getters, rootGetters = _ref33.rootGetters;
+                channel = _ref34.channel, message = _ref34.message;
                 user = rootGetters['Users/getUser'](message.user);
                 console.log(user);
                 console.log(message);
                 model = new _models_Message__WEBPACK_IMPORTED_MODULE_3__["default"](message.id, message.type, message.message, message.created_at, user, message.action, message.metadata, message.mentions);
-                _context21.next = 8;
+                _context23.next = 8;
                 return commit('addChannelMessage', {
                   channel: channel,
                   message: model
@@ -79754,17 +79874,87 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
               case 8:
               case "end":
-                return _context21.stop();
+                return _context23.stop();
             }
           }
-        }, _callee21);
+        }, _callee23);
       }));
 
-      function addChannelMessage(_x23, _x24) {
+      function addChannelMessage(_x25, _x26) {
         return _addChannelMessage.apply(this, arguments);
       }
 
       return addChannelMessage;
+    }(),
+    startTyping: function () {
+      var _startTyping = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee24(_ref35, channel) {
+        var commit, state, rootGetters, user;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee24$(_context24) {
+          while (1) {
+            switch (_context24.prev = _context24.next) {
+              case 0:
+                commit = _ref35.commit, state = _ref35.state, rootGetters = _ref35.rootGetters;
+                user = rootGetters['Users/getCurrentUser'];
+                window.Echo.join('channel.' + channel.uuid.toString()).whisper('typing.start', {
+                  user: user,
+                  channel: channel
+                });
+                _context24.next = 5;
+                return commit('userStartedTyping', {
+                  user: user,
+                  channel: channel
+                });
+
+              case 5:
+              case "end":
+                return _context24.stop();
+            }
+          }
+        }, _callee24);
+      }));
+
+      function startTyping(_x27, _x28) {
+        return _startTyping.apply(this, arguments);
+      }
+
+      return startTyping;
+    }(),
+    stopTyping: function () {
+      var _stopTyping = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee25(_ref36, channel) {
+        var commit, state, rootGetters, user;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee25$(_context25) {
+          while (1) {
+            switch (_context25.prev = _context25.next) {
+              case 0:
+                commit = _ref36.commit, state = _ref36.state, rootGetters = _ref36.rootGetters;
+                user = rootGetters['Users/getCurrentUser'];
+                window.Echo.join('channel.' + channel.uuid.toString()).whisper('typing.stop', {
+                  user: user,
+                  channel: channel
+                });
+                _context25.next = 5;
+                return commit('userStoppedTyping', {
+                  user: user,
+                  channel: channel
+                });
+
+              case 5:
+              case "end":
+                return _context25.stop();
+            }
+          }
+        }, _callee25);
+      }));
+
+      function stopTyping(_x29, _x30) {
+        return _stopTyping.apply(this, arguments);
+      }
+
+      return stopTyping;
     }()
   }
 });
@@ -79852,6 +80042,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
         return null;
       };
+    },
+    getCurrentUser: function getCurrentUser(state) {
+      return state.currentUser;
     }
   },
   actions: {

@@ -21,7 +21,7 @@
                         <div class="input input__field input__field--grow">
                             <textarea name="message" id="channel-message"
                                       class="input__field-input channel__form-message" placeholder="Your message here"
-                                      v-model="message"></textarea>
+                                      v-model="message" @keydown="startTyping" @blur="stopTyping"></textarea>
                         </div>
                         <div>
                             <button class="button button--simple" @click.prevent="sendMessage">Send</button>
@@ -65,6 +65,8 @@
                 channel: null,
                 messages: [],
                 message: '',
+                timeout: null,
+                typingContinued: false,
             };
         },
 
@@ -114,6 +116,7 @@
             resetMessage() {
                 this.message     = '';
                 this.inputHeight = '150px';
+                this.stopTyping();
             },
 
             sendMessage() {
@@ -122,6 +125,26 @@
                         this.resetMessage();
                     }
                 }
+            },
+
+            startTyping() {
+                this.$store.dispatch('Channels/startTyping', this.channel);
+
+                if (this.timeout) {
+                    clearTimeout(this.timeout);
+                }
+
+                this.timeout = setTimeout(() => {
+                    this.stopTyping();
+                }, 5000);
+            },
+
+            stopTyping() {
+                if (this.timeout) {
+                    clearTimeout(this.timeout);
+                }
+
+                this.$store.dispatch('Channels/stopTyping', this.channel);
             },
         },
     };

@@ -56,6 +56,14 @@ export default {
         markChannelRead(state, channel) {
             channel.unread = false;
         },
+
+        userStartedTyping(state, {user, channel}) {
+            channel.startTyping(user);
+        },
+
+        userStoppedTyping(state, {user, channel}) {
+            channel.stopTyping(user);
+        },
     },
 
     getters: {
@@ -148,6 +156,14 @@ export default {
                                             await commit('removeUser', {user: user, channel: model});
                                         });
                                 });
+
+                                events.listenForWhisper('typing.start', async ({user, channel}) => {
+                                    await commit('userStartedTyping', {user, channel});
+                                });
+
+                                events.listenForWhisper('typing.stop', async ({user, channel}) => {
+                                    await commit('userStoppedTyping', {user, channel});
+                                });
                             });
 
                         model.messages = await Promise.all(data.messages.data.map(async data => {
@@ -213,6 +229,18 @@ export default {
             console.log(message);
             let model = new Message(message.id, message.type, message.message, message.created_at, user, message.action, message.metadata, message.mentions);
             await commit('addChannelMessage', {channel, message: model});
+        },
+
+        async startTyping({commit, state, rootGetters}, channel) {
+            let user = rootGetters['Users/getCurrentUser'];
+            window.Echo.join('channel.' + channel.uuid.toString()).whisper('typing.start', {user, channel});
+            await commit('userStartedTyping', {user, channel});
+        },
+
+        async stopTyping({commit, state, rootGetters}, channel) {
+            let user = rootGetters['Users/getCurrentUser'];
+            window.Echo.join('channel.' + channel.uuid.toString()).whisper('typing.stop', {user, channel});
+            await commit('userStoppedTyping', {user, channel});
         },
     },
 };
