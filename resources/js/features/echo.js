@@ -8,8 +8,9 @@ window.Echo = new Echo({
     key: process.env.MIX_PUSHER_APP_KEY,
     wsHost: process.env.NODE_ENV === 'production' ? 'arc.ollieread.dev' : 'localhost',
     wsPort: 6001,
+    wssPort: 6001,
     disableStats: true,
-    enabledTransports: ['ws'],
+    enabledTransports: ['ws', 'wss'],
     auth: {
         headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token'),
