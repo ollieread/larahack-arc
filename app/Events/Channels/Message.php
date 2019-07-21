@@ -22,7 +22,7 @@ class Message implements ShouldBroadcast
     private $channel;
 
     /**
-     * @var \Arc\Models\User
+     * @var \Arc\Models\User|null
      */
     private $user;
 
@@ -34,11 +34,11 @@ class Message implements ShouldBroadcast
     /**
      * Create a new event instance.
      *
-     * @param \Arc\Models\Channel $channel
-     * @param \Arc\Models\User    $user
-     * @param \Arc\Models\Message $message
+     * @param \Arc\Models\Channel   $channel
+     * @param \Arc\Models\User|null $user
+     * @param \Arc\Models\Message   $message
      */
-    public function __construct(Channel $channel, User $user, MessageModel $message)
+    public function __construct(Channel $channel, MessageModel $message, ?User $user = null)
     {
         $this->channel = $channel;
         $this->user    = $user;
