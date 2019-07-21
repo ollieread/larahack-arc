@@ -32,8 +32,6 @@ class User {
     }
 
     can(channel, permission) {
-        console.log(channel);
-        console.log(permission);
         return this.permissions[channel] & permission;
     }
 }
