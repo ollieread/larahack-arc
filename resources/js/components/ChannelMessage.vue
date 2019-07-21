@@ -1,16 +1,26 @@
 <template>
-    <div class="box__item channel__message">
+    <div class="box__item channel__message"
+         :class="{'channel__message--action':message.isAction(), 'channel__message--system':!message.user}">
 
         <template v-if="message.isAction()">
-            <div class="channel__message-content">
-                <strong>{{ message.user ? message.user.username : 'SYSTEM' }}</strong>
-                <template v-if="message.action === 'join'">joined</template>
-                <template v-if="message.action === 'deploy.running'">
-                    <p class="mb-1">System deployment running ({{ message.metadata.start_revision.ref }} - {{ message.metadata.end_revision.ref }})</p>
-                    <p>Commit message: {{ message.metadata.end_revision.message }}</p>
-                </template>
-                <template v-if="message.action === 'deploy.completed'">System deployment completed</template>
-            </div>
+            <template v-if="message.action === 'join'">
+                <div class="channel__message-content">
+                    <strong>{{ message.user ? message.user.username : 'SYSTEM' }}</strong> joined
+                </div>
+            </template>
+            <template v-if="message.action === 'deploy.running'">
+                <span class="channel__message-author">{{ message.user ? message.user.username : 'SYSTEM' }}</span>
+                <div class="channel__message-content">
+                    Deployment running <br>
+                    "<span>{{ message.metadata.end_revision.message }}</span>"
+                </div>
+            </template>
+            <template v-if="message.action === 'deploy.completed'">
+                <span class="channel__message-author">{{ message.user ? message.user.username : 'SYSTEM' }}</span>
+                <div class="channel__message-content">
+                    Deployment completed
+                </div>
+            </template>
         </template>
 
         <template v-else-if="message.isText()">
@@ -39,7 +49,7 @@
         computed: {
             markdown() {
                 return marked(this.message.message);
-            }
-        }
+            },
+        },
     };
 </script>

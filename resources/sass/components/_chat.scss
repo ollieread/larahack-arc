@@ -40,6 +40,10 @@
     &__message {
       @apply relative flex-col mt-2;
 
+      &--action {
+        @apply italic;
+      }
+
       &:hover {
         .channel__message-time {
           @apply inline-block;
@@ -57,6 +61,18 @@
       &-time {
         @apply absolute top-0 text-xs text-gray-600 hidden;
         right : 0.75rem;
+      }
+
+      &--system {
+        @apply border p-2;
+
+        .channel__message-author, .channel__message-content {
+          @apply text-gray-500;
+        }
+
+        span {
+          @apply underline text-gray-200;
+        }
       }
     }
 

@@ -1758,6 +1758,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ChannelMessage",
@@ -61629,51 +61639,72 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "box__item channel__message" },
+    {
+      staticClass: "box__item channel__message",
+      class: {
+        "channel__message--action": _vm.message.isAction(),
+        "channel__message--system": !_vm.message.user
+      }
+    },
     [
       _vm.message.isAction()
         ? [
-            _c(
-              "div",
-              { staticClass: "channel__message-content" },
-              [
-                _c("strong", [
-                  _vm._v(
-                    _vm._s(
-                      _vm.message.user ? _vm.message.user.username : "SYSTEM"
+            _vm.message.action === "join"
+              ? [
+                  _c("div", { staticClass: "channel__message-content" }, [
+                    _c("strong", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.message.user
+                            ? _vm.message.user.username
+                            : "SYSTEM"
+                        )
+                      )
+                    ]),
+                    _vm._v(" joined\n            ")
+                  ])
+                ]
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.message.action === "deploy.running"
+              ? [
+                  _c("span", { staticClass: "channel__message-author" }, [
+                    _vm._v(
+                      _vm._s(
+                        _vm.message.user ? _vm.message.user.username : "SYSTEM"
+                      )
                     )
-                  )
-                ]),
-                _vm._v(" "),
-                _vm.message.action === "join" ? [_vm._v("joined")] : _vm._e(),
-                _vm._v(" "),
-                _vm.message.action === "deploy.running"
-                  ? [
-                      _c("p", { staticClass: "mb-1" }, [
-                        _vm._v(
-                          "System deployment running (" +
-                            _vm._s(_vm.message.metadata.start_revision.ref) +
-                            " - " +
-                            _vm._s(_vm.message.metadata.end_revision.ref) +
-                            ")"
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("p", [
-                        _vm._v(
-                          "Commit message: " +
-                            _vm._s(_vm.message.metadata.end_revision.message)
-                        )
-                      ])
-                    ]
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.message.action === "deploy.completed"
-                  ? [_vm._v("System deployment completed")]
-                  : _vm._e()
-              ],
-              2
-            )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "channel__message-content" }, [
+                    _vm._v("\n                Deployment running "),
+                    _c("br"),
+                    _vm._v('\n                "'),
+                    _c("span", [
+                      _vm._v(_vm._s(_vm.message.metadata.end_revision.message))
+                    ]),
+                    _vm._v('"\n            ')
+                  ])
+                ]
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.message.action === "deploy.completed"
+              ? [
+                  _c("span", { staticClass: "channel__message-author" }, [
+                    _vm._v(
+                      _vm._s(
+                        _vm.message.user ? _vm.message.user.username : "SYSTEM"
+                      )
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "channel__message-content" }, [
+                    _vm._v(
+                      "\n                Deployment completed\n            "
+                    )
+                  ])
+                ]
+              : _vm._e()
           ]
         : _vm.message.isText()
         ? [
