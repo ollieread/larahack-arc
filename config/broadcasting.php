@@ -40,7 +40,7 @@ return [
                 'host'      => 'localhost',
                 'port'      => 6001,
                 'encrypted' => true,
-                'scheme'    => 'http',
+                'scheme'    => 'https',
             ],
         ],
 
