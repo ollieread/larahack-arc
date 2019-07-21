@@ -14,7 +14,7 @@ window.Echo = new Echo({
         'ws',
         'wss',
     ],
-    encrypted: true,
+    encrypted: false,
     auth: {
         headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token'),
