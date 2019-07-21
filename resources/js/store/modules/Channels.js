@@ -60,7 +60,10 @@ export default {
                 if (response.wasSuccess) {
                     let channels = await Promise.all(response.response.map(async data => {
                         let model = channel(data.id, data.name, data.description);
-                        await dispatch('Users/transformUsers', data.users.data, {root: true})
+                        await dispatch('Users/transformUsers', {
+                            users: data.users.data,
+                            channel: model,
+                        }, {root: true})
                             .then(users => {
                                 model.setUsers(users);
                                 window.Echo

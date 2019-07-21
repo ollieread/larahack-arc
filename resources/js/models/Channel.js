@@ -38,10 +38,10 @@ class Channel {
     }
 
     setUsers(users) {
-        let currentlyOnlineUsers = window._.filter(users, user => this.onlineUsers.includes(user.uuid.toString()));
-        let otherUsers           = window._.difference(users, currentlyOnlineUsers);
-        this.users               = window._.filter(users, user => user.isCurrent)
-                                         .concat(window._.filter(currentlyOnlineUsers.concat(otherUsers), user => !user.current));
+        let adminUsers  = window._.filter(users, user => user.can(this.uuid.toString(), 0x00000040));
+        let onlineUsers = window._.filter(users, user => this.onlineUsers.includes(user.uuid.toString()) && ! adminUsers.includes(user));
+        let otherUsers  = window._.filter(users, user => !adminUsers.includes(user) && !onlineUsers.includes(user));
+        this.users      = adminUsers.concat(onlineUsers.concat(otherUsers));
     }
 
     setEvents(events) {

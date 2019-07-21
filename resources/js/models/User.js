@@ -8,6 +8,7 @@ class User {
         this.lastActivity = moment.unix(lastActivity);
         this.current      = current;
         this.typing       = typing;
+        this.permissions  = [];
     }
 
     setUuid(value) {
@@ -24,6 +25,16 @@ class User {
 
     get isTyping() {
         return this.typing;
+    }
+
+    addPermissions(channel, permissions) {
+        this.permissions[channel] = permissions;
+    }
+
+    can(channel, permission) {
+        console.log(channel);
+        console.log(permission);
+        return this.permissions[channel] & permission;
     }
 }
 
