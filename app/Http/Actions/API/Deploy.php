@@ -20,10 +20,7 @@ class Deploy extends Action
                 ->setInput([
                     'type'     => Message::ACTION,
                     'action'   => 'deploy.' . $json['status'],
-                    'metadata' => [
-                        'start_revision' => $json['start_revision'],
-                        'end_revision'   => $json['end_revision'],
-                    ],
+                    'metadata' => $json,
                 ])
                 ->perform();
         } catch (Exception $exception) {
