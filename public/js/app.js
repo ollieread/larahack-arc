@@ -2376,6 +2376,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this.$store.commit('QOL/setOffline');
       }
     });
+
+    if (this.$store.getters['Auth/isAuthed']) {
+      window.Echo.connector.pusher.config.auth.headers['Authorization'] = 'Bearer ' + this.$store.getters['Auth/getToken'];
+    }
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
     offlineMode: 'QOL/isOffline'
@@ -80593,6 +80597,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     getUser: function getUser(state) {
       return state.user;
+    },
+    getToken: function getToken(state) {
+      return state.token;
     }
   },
   actions: {

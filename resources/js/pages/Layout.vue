@@ -51,6 +51,10 @@
                           this.$store.commit('QOL/setOffline');
                       }
                   });
+
+            if (this.$store.getters['Auth/isAuthed']) {
+                window.Echo.connector.pusher.config.auth.headers['Authorization'] = 'Bearer ' + this.$store.getters['Auth/getToken'];
+            }
         },
 
         computed: {

@@ -38,6 +38,7 @@ export default {
     getters: {
         isAuthed: state => !!state.token,
         getUser: state => state.user,
+        getToken: state => state.token,
     },
 
     actions: {
