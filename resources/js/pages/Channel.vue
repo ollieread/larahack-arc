@@ -84,6 +84,12 @@
                 }
             },
 
+            channel(oldValue, newValue) {
+                if (oldValue !== newValue) {
+                    this.resetMessage();
+                }
+            },
+
             messages() {
                 this.stayScrolled();
             },
@@ -115,7 +121,6 @@
 
             resetMessage() {
                 this.message     = '';
-                this.inputHeight = '150px';
                 this.stopTyping();
             },
 
@@ -144,7 +149,9 @@
                     clearTimeout(this.timeout);
                 }
 
-                this.$store.dispatch('Channels/stopTyping', this.channel);
+                if (this.channel) {
+                    this.$store.dispatch('Channels/stopTyping', this.channel);
+                }
             },
         },
     };

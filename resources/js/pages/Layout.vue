@@ -12,7 +12,8 @@
                     </header>
                     <div class="box__body text--centered">
                         <p>
-                            The server is being updated. Waiting for connectivity to return.
+                            The server is being updated. Waiting for connectivity to return. The page will refresh once
+                            complete.
                         </p>
                         <div class="loader">
                             <div class="loader__body"></div>
@@ -42,13 +43,13 @@
 
         created() {
             window.Echo.channel('qol')
-                .listen('.status', (data) => {
-                    if (data.state) {
-                        this.$store.commit('QOL/setOnline');
-                    } else {
-                        this.$store.commit('QOL/setOffline');
-                    }
-                })
+                  .listen('.status', (data) => {
+                      if (data.state) {
+                          this.$store.commit('QOL/setOnline');
+                      } else {
+                          this.$store.commit('QOL/setOffline');
+                      }
+                  });
         },
 
         computed: {
@@ -63,8 +64,13 @@
                     this.waiting = true;
                 } else {
                     if (this.waiting) {
-                        this.animating = true;
-                        setTimeout(() => this.waiting = false, 550);
+                        setTimeout(() => {
+                            this.animating = true;
+                            setTimeout(() => {
+                                this.waiting = false;
+                                window.location.reload();
+                            }, 550);
+                        }, 2000);
                     }
                 }
             },

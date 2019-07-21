@@ -2028,6 +2028,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.loadChannel(this.$route.params.channel);
       }
     },
+    channel: function channel(oldValue, newValue) {
+      if (oldValue !== newValue) {
+        this.resetMessage();
+      }
+    },
     messages: function messages() {
       this.stayScrolled();
     }
@@ -2130,7 +2135,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     resetMessage: function resetMessage() {
       this.message = '';
-      this.inputHeight = '150px';
       this.stopTyping();
     },
     sendMessage: function sendMessage() {
@@ -2158,7 +2162,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         clearTimeout(this.timeout);
       }
 
-      this.$store.dispatch('Channels/stopTyping', this.channel);
+      if (this.channel) {
+        this.$store.dispatch('Channels/stopTyping', this.channel);
+      }
     }
   }
 });
@@ -2325,6 +2331,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Layout",
@@ -2358,10 +2365,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.waiting = true;
       } else {
         if (this.waiting) {
-          this.animating = true;
           setTimeout(function () {
-            return _this2.waiting = false;
-          }, 550);
+            _this2.animating = true;
+            setTimeout(function () {
+              _this2.waiting = false;
+              window.location.reload();
+            }, 550);
+          }, 2000);
         }
       }
     }
@@ -60482,7 +60492,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "box__body text--centered" }, [
         _c("p", [
           _vm._v(
-            "\n                        The server is being updated. Waiting for connectivity to return.\n                    "
+            "\n                        The server is being updated. Waiting for connectivity to return. The page will refresh once\n                        complete.\n                    "
           )
         ]),
         _vm._v(" "),
