@@ -36,7 +36,7 @@ class PostToChannel
         }
 
         if ($this->channel->messages()->save($message)) {
-            broadcast(new MessageEvent($this->channel, $this->user, $message));
+            broadcast(new MessageEvent($this->channel, $message, $this->user));
             return $message;
         }
 
