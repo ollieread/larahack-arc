@@ -7,10 +7,11 @@ use Arc\Models\User;
 use Arc\Transformers\Channels\ChannelUserTransformer;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class Joined
+class Joined implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -38,7 +39,7 @@ class Joined
 
     public function broadcastAs(): string
     {
-        return 'user.joined';
+        return 'user.join';
     }
 
     /**

@@ -68,6 +68,8 @@ class Channel {
     addOnlineUser(user) {
         user.online = true;
         this.onlineUsers.push(user.uuid.toString());
+        this.addUser(user, false);
+        this.onlineUsers.push(user);
         this.sortUsers();
     }
 
@@ -77,6 +79,30 @@ class Channel {
             return user.uuid.is(uuid);
         });
         this.sortUsers();
+    }
+
+    addUser(user, sort = true) {
+        let userIndex = window._.findIndex(this.users, existingUser => {
+            return existingUser.uuid.is(user.uuid);
+        });
+
+        if (userIndex < 0) {
+            this.users.push(user);
+        }
+
+        if (sort) {
+            this.sortUsers();
+        }
+    }
+
+    removeUser(user, sort = true) {
+         window._.remove(this.users, existingUser => {
+            return user.uuid.is(existingUser.uuid);
+        });
+
+        if (sort) {
+            this.sortUsers();
+        }
     }
 
     sortUsers() {

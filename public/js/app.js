@@ -77422,6 +77422,8 @@ function () {
     value: function addOnlineUser(user) {
       user.online = true;
       this.onlineUsers.push(user.uuid.toString());
+      this.addUser(user, false);
+      this.onlineUsers.push(user);
       this.sortUsers();
     }
   }, {
@@ -77434,6 +77436,36 @@ function () {
       });
 
       this.sortUsers();
+    }
+  }, {
+    key: "addUser",
+    value: function addUser(user) {
+      var sort = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+      var userIndex = window._.findIndex(this.users, function (existingUser) {
+        return existingUser.uuid.is(user.uuid);
+      });
+
+      if (userIndex < 0) {
+        this.users.push(user);
+      }
+
+      if (sort) {
+        this.sortUsers();
+      }
+    }
+  }, {
+    key: "removeUser",
+    value: function removeUser(user) {
+      var sort = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+      window._.remove(this.users, function (existingUser) {
+        return user.uuid.is(existingUser.uuid);
+      });
+
+      if (sort) {
+        this.sortUsers();
+      }
     }
   }, {
     key: "sortUsers",
@@ -78830,6 +78862,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var user = _ref4.user,
           channel = _ref4.channel;
       channel.removeOnlineUser(user);
+    },
+    addUser: function addUser(state, _ref5) {
+      var user = _ref5.user,
+          channel = _ref5.channel;
+      channel.addUser(user);
+    },
+    removeUser: function removeUser(state, _ref6) {
+      var user = _ref6.user,
+          channel = _ref6.channel;
+      channel.removeUser(user);
     }
   },
   getters: {
@@ -78891,46 +78933,46 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loadChannels: function () {
       var _loadChannels = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12(_ref5) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee16(_ref7) {
         var commit, dispatch, rootGetters;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee16$(_context16) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context16.prev = _context16.next) {
               case 0:
-                commit = _ref5.commit, dispatch = _ref5.dispatch, rootGetters = _ref5.rootGetters;
-                _context12.next = 3;
+                commit = _ref7.commit, dispatch = _ref7.dispatch, rootGetters = _ref7.rootGetters;
+                _context16.next = 3;
                 return Object(_services_api__WEBPACK_IMPORTED_MODULE_1__["default"])('api:user:channels', {
                   include: 'users,messages'
                 }).send().then(
                 /*#__PURE__*/
                 function () {
-                  var _ref6 = _asyncToGenerator(
+                  var _ref8 = _asyncToGenerator(
                   /*#__PURE__*/
-                  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11(response) {
+                  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee15(response) {
                     var channels;
-                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee15$(_context15) {
                       while (1) {
-                        switch (_context11.prev = _context11.next) {
+                        switch (_context15.prev = _context15.next) {
                           case 0:
                             if (!response.wasSuccess) {
-                              _context11.next = 8;
+                              _context15.next = 8;
                               break;
                             }
 
-                            _context11.next = 3;
+                            _context15.next = 3;
                             return Promise.all(response.response.map(
                             /*#__PURE__*/
                             function () {
-                              var _ref7 = _asyncToGenerator(
+                              var _ref9 = _asyncToGenerator(
                               /*#__PURE__*/
-                              _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10(data) {
+                              _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee14(data) {
                                 var model;
-                                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
+                                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee14$(_context14) {
                                   while (1) {
-                                    switch (_context10.prev = _context10.next) {
+                                    switch (_context14.prev = _context14.next) {
                                       case 0:
                                         model = Object(_models_Channel__WEBPACK_IMPORTED_MODULE_2__["default"])(data.id, data.name, data.description);
-                                        _context10.next = 3;
+                                        _context14.next = 3;
                                         return dispatch('Users/transformUsers', {
                                           users: data.users.data,
                                           channel: model
@@ -78939,20 +78981,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                         }).then(
                                         /*#__PURE__*/
                                         function () {
-                                          var _ref8 = _asyncToGenerator(
+                                          var _ref10 = _asyncToGenerator(
                                           /*#__PURE__*/
-                                          _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8(users) {
+                                          _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12(users) {
                                             var events;
-                                            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+                                            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
                                               while (1) {
-                                                switch (_context8.prev = _context8.next) {
+                                                switch (_context12.prev = _context12.next) {
                                                   case 0:
                                                     model.setUsers(users);
                                                     events = window.Echo.join('channel.' + model.uuid.toString());
                                                     events.here(
                                                     /*#__PURE__*/
                                                     function () {
-                                                      var _ref9 = _asyncToGenerator(
+                                                      var _ref11 = _asyncToGenerator(
                                                       /*#__PURE__*/
                                                       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(onlineUsers) {
                                                         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
@@ -78968,7 +79010,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                                 }).then(
                                                                 /*#__PURE__*/
                                                                 function () {
-                                                                  var _ref10 = _asyncToGenerator(
+                                                                  var _ref12 = _asyncToGenerator(
                                                                   /*#__PURE__*/
                                                                   _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(onlineUsers) {
                                                                     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
@@ -78993,7 +79035,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                                   }));
 
                                                                   return function (_x6) {
-                                                                    return _ref10.apply(this, arguments);
+                                                                    return _ref12.apply(this, arguments);
                                                                   };
                                                                 }());
 
@@ -79006,13 +79048,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                       }));
 
                                                       return function (_x5) {
-                                                        return _ref9.apply(this, arguments);
+                                                        return _ref11.apply(this, arguments);
                                                       };
                                                     }());
                                                     events.joining(
                                                     /*#__PURE__*/
                                                     function () {
-                                                      var _ref11 = _asyncToGenerator(
+                                                      var _ref13 = _asyncToGenerator(
                                                       /*#__PURE__*/
                                                       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(rawUser) {
                                                         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
@@ -79028,7 +79070,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                                 }).then(
                                                                 /*#__PURE__*/
                                                                 function () {
-                                                                  var _ref12 = _asyncToGenerator(
+                                                                  var _ref14 = _asyncToGenerator(
                                                                   /*#__PURE__*/
                                                                   _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(user) {
                                                                     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
@@ -79050,7 +79092,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                                   }));
 
                                                                   return function (_x8) {
-                                                                    return _ref12.apply(this, arguments);
+                                                                    return _ref14.apply(this, arguments);
                                                                   };
                                                                 }());
 
@@ -79063,13 +79105,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                       }));
 
                                                       return function (_x7) {
-                                                        return _ref11.apply(this, arguments);
+                                                        return _ref13.apply(this, arguments);
                                                       };
                                                     }());
                                                     events.leaving(
                                                     /*#__PURE__*/
                                                     function () {
-                                                      var _ref13 = _asyncToGenerator(
+                                                      var _ref15 = _asyncToGenerator(
                                                       /*#__PURE__*/
                                                       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(rawUser) {
                                                         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
@@ -79085,7 +79127,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                                 }).then(
                                                                 /*#__PURE__*/
                                                                 function () {
-                                                                  var _ref14 = _asyncToGenerator(
+                                                                  var _ref16 = _asyncToGenerator(
                                                                   /*#__PURE__*/
                                                                   _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(user) {
                                                                     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
@@ -79107,7 +79149,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                                   }));
 
                                                                   return function (_x10) {
-                                                                    return _ref14.apply(this, arguments);
+                                                                    return _ref16.apply(this, arguments);
                                                                   };
                                                                 }());
 
@@ -79120,20 +79162,77 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                       }));
 
                                                       return function (_x9) {
-                                                        return _ref13.apply(this, arguments);
+                                                        return _ref15.apply(this, arguments);
+                                                      };
+                                                    }());
+                                                    events.listen('.user.join',
+                                                    /*#__PURE__*/
+                                                    function () {
+                                                      var _ref17 = _asyncToGenerator(
+                                                      /*#__PURE__*/
+                                                      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8(data) {
+                                                        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+                                                          while (1) {
+                                                            switch (_context8.prev = _context8.next) {
+                                                              case 0:
+                                                                _context8.next = 2;
+                                                                return dispatch('Users/transformUser', {
+                                                                  user: data.user,
+                                                                  channel: model
+                                                                }, {
+                                                                  root: true
+                                                                }).then(
+                                                                /*#__PURE__*/
+                                                                function () {
+                                                                  var _ref18 = _asyncToGenerator(
+                                                                  /*#__PURE__*/
+                                                                  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7(user) {
+                                                                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+                                                                      while (1) {
+                                                                        switch (_context7.prev = _context7.next) {
+                                                                          case 0:
+                                                                            _context7.next = 2;
+                                                                            return commit('addUser', {
+                                                                              user: user,
+                                                                              channel: model
+                                                                            });
+
+                                                                          case 2:
+                                                                          case "end":
+                                                                            return _context7.stop();
+                                                                        }
+                                                                      }
+                                                                    }, _callee7);
+                                                                  }));
+
+                                                                  return function (_x12) {
+                                                                    return _ref18.apply(this, arguments);
+                                                                  };
+                                                                }());
+
+                                                              case 2:
+                                                              case "end":
+                                                                return _context8.stop();
+                                                            }
+                                                          }
+                                                        }, _callee8);
+                                                      }));
+
+                                                      return function (_x11) {
+                                                        return _ref17.apply(this, arguments);
                                                       };
                                                     }());
                                                     events.listen('.message.received',
                                                     /*#__PURE__*/
                                                     function () {
-                                                      var _ref15 = _asyncToGenerator(
+                                                      var _ref19 = _asyncToGenerator(
                                                       /*#__PURE__*/
-                                                      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7(data) {
-                                                        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+                                                      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9(data) {
+                                                        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
                                                           while (1) {
-                                                            switch (_context7.prev = _context7.next) {
+                                                            switch (_context9.prev = _context9.next) {
                                                               case 0:
-                                                                _context7.next = 2;
+                                                                _context9.next = 2;
                                                                 return dispatch('addChannelMessage', {
                                                                   message: data.message,
                                                                   channel: model
@@ -79141,104 +79240,161 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                                                               case 2:
                                                               case "end":
-                                                                return _context7.stop();
+                                                                return _context9.stop();
                                                             }
                                                           }
-                                                        }, _callee7);
+                                                        }, _callee9);
                                                       }));
 
-                                                      return function (_x11) {
-                                                        return _ref15.apply(this, arguments);
+                                                      return function (_x13) {
+                                                        return _ref19.apply(this, arguments);
+                                                      };
+                                                    }());
+                                                    events.listen('.user.leave',
+                                                    /*#__PURE__*/
+                                                    function () {
+                                                      var _ref20 = _asyncToGenerator(
+                                                      /*#__PURE__*/
+                                                      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11(data) {
+                                                        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
+                                                          while (1) {
+                                                            switch (_context11.prev = _context11.next) {
+                                                              case 0:
+                                                                _context11.next = 2;
+                                                                return dispatch('Users/transformUser', {
+                                                                  user: data.user,
+                                                                  channel: model
+                                                                }, {
+                                                                  root: true
+                                                                }).then(
+                                                                /*#__PURE__*/
+                                                                function () {
+                                                                  var _ref21 = _asyncToGenerator(
+                                                                  /*#__PURE__*/
+                                                                  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10(user) {
+                                                                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
+                                                                      while (1) {
+                                                                        switch (_context10.prev = _context10.next) {
+                                                                          case 0:
+                                                                            _context10.next = 2;
+                                                                            return commit('removeUser', {
+                                                                              user: user,
+                                                                              channel: model
+                                                                            });
+
+                                                                          case 2:
+                                                                          case "end":
+                                                                            return _context10.stop();
+                                                                        }
+                                                                      }
+                                                                    }, _callee10);
+                                                                  }));
+
+                                                                  return function (_x15) {
+                                                                    return _ref21.apply(this, arguments);
+                                                                  };
+                                                                }());
+
+                                                              case 2:
+                                                              case "end":
+                                                                return _context11.stop();
+                                                            }
+                                                          }
+                                                        }, _callee11);
+                                                      }));
+
+                                                      return function (_x14) {
+                                                        return _ref20.apply(this, arguments);
                                                       };
                                                     }());
 
-                                                  case 6:
+                                                  case 8:
                                                   case "end":
-                                                    return _context8.stop();
+                                                    return _context12.stop();
                                                 }
                                               }
-                                            }, _callee8);
+                                            }, _callee12);
                                           }));
 
                                           return function (_x4) {
-                                            return _ref8.apply(this, arguments);
+                                            return _ref10.apply(this, arguments);
                                           };
                                         }());
 
                                       case 3:
-                                        _context10.next = 5;
+                                        _context14.next = 5;
                                         return Promise.all(data.messages.data.map(
                                         /*#__PURE__*/
                                         function () {
-                                          var _ref16 = _asyncToGenerator(
+                                          var _ref22 = _asyncToGenerator(
                                           /*#__PURE__*/
-                                          _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9(data) {
+                                          _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13(data) {
                                             var user;
-                                            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
+                                            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
                                               while (1) {
-                                                switch (_context9.prev = _context9.next) {
+                                                switch (_context13.prev = _context13.next) {
                                                   case 0:
                                                     user = rootGetters['Users/getUser'](data.user);
-                                                    return _context9.abrupt("return", new _models_Message__WEBPACK_IMPORTED_MODULE_3__["default"](data.id, data.type, data.message, data.created_at, user, data.action, data.metadata, data.messages));
+                                                    return _context13.abrupt("return", new _models_Message__WEBPACK_IMPORTED_MODULE_3__["default"](data.id, data.type, data.message, data.created_at, user, data.action, data.metadata, data.messages));
 
                                                   case 2:
                                                   case "end":
-                                                    return _context9.stop();
+                                                    return _context13.stop();
                                                 }
                                               }
-                                            }, _callee9);
+                                            }, _callee13);
                                           }));
 
-                                          return function (_x12) {
-                                            return _ref16.apply(this, arguments);
+                                          return function (_x16) {
+                                            return _ref22.apply(this, arguments);
                                           };
                                         }()));
 
                                       case 5:
-                                        model.messages = _context10.sent;
-                                        return _context10.abrupt("return", model);
+                                        model.messages = _context14.sent;
+                                        return _context14.abrupt("return", model);
 
                                       case 7:
                                       case "end":
-                                        return _context10.stop();
+                                        return _context14.stop();
                                     }
                                   }
-                                }, _callee10);
+                                }, _callee14);
                               }));
 
                               return function (_x3) {
-                                return _ref7.apply(this, arguments);
+                                return _ref9.apply(this, arguments);
                               };
                             }()));
 
                           case 3:
-                            channels = _context11.sent;
-                            _context11.next = 6;
+                            channels = _context15.sent;
+                            _context15.next = 6;
                             return commit('setChannels', channels);
 
                           case 6:
-                            _context11.next = 8;
+                            _context15.next = 8;
                             return commit('setLoaded', true);
 
                           case 8:
                           case "end":
-                            return _context11.stop();
+                            return _context15.stop();
                         }
                       }
-                    }, _callee11);
+                    }, _callee15);
                   }));
 
                   return function (_x2) {
-                    return _ref6.apply(this, arguments);
+                    return _ref8.apply(this, arguments);
                   };
                 }());
 
               case 3:
               case "end":
-                return _context12.stop();
+                return _context16.stop();
             }
           }
-        }, _callee12);
+        }, _callee16);
       }));
 
       function loadChannels(_x) {
@@ -79250,13 +79406,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loadCurrentChannel: function () {
       var _loadCurrentChannel = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13(_ref17) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee17(_ref23) {
         var commit, state, currentChannel, channelIndex;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee17$(_context17) {
           while (1) {
-            switch (_context13.prev = _context13.next) {
+            switch (_context17.prev = _context17.next) {
               case 0:
-                commit = _ref17.commit, state = _ref17.state;
+                commit = _ref23.commit, state = _ref23.state;
                 currentChannel = null;
 
                 if (state.current) {
@@ -79272,25 +79428,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 if (!currentChannel) {
-                  _context13.next = 6;
+                  _context17.next = 6;
                   break;
                 }
 
-                _context13.next = 6;
+                _context17.next = 6;
                 return commit('setCurrentChannel', currentChannel);
 
               case 6:
-                return _context13.abrupt("return", currentChannel);
+                return _context17.abrupt("return", currentChannel);
 
               case 7:
               case "end":
-                return _context13.stop();
+                return _context17.stop();
             }
           }
-        }, _callee13);
+        }, _callee17);
       }));
 
-      function loadCurrentChannel(_x13) {
+      function loadCurrentChannel(_x17) {
         return _loadCurrentChannel.apply(this, arguments);
       }
 
@@ -79299,106 +79455,106 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setCurrentChannel: function () {
       var _setCurrentChannel = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee14(_ref18, newChannel) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee18(_ref24, newChannel) {
         var commit, state, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, existingChannel;
 
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee14$(_context14) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee18$(_context18) {
           while (1) {
-            switch (_context14.prev = _context14.next) {
+            switch (_context18.prev = _context18.next) {
               case 0:
-                commit = _ref18.commit, state = _ref18.state;
+                commit = _ref24.commit, state = _ref24.state;
 
                 if (!(state.channels && state.channels.length > 0)) {
-                  _context14.next = 35;
+                  _context18.next = 35;
                   break;
                 }
 
                 if (newChannel instanceof String) {
-                  _context14.next = 7;
+                  _context18.next = 7;
                   break;
                 }
 
-                _context14.next = 5;
+                _context18.next = 5;
                 return commit('setCurrentChannel', newChannel);
 
               case 5:
-                _context14.next = 35;
+                _context18.next = 35;
                 break;
 
               case 7:
                 _iteratorNormalCompletion2 = true;
                 _didIteratorError2 = false;
                 _iteratorError2 = undefined;
-                _context14.prev = 10;
+                _context18.prev = 10;
                 _iterator2 = state.channels[Symbol.iterator]();
 
               case 12:
                 if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-                  _context14.next = 21;
+                  _context18.next = 21;
                   break;
                 }
 
                 existingChannel = _step2.value;
 
                 if (!(existingChannel.uuid.is(newChannel) || existingChannel.name === newChannel)) {
-                  _context14.next = 18;
+                  _context18.next = 18;
                   break;
                 }
 
-                _context14.next = 17;
+                _context18.next = 17;
                 return commit('setCurrentChannel', existingChannel);
 
               case 17:
-                return _context14.abrupt("break", 21);
+                return _context18.abrupt("break", 21);
 
               case 18:
                 _iteratorNormalCompletion2 = true;
-                _context14.next = 12;
+                _context18.next = 12;
                 break;
 
               case 21:
-                _context14.next = 27;
+                _context18.next = 27;
                 break;
 
               case 23:
-                _context14.prev = 23;
-                _context14.t0 = _context14["catch"](10);
+                _context18.prev = 23;
+                _context18.t0 = _context18["catch"](10);
                 _didIteratorError2 = true;
-                _iteratorError2 = _context14.t0;
+                _iteratorError2 = _context18.t0;
 
               case 27:
-                _context14.prev = 27;
-                _context14.prev = 28;
+                _context18.prev = 27;
+                _context18.prev = 28;
 
                 if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
                   _iterator2["return"]();
                 }
 
               case 30:
-                _context14.prev = 30;
+                _context18.prev = 30;
 
                 if (!_didIteratorError2) {
-                  _context14.next = 33;
+                  _context18.next = 33;
                   break;
                 }
 
                 throw _iteratorError2;
 
               case 33:
-                return _context14.finish(30);
+                return _context18.finish(30);
 
               case 34:
-                return _context14.finish(27);
+                return _context18.finish(27);
 
               case 35:
               case "end":
-                return _context14.stop();
+                return _context18.stop();
             }
           }
-        }, _callee14, null, [[10, 23, 27, 35], [28,, 30, 34]]);
+        }, _callee18, null, [[10, 23, 27, 35], [28,, 30, 34]]);
       }));
 
-      function setCurrentChannel(_x14, _x15) {
+      function setCurrentChannel(_x18, _x19) {
         return _setCurrentChannel.apply(this, arguments);
       }
 
@@ -79407,54 +79563,54 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     sendChannelMessage: function () {
       var _sendChannelMessage = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee16(_ref19, message) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee20(_ref25, message) {
         var commit, dispatch, state, getters, channel;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee16$(_context16) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee20$(_context20) {
           while (1) {
-            switch (_context16.prev = _context16.next) {
+            switch (_context20.prev = _context20.next) {
               case 0:
-                commit = _ref19.commit, dispatch = _ref19.dispatch, state = _ref19.state, getters = _ref19.getters;
+                commit = _ref25.commit, dispatch = _ref25.dispatch, state = _ref25.state, getters = _ref25.getters;
                 channel = getters.getCurrentChannel;
-                _context16.next = 4;
+                _context20.next = 4;
                 return Object(_services_api__WEBPACK_IMPORTED_MODULE_1__["default"])('api:channel:post', channel.uuid.toString()).send({
                   message: message
                 }).then(
                 /*#__PURE__*/
                 function () {
-                  var _ref20 = _asyncToGenerator(
+                  var _ref26 = _asyncToGenerator(
                   /*#__PURE__*/
-                  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee15(response) {
-                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee15$(_context15) {
+                  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee19(response) {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee19$(_context19) {
                       while (1) {
-                        switch (_context15.prev = _context15.next) {
+                        switch (_context19.prev = _context19.next) {
                           case 0:
-                            return _context15.abrupt("return", response.wasSuccess);
+                            return _context19.abrupt("return", response.wasSuccess);
 
                           case 1:
                           case "end":
-                            return _context15.stop();
+                            return _context19.stop();
                         }
                       }
-                    }, _callee15);
+                    }, _callee19);
                   }));
 
-                  return function (_x18) {
-                    return _ref20.apply(this, arguments);
+                  return function (_x22) {
+                    return _ref26.apply(this, arguments);
                   };
                 }());
 
               case 4:
-                return _context16.abrupt("return", _context16.sent);
+                return _context20.abrupt("return", _context20.sent);
 
               case 5:
               case "end":
-                return _context16.stop();
+                return _context20.stop();
             }
           }
-        }, _callee16);
+        }, _callee20);
       }));
 
-      function sendChannelMessage(_x16, _x17) {
+      function sendChannelMessage(_x20, _x21) {
         return _sendChannelMessage.apply(this, arguments);
       }
 
@@ -79463,31 +79619,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     addChannelMessage: function () {
       var _addChannelMessage = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee17(_ref21, _ref22) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee21(_ref27, _ref28) {
         var commit, dispatch, state, getters, rootGetters, channel, message, user, model;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee17$(_context17) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee21$(_context21) {
           while (1) {
-            switch (_context17.prev = _context17.next) {
+            switch (_context21.prev = _context21.next) {
               case 0:
-                commit = _ref21.commit, dispatch = _ref21.dispatch, state = _ref21.state, getters = _ref21.getters, rootGetters = _ref21.rootGetters;
-                channel = _ref22.channel, message = _ref22.message;
+                commit = _ref27.commit, dispatch = _ref27.dispatch, state = _ref27.state, getters = _ref27.getters, rootGetters = _ref27.rootGetters;
+                channel = _ref28.channel, message = _ref28.message;
                 user = rootGetters['Users/getUser'](message.user);
+                console.log(user);
+                console.log(message);
                 model = new _models_Message__WEBPACK_IMPORTED_MODULE_3__["default"](message.id, message.type, message.message, message.created_at, user, message.action, message.metadata, message.mentions);
-                _context17.next = 6;
+                _context21.next = 8;
                 return commit('addChannelMessage', {
                   channel: channel,
                   message: model
                 });
 
-              case 6:
+              case 8:
               case "end":
-                return _context17.stop();
+                return _context21.stop();
             }
           }
-        }, _callee17);
+        }, _callee21);
       }));
 
-      function addChannelMessage(_x19, _x20) {
+      function addChannelMessage(_x23, _x24) {
         return _addChannelMessage.apply(this, arguments);
       }
 
@@ -79629,6 +79787,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   model = state.users[userIndex];
                 } else {
                   model = Object(_models_User__WEBPACK_IMPORTED_MODULE_1__["default"])(rawUser.id, rawUser.username, rawUser.updated_at);
+                  commit('addUsers', [model]);
                 }
 
                 model.addPermissions(channel.uuid.toString(), rawUser.permissions);

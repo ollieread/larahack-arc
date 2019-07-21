@@ -35,6 +35,10 @@ class JoinChannel
 
         if (! $presence) {
             $this->user->channels()->save($this->channel, ['permissions' => $this->permissions ?? ChannelPermissions::DEFAULT_PERMISSIONS]);
+            $this->user->channel_permissions = $this->permissions ?? ChannelPermissions::DEFAULT_PERMISSIONS;
+
+            broadcast(new Joined($this->channel, $this->user));
+
             (new PostToChannel)
                 ->setUser($this->user)
                 ->setChannel($this->channel)
@@ -45,8 +49,6 @@ class JoinChannel
                         'automated' => true,
                     ],
                 ])->perform();
-
-            broadcast(new Joined($this->channel, $this->user));
         }
 
         return true;

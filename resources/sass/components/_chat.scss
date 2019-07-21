@@ -26,7 +26,7 @@
     }
 
     &__messages {
-      @apply flex flex-col-reverse;
+      @apply flex flex-col-reverse h-full;
     }
 
     &__message {

@@ -40,6 +40,14 @@ export default {
         removeOnlineUser(state, {user, channel}) {
             channel.removeOnlineUser(user);
         },
+
+        addUser(state, {user, channel}) {
+            channel.addUser(user);
+        },
+
+        removeUser(state, {user, channel}) {
+            channel.removeUser(user);
+        },
     },
 
     getters: {
@@ -109,8 +117,28 @@ export default {
                                         });
                                 });
 
+                                events.listen('.user.join', async data => {
+                                    await dispatch('Users/transformUser', {
+                                        user: data.user,
+                                        channel: model,
+                                    }, {root: true})
+                                        .then(async user => {
+                                            await commit('addUser', {user: user, channel: model});
+                                        });
+                                });
+
                                 events.listen('.message.received', async data => {
                                     await dispatch('addChannelMessage', {message: data.message, channel: model});
+                                });
+
+                                events.listen('.user.leave', async data => {
+                                    await dispatch('Users/transformUser', {
+                                        user: data.user,
+                                        channel: model,
+                                    }, {root: true})
+                                        .then(async user => {
+                                            await commit('removeUser', {user: user, channel: model});
+                                        });
                                 });
                             });
 
@@ -172,9 +200,11 @@ export default {
         },
 
         async addChannelMessage({commit, dispatch, state, getters, rootGetters}, {channel, message}) {
-            let user = rootGetters['Users/getUser'](message.user);
-            let model  = new Message(message.id, message.type, message.message, message.created_at, user, message.action, message.metadata, message.mentions);
-            await commit('addChannelMessage', {channel, message:model});
+            let user  = rootGetters['Users/getUser'](message.user);
+            console.log(user);
+            console.log(message);
+            let model = new Message(message.id, message.type, message.message, message.created_at, user, message.action, message.metadata, message.mentions);
+            await commit('addChannelMessage', {channel, message: model});
         },
     },
 };

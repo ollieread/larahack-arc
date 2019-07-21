@@ -90,6 +90,7 @@ export default {
                 model = state.users[userIndex];
             } else {
                 model = user(rawUser.id, rawUser.username, rawUser.updated_at);
+                commit('addUsers', [model]);
             }
 
             model.addPermissions(channel.uuid.toString(), rawUser.permissions);
