@@ -17,6 +17,7 @@ export default {
             state.expiresAt = response.expiresAt;
             localStorage.setItem('token', response.token);
             localStorage.setItem('expiresAt', response.expiresAt);
+
             window.Echo.connector.pusher.config.auth.headers['Authorization'] = 'Bearer ' + state.token;
         },
 

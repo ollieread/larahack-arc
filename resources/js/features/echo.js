@@ -12,11 +12,6 @@ window.Echo = new Echo({
     enabledTransports: [
         'ws',
     ],
-    auth: {
-        headers: {
-            Authorization: 'Bearer ' + localStorage.getItem('token'),
-        },
-    },
 });
 
 Vue.prototype.$echo = window.Echo;

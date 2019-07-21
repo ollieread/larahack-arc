@@ -2369,7 +2369,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   created: function created() {
     var _this = this;
 
-    window.Echo.channel('qol').listen('.status', function (data) {
+    this.$echo.channel('qol').listen('.status', function (data) {
       if (data.state) {
         _this.$store.commit('QOL/setOnline');
       } else {
@@ -78830,9 +78830,9 @@ module.exports = function(module) {
 
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
-__webpack_require__(/*! ./features/vue */ "./resources/js/features/vue.js");
-
 __webpack_require__(/*! ./features/echo */ "./resources/js/features/echo.js");
+
+__webpack_require__(/*! ./features/vue */ "./resources/js/features/vue.js");
 
 __webpack_require__(/*! ./features/axios */ "./resources/js/features/axios.js");
 
@@ -79195,12 +79195,7 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   wsHost: window.location.hostname,
   wsPort: 6001,
   disableStats: true,
-  enabledTransports: ['ws'],
-  auth: {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token')
-    }
-  }
+  enabledTransports: ['ws']
 });
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.prototype.$echo = window.Echo;
 

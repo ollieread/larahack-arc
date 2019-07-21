@@ -42,7 +42,8 @@
         },
 
         created() {
-            window.Echo.channel('qol')
+            this.$echo
+                  .channel('qol')
                   .listen('.status', (data) => {
                       if (data.state) {
                           this.$store.commit('QOL/setOnline');
