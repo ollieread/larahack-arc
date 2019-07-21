@@ -2143,19 +2143,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     startTyping: function startTyping() {
       var _this = this;
 
-      if (this.message) {
-        this.$store.dispatch('Channels/startTyping', this.channel);
+      this.$store.dispatch('Channels/startTyping', this.channel);
 
-        if (this.timeout) {
-          clearTimeout(this.timeout);
-        }
-
-        this.timeout = setTimeout(function () {
-          _this.stopTyping();
-        }, 5000);
+      if (this.timeout) {
+        clearTimeout(this.timeout);
       }
 
-      this.stopTyping();
+      this.timeout = setTimeout(function () {
+        _this.stopTyping();
+      }, 5000);
     },
     stopTyping: function stopTyping() {
       if (this.timeout) {

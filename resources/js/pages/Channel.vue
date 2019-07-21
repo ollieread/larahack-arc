@@ -128,19 +128,15 @@
             },
 
             startTyping() {
-                if (this.message) {
-                    this.$store.dispatch('Channels/startTyping', this.channel);
+                this.$store.dispatch('Channels/startTyping', this.channel);
 
-                    if (this.timeout) {
-                        clearTimeout(this.timeout);
-                    }
-
-                    this.timeout = setTimeout(() => {
-                        this.stopTyping();
-                    }, 5000);
+                if (this.timeout) {
+                    clearTimeout(this.timeout);
                 }
 
-                this.stopTyping();
+                this.timeout = setTimeout(() => {
+                    this.stopTyping();
+                }, 5000);
             },
 
             stopTyping() {
