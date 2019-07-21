@@ -58,7 +58,7 @@ class GetChannels
             $query->with(['messages' => static function (HasMany $query) {
                 $query->select(['messages.*'])
                       ->selectRaw('users.uuid as user_uuid')
-                      ->join('users', static function (JoinClause $join) {
+                      ->leftJoin('users', static function (JoinClause $join) {
                           $join->on('users.id', '=', 'messages.user_id');
                       })
                       ->orderBy('created_at', 'desc')

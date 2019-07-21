@@ -5,8 +5,8 @@
             <div class="channel__message-content">
                 <strong>{{ message.user ? message.user.username : 'SYSTEM' }}</strong>
                 <template v-if="message.action === 'join'">joined</template>
-                <template v-if="message.action === 'deploy.started'">
-                    <p class="mb-1">System deployment started ({{ message.metadata.start_revision.ref }} - {{ message.metadata.end_revision.ref }})</p>
+                <template v-if="message.action === 'deploy.running'">
+                    <p class="mb-1">System deployment running ({{ message.metadata.start_revision.ref }} - {{ message.metadata.end_revision.ref }})</p>
                     <p>Commit message: {{ message.metadata.end_revision.message }}</p>
                 </template>
                 <template v-if="message.action === 'deploy.completed'">System deployment completed</template>

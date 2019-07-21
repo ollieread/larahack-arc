@@ -61647,11 +61647,11 @@ var render = function() {
                 _vm._v(" "),
                 _vm.message.action === "join" ? [_vm._v("joined")] : _vm._e(),
                 _vm._v(" "),
-                _vm.message.action === "deploy.started"
+                _vm.message.action === "deploy.running"
                   ? [
                       _c("p", { staticClass: "mb-1" }, [
                         _vm._v(
-                          "System deployment started (" +
+                          "System deployment running (" +
                             _vm._s(_vm.message.metadata.start_revision.ref) +
                             " - " +
                             _vm._s(_vm.message.metadata.end_revision.ref) +
