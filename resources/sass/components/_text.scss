@@ -1,0 +1,9 @@
+.text {
+  &--error {
+    color: $errorString;
+  }
+
+  &--centered {
+    @apply text-center;
+  }
+}

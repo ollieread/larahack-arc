@@ -1,0 +1,30 @@
+.button {
+  @apply bg-black border px-3 py-2 text-center shadow outline-none inline-block;
+
+  &--simple {
+    @apply border-0 p-0 uppercase text-sm justify-center content-center items-center;
+    display: inline-flex;
+    transition: background-color .15s linear;
+
+    &:before {
+      @apply text-xl mr-1 font-secondary;
+      content: '<';
+      color: $greenLighter;
+    }
+
+    &:after {
+      @apply text-xl ml-1 font-secondary;
+      content: '>';
+      color: $greenLighter;
+    }
+
+    &:hover, &:focus {
+      background-color: $greenHover;
+    }
+  }
+
+  &__icon {
+    @include fa-icon();
+    @extend .far;
+  }
+}

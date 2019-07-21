@@ -1,0 +1,34 @@
+.chat {
+  @apply flex h-screen w-screen p-4;
+
+  &__sidebar {
+    @apply flex flex-col w-64;
+  }
+
+  &__body {
+    @apply flex flex-col flex-grow mx-2;
+  }
+
+  .channel {
+    @apply flex-grow ml-2;
+
+    &__content {
+      @apply flex flex-grow flex-no-wrap ml-2;
+    }
+
+    &__users {
+    }
+
+    &__user {
+      @apply pl-6;
+
+      &--offline {
+        color : $greenLighter;
+      }
+
+      &--current {
+        @apply font-bold;
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+.page {
+  @apply w-screen h-screen p-3;
+
+  &--single {
+    .container {
+      @apply w-screen h-screen flex flex-col justify-center items-center;
+    }
+  }
+}

@@ -1,0 +1,19 @@
+.logo {
+  @apply my-8 font-secondary relative;
+  color : $green;
+
+  &--small {
+    @apply my-3 flex justify-center;
+    font-size: .5rem;
+  }
+
+  &:before,
+  &:after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}

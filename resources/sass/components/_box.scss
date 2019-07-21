@@ -1,0 +1,116 @@
+.box {
+  @apply border relative mt-1 bg-black pb-3;
+
+  &--headerless {
+    @apply pt-3;
+  }
+
+  &--footerless {
+    @apply pb-0;
+  }
+
+  &--grow {
+    @apply flex-grow;
+  }
+
+  &--centered {
+    @apply mx-auto;
+  }
+
+  &__title {
+    @apply absolute bg-black inline-block text-xl uppercase font-secondary;
+    letter-spacing : 0.4em;
+    padding-left   : .4em;
+    top            : -1.1rem;
+    margin-left    : .75rem;
+
+    &:before, &:after {
+      content : '/';
+      color   : $greenLighter;
+    }
+  }
+
+  &__header {
+    @apply flex justify-center content-center items-center;
+    @include bg($greenHover);
+    margin : .24rem;
+
+    &-title {
+      @apply font-secondary uppercase bg-black px-2 font-bold;
+      letter-spacing : 0.4em;
+    }
+
+    &--error {
+      color : $error;
+      @include bg($error);
+    }
+  }
+
+  &__body {
+    @apply px-3 py-4;
+  }
+
+  &__item {
+    @apply w-full block px-3 py-1 justify-start content-center items-center relative;
+    display    : inline-flex;
+    transition : background-color .15s linear;
+
+    &--active {
+      &:before, &:after {
+        @apply absolute;
+      }
+
+      &:before {
+        @apply text-xl mr-1 font-secondary -ml-1;
+        content : '[';
+        color   : $greenLighter;
+        left    : .25rem;
+        bottom  : .15rem;
+      }
+
+      &:after {
+        @apply text-xl ml-1 font-secondary -mr-1;
+        content : ']';
+        color   : $greenLighter;
+        right   : .25rem;
+        bottom  : .15rem;
+      }
+    }
+
+    &-prefix {
+      @apply text-gray-400 font-secondary text-xs mr-2 self-end;
+      margin-bottom : .15rem;
+      margin-left   : .1rem;
+    }
+
+    &:hover {
+      background-color : $greenHover;
+    }
+  }
+
+  &__footer {
+    @apply absolute inline-block;
+    bottom : -1rem;
+    right  : 1rem;
+    color  : $green;
+
+    &--secondary {
+    }
+  }
+
+  &--headerless {
+    .box__body {
+      @apply rounded-t;
+    }
+  }
+
+  &--footerless {
+    .box__body {
+      @apply rounded-b;
+    }
+  }
+
+  &--small {
+    @apply w-1/2;
+  }
+}

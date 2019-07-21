@@ -1,8 +1,32 @@
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-// Variables
-@import 'variables';
+@import "fonts";
+@import "variables";
+@import "mixins";
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+body {
+  @apply font-primary w-screen h-screen bg-black;
+  color: $green;
+}
+
+* {
+  border-color: $greenLighter;
+}
+
+.container {
+  @apply mx-auto;
+}
+
+@import "components/page";
+@import "components/box";
+@import "components/input";
+@import "components/button";
+@import "components/chat";
+@import "components/logo";
+@import "components/window";
+@import "components/crt";
+@import "components/modal";
+@import "components/text";
+@import "components/progress";

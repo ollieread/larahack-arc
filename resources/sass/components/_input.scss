@@ -1,0 +1,31 @@
+.input {
+  @apply mb-2;
+
+  &__label {
+    @apply block w-full uppercase -mb-2;
+  }
+
+  &__field {
+    @apply block w-full py-2 outline-none bg-black flex;
+
+    &:before {
+      @apply inline-block font-secondary text-xl text-gray-100;
+      content : '>>';
+    }
+
+    &-input {
+      @apply px-2 outline-none bg-black text-gray-100 inline-block flex-grow text-gray-500;
+    }
+
+    &:focus {
+      @apply shadow-inner;
+    }
+  }
+
+  &__feedback {
+    &--error {
+      @apply text-black px-1;
+      @include bg($error)
+    }
+  }
+}

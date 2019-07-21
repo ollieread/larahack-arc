@@ -1,59 +1,33 @@
 <?php
 
-namespace App\Providers;
+namespace Arc\Providers;
 
-use Illuminate\Support\Facades\Route;
+use Arc\Http\Routes;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    /**
-     * This namespace is applied to your controller routes.
-     *
-     * In addition, it is set as the URL generator's root namespace.
-     *
-     * @var string
-     */
-    protected $namespace = 'App\Http\Controllers';
+    protected $webRoutes = [
+        Routes\WebRoutes::class,
+    ];
 
-    /**
-     * Define your route model bindings, pattern filters, etc.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        //
-
-        parent::boot();
-    }
+    protected $apiRoutes = [
+        Routes\UserRoutes::class,
+        Routes\ChannelRoutes::class,
+    ];
 
     /**
      * Define the routes for the application.
      *
      * @return void
      */
-    public function map()
+    public function map(): void
     {
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
-
-        //
-    }
-
-    /**
-     * Define the "web" routes for the application.
-     *
-     * These routes all receive session state, CSRF protection, etc.
-     *
-     * @return void
-     */
-    protected function mapWebRoutes()
-    {
-        Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
     }
 
     /**
@@ -63,11 +37,32 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function mapApiRoutes()
+    protected function mapApiRoutes(): void
     {
         Route::prefix('api')
              ->middleware('api')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+             ->name('api:')
+             ->group(function (Router $router) {
+                 array_walk($this->apiRoutes, static function (string $routesClass) use ($router) {
+                     (new $routesClass)($router);
+                 });
+             });
+    }
+
+    /**
+     * Define the "web" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapWebRoutes(): void
+    {
+        Route::middleware('web')
+             ->group(function (Router $router) {
+                 array_walk($this->webRoutes, static function (string $routesClass) use ($router) {
+                     (new $routesClass)($router);
+                 });
+             });
     }
 }

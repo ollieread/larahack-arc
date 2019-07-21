@@ -1,0 +1,5 @@
+.modal {
+  @apply absolute inset-0 h-screen w-screen flex justify-center content-center items-center;
+  background-color: transparentize(#000000, .25);
+  z-index: 999;
+}
