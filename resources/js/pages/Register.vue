@@ -1,5 +1,6 @@
 <template>
-    <div class="page page--single">
+    <div class="page page--single" :class="{'crt--off':animating}">
+        <div class="crt"></div>
         <div class="container">
             <pre class="logo">
   :::.    :::::::..     .,-:::::

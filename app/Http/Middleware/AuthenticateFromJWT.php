@@ -4,7 +4,6 @@ namespace Arc\Http\Middleware;
 
 use Arc\Services\Auth;
 use Closure;
-use Illuminate\Validation\UnauthorizedException;
 
 class AuthenticateFromJWT
 {
@@ -34,6 +33,6 @@ class AuthenticateFromJWT
             return $next($request);
         }
 
-        throw new UnauthorizedException;
+        return response()->json(null, 401);
     }
 }

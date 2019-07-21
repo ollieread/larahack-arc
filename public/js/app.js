@@ -2532,6 +2532,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Login",
   data: function data() {
@@ -60072,10 +60073,7 @@ var render = function() {
           _c("main", { staticClass: "chat__body" }, [
             _c(
               "div",
-              {
-                staticClass:
-                  "box box--grow box--shrink box--footerless box--headerless"
-              },
+              { staticClass: "box box--grow box--footerless box--headerless" },
               [
                 _c("h2", { staticClass: "box__title" }, [_vm._v("Messages")]),
                 _vm._v(" "),
@@ -60105,13 +60103,12 @@ var render = function() {
             _c(
               "div",
               {
-                staticClass:
-                  "box box--grow box--footerless box--headerless channel__form"
+                staticClass: "box box--footerless box--headerless channel__form"
               },
               [
                 _c(
                   "div",
-                  { staticClass: "box__body box__body--bare box__body--flex" },
+                  { staticClass: "box__body box__body--flex box__body--bare" },
                   [
                     _c(
                       "div",
@@ -60669,325 +60666,339 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "page page--single" }, [
-    _c("div", { staticClass: "container" }, [
-      _c("pre", { staticClass: "logo" }, [
-        _vm._v(
-          '  :::.    :::::::..     .,-:::::\n  ;;`;;   ;;;;``;;;;  ,;;;\'````\'\n ,[[ \'[[,  [[[,/[[[\'  [[[\nc$$$cc$$$c $$$$$$c    $$$\n 888   888,888b "88bo,`88bo,__,o,\n YMM   ""` MMMM   "W"   "YUMMMMMP"\n            '
-        )
-      ]),
+  return _c(
+    "div",
+    { staticClass: "page page--single", class: { "crt--off": _vm.animating } },
+    [
+      _c("div", { staticClass: "crt" }),
       _vm._v(" "),
-      _c("article", { staticClass: "box box--small box--headerless" }, [
-        _c("h1", { staticClass: "box__title" }, [_vm._v("Enroll")]),
-        _vm._v(" "),
-        _c("main", { staticClass: "box__body" }, [
-          _c("div", { staticClass: "input" }, [
-            _c(
-              "label",
-              { staticClass: "input__label", attrs: { for: "login-username" } },
-              [_vm._v("Username")]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "input__field" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.username,
-                    expression: "username"
-                  },
-                  {
-                    name: "validate",
-                    rawName: "v-validate",
-                    value: _vm.rules.username,
-                    expression: "rules.username"
-                  }
-                ],
-                staticClass: "input__field-input",
-                attrs: {
-                  type: "text",
-                  id: "login-username",
-                  name: "username",
-                  placeholder: "username"
-                },
-                domProps: { value: _vm.username },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.username = $event.target.value
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _vm.errors.has("username")
-              ? _c(
-                  "div",
-                  {
-                    staticClass: "input__feedback",
-                    class: {
-                      "input__feedback--error": _vm.errors.has("username")
-                    }
-                  },
-                  [_vm._v(_vm._s(_vm.errors.first("username")))]
-                )
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "input" }, [
-            _c(
-              "label",
-              { staticClass: "input__label", attrs: { for: "login-email" } },
-              [_vm._v("Email")]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "input__field" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.email,
-                    expression: "email"
-                  },
-                  {
-                    name: "validate",
-                    rawName: "v-validate",
-                    value: _vm.rules.email,
-                    expression: "rules.email"
-                  }
-                ],
-                staticClass: "input__field-input",
-                attrs: {
-                  type: "email",
-                  id: "login-email",
-                  name: "email",
-                  placeholder: "email"
-                },
-                domProps: { value: _vm.email },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.email = $event.target.value
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _vm.errors.has("email")
-              ? _c(
-                  "div",
-                  {
-                    staticClass: "input__feedback",
-                    class: { "input__feedback--error": _vm.errors.has("email") }
-                  },
-                  [_vm._v(_vm._s(_vm.errors.first("email")))]
-                )
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "input" }, [
-            _c(
-              "label",
-              { staticClass: "input__label", attrs: { for: "login-password" } },
-              [_vm._v("Password")]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "input__field" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.password,
-                    expression: "password"
-                  },
-                  {
-                    name: "validate",
-                    rawName: "v-validate",
-                    value: _vm.rules.password,
-                    expression: "rules.password"
-                  }
-                ],
-                staticClass: "input__field-input",
-                attrs: {
-                  type: "password",
-                  id: "login-password",
-                  name: "password",
-                  placeholder: "password"
-                },
-                domProps: { value: _vm.password },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.password = $event.target.value
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _vm.errors.has("password")
-              ? _c(
-                  "div",
-                  {
-                    staticClass: "input__feedback",
-                    class: {
-                      "input__feedback--error": _vm.errors.has("password")
-                    }
-                  },
-                  [_vm._v(_vm._s(_vm.errors.first("password")))]
-                )
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "input" }, [
-            _c(
-              "label",
-              {
-                staticClass: "input__label",
-                attrs: { for: "login-password_confirmation" }
-              },
-              [_vm._v("Password Confirmation")]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "input__field" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.password_confirmation,
-                    expression: "password_confirmation"
-                  },
-                  {
-                    name: "validate",
-                    rawName: "v-validate",
-                    value: _vm.rules.password_confirmation,
-                    expression: "rules.password_confirmation"
-                  }
-                ],
-                staticClass: "input__field-input",
-                attrs: {
-                  type: "password",
-                  id: "login-password_confirmation",
-                  name: "password",
-                  placeholder: "confirm_password"
-                },
-                domProps: { value: _vm.password_confirmation },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.password_confirmation = $event.target.value
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _vm.errors.has("password_confirmation")
-              ? _c(
-                  "div",
-                  {
-                    staticClass: "input__feedback",
-                    class: {
-                      "input__feedback--error": _vm.errors.has(
-                        "password_confirmation"
-                      )
-                    }
-                  },
-                  [
-                    _vm._v(
-                      _vm._s(_vm.errors.first("password_confirmation")) +
-                        "\n                        "
-                    )
-                  ]
-                )
-              : _vm._e()
-          ])
+      _c("div", { staticClass: "container" }, [
+        _c("pre", { staticClass: "logo" }, [
+          _vm._v(
+            '  :::.    :::::::..     .,-:::::\n  ;;`;;   ;;;;``;;;;  ,;;;\'````\'\n ,[[ \'[[,  [[[,/[[[\'  [[[\nc$$$cc$$$c $$$$$$c    $$$\n 888   888,888b "88bo,`88bo,__,o,\n YMM   ""` MMMM   "W"   "YUMMMMMP"\n            '
+          )
         ]),
         _vm._v(" "),
-        _c(
-          "footer",
-          { staticClass: "box__footer box__footer--secondary" },
-          [
-            _c(
-              "button",
-              {
-                staticClass: "button button--simple",
-                on: {
-                  click: function($event) {
-                    $event.preventDefault()
-                    return _vm.register($event)
+        _c("article", { staticClass: "box box--small box--headerless" }, [
+          _c("h1", { staticClass: "box__title" }, [_vm._v("Enroll")]),
+          _vm._v(" "),
+          _c("main", { staticClass: "box__body" }, [
+            _c("div", { staticClass: "input" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "input__label",
+                  attrs: { for: "login-username" }
+                },
+                [_vm._v("Username")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "input__field" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.username,
+                      expression: "username"
+                    },
+                    {
+                      name: "validate",
+                      rawName: "v-validate",
+                      value: _vm.rules.username,
+                      expression: "rules.username"
+                    }
+                  ],
+                  staticClass: "input__field-input",
+                  attrs: {
+                    type: "text",
+                    id: "login-username",
+                    name: "username",
+                    placeholder: "username"
+                  },
+                  domProps: { value: _vm.username },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.username = $event.target.value
+                    }
                   }
-                }
-              },
-              [_vm._v("Submit")]
-            ),
+                })
+              ]),
+              _vm._v(" "),
+              _vm.errors.has("username")
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "input__feedback",
+                      class: {
+                        "input__feedback--error": _vm.errors.has("username")
+                      }
+                    },
+                    [_vm._v(_vm._s(_vm.errors.first("username")))]
+                  )
+                : _vm._e()
+            ]),
             _vm._v(" "),
-            _c(
-              "router-link",
-              {
-                staticClass: "button button--simple",
-                attrs: { to: { name: "login" } }
-              },
-              [_vm._v("GOTO : Authenticate")]
-            )
-          ],
-          1
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _vm.loading
-      ? _c("div", { staticClass: "modal crt--in" }, [
-          _c("div", { staticClass: "box box--small" }, [
-            _vm._m(0),
+            _c("div", { staticClass: "input" }, [
+              _c(
+                "label",
+                { staticClass: "input__label", attrs: { for: "login-email" } },
+                [_vm._v("Email")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "input__field" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.email,
+                      expression: "email"
+                    },
+                    {
+                      name: "validate",
+                      rawName: "v-validate",
+                      value: _vm.rules.email,
+                      expression: "rules.email"
+                    }
+                  ],
+                  staticClass: "input__field-input",
+                  attrs: {
+                    type: "email",
+                    id: "login-email",
+                    name: "email",
+                    placeholder: "email"
+                  },
+                  domProps: { value: _vm.email },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.email = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _vm.errors.has("email")
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "input__feedback",
+                      class: {
+                        "input__feedback--error": _vm.errors.has("email")
+                      }
+                    },
+                    [_vm._v(_vm._s(_vm.errors.first("email")))]
+                  )
+                : _vm._e()
+            ]),
             _vm._v(" "),
-            _c("div", { staticClass: "box__body" }, [
-              _c("div", { staticClass: "progress" }, [
-                _vm.progress.connection
-                  ? _c("div", { staticClass: "progress__line" }, [
-                      _c("div", { staticClass: "progress__line-text" }, [
-                        _vm._v("Establishing Connection")
-                      ]),
-                      _vm._v(" "),
-                      _vm._m(1)
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.progress.data
-                  ? _c("div", { staticClass: "progress__line" }, [
-                      _c("div", { staticClass: "progress__line-text" }, [
-                        _vm._v("Transmitting Data")
-                      ]),
-                      _vm._v(" "),
-                      _vm._m(2)
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.progress.verifying
-                  ? _c("div", { staticClass: "progress__line" }, [
-                      _c("div", { staticClass: "progress__line-text" }, [
-                        _vm._v("Verifying Signature")
-                      ]),
-                      _vm._v(" "),
-                      _vm._m(3)
-                    ])
-                  : _vm._e()
+            _c("div", { staticClass: "input" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "input__label",
+                  attrs: { for: "login-password" }
+                },
+                [_vm._v("Password")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "input__field" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.password,
+                      expression: "password"
+                    },
+                    {
+                      name: "validate",
+                      rawName: "v-validate",
+                      value: _vm.rules.password,
+                      expression: "rules.password"
+                    }
+                  ],
+                  staticClass: "input__field-input",
+                  attrs: {
+                    type: "password",
+                    id: "login-password",
+                    name: "password",
+                    placeholder: "password"
+                  },
+                  domProps: { value: _vm.password },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.password = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _vm.errors.has("password")
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "input__feedback",
+                      class: {
+                        "input__feedback--error": _vm.errors.has("password")
+                      }
+                    },
+                    [_vm._v(_vm._s(_vm.errors.first("password")))]
+                  )
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "input" }, [
+              _c(
+                "label",
+                {
+                  staticClass: "input__label",
+                  attrs: { for: "login-password_confirmation" }
+                },
+                [_vm._v("Password Confirmation")]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "input__field" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.password_confirmation,
+                      expression: "password_confirmation"
+                    },
+                    {
+                      name: "validate",
+                      rawName: "v-validate",
+                      value: _vm.rules.password_confirmation,
+                      expression: "rules.password_confirmation"
+                    }
+                  ],
+                  staticClass: "input__field-input",
+                  attrs: {
+                    type: "password",
+                    id: "login-password_confirmation",
+                    name: "password",
+                    placeholder: "confirm_password"
+                  },
+                  domProps: { value: _vm.password_confirmation },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.password_confirmation = $event.target.value
+                    }
+                  }
+                })
+              ]),
+              _vm._v(" "),
+              _vm.errors.has("password_confirmation")
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "input__feedback",
+                      class: {
+                        "input__feedback--error": _vm.errors.has(
+                          "password_confirmation"
+                        )
+                      }
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(_vm.errors.first("password_confirmation")) +
+                          "\n                        "
+                      )
+                    ]
+                  )
+                : _vm._e()
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "footer",
+            { staticClass: "box__footer box__footer--secondary" },
+            [
+              _c(
+                "button",
+                {
+                  staticClass: "button button--simple",
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.register($event)
+                    }
+                  }
+                },
+                [_vm._v("Submit")]
+              ),
+              _vm._v(" "),
+              _c(
+                "router-link",
+                {
+                  staticClass: "button button--simple",
+                  attrs: { to: { name: "login" } }
+                },
+                [_vm._v("GOTO : Authenticate")]
+              )
+            ],
+            1
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _vm.loading
+        ? _c("div", { staticClass: "modal crt--in" }, [
+            _c("div", { staticClass: "box box--small" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c("div", { staticClass: "box__body" }, [
+                _c("div", { staticClass: "progress" }, [
+                  _vm.progress.connection
+                    ? _c("div", { staticClass: "progress__line" }, [
+                        _c("div", { staticClass: "progress__line-text" }, [
+                          _vm._v("Establishing Connection")
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(1)
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.progress.data
+                    ? _c("div", { staticClass: "progress__line" }, [
+                        _c("div", { staticClass: "progress__line-text" }, [
+                          _vm._v("Transmitting Data")
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(2)
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.progress.verifying
+                    ? _c("div", { staticClass: "progress__line" }, [
+                        _c("div", { staticClass: "progress__line-text" }, [
+                          _vm._v("Verifying Signature")
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(3)
+                      ])
+                    : _vm._e()
+                ])
               ])
             ])
           ])
-        ])
-      : _vm._e()
-  ])
+        : _vm._e()
+    ]
+  )
 }
 var staticRenderFns = [
   function() {
@@ -77282,6 +77293,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../router */ "./resources/js/router/index.js");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store */ "./resources/js/store/index.js");
 /* harmony import */ var vee_validate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 
 
 
@@ -77296,7 +77315,19 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vee_validate__WEBPACK_IMPORTED_MO
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   router: _router__WEBPACK_IMPORTED_MODULE_1__["default"],
-  store: _store__WEBPACK_IMPORTED_MODULE_2__["default"]
+  store: _store__WEBPACK_IMPORTED_MODULE_2__["default"],
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_4__["mapGetters"])({
+    authed: 'Auth/isAuthed'
+  })),
+  watch: {
+    authed: function authed(value) {
+      if (!value && this.$route.meta.auth) {
+        this.$router.push({
+          name: 'login'
+        });
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -78567,8 +78598,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     resetAuth: function resetAuth(state) {
       state.token = null;
       state.expiresAt = null;
-      localStorage.setItem('token', null);
-      localStorage.setItem('expiresAt', null);
+      state.user = null;
+      localStorage.removeItem('token');
+      localStorage.removeItem('expiresAt');
     },
     setUser: function setUser(state, user) {
       state.user = new _models_User__WEBPACK_IMPORTED_MODULE_3__["default"](user.id, user.username, user.updatedAt, true);
@@ -78587,12 +78619,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _loadUser = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(_ref) {
-        var commit, state;
+        var commit, dispatch, state;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                commit = _ref.commit, state = _ref.state;
+                commit = _ref.commit, dispatch = _ref.dispatch, state = _ref.state;
 
                 if (state.user) {
                   _context2.next = 4;
@@ -78611,7 +78643,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                         switch (_context.prev = _context.next) {
                           case 0:
                             if (!response.wasSuccess) {
-                              _context.next = 5;
+                              _context.next = 7;
                               break;
                             }
 
@@ -78625,6 +78657,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                             });
 
                           case 5:
+                            _context.next = 8;
+                            break;
+
+                          case 7:
+                            dispatch('logout');
+
+                          case 8:
                           case "end":
                             return _context.stop();
                         }
@@ -79433,15 +79472,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 commit = _ref21.commit, dispatch = _ref21.dispatch, state = _ref21.state, getters = _ref21.getters, rootGetters = _ref21.rootGetters;
                 channel = _ref22.channel, message = _ref22.message;
                 user = rootGetters['Users/getUser'](message.user);
-                console.log(message);
                 model = new _models_Message__WEBPACK_IMPORTED_MODULE_3__["default"](message.id, message.type, message.message, message.created_at, user, message.action, message.metadata, message.mentions);
-                _context17.next = 7;
+                _context17.next = 6;
                 return commit('addChannelMessage', {
                   channel: channel,
                   message: model
                 });
 
-              case 7:
+              case 6:
               case "end":
                 return _context17.stop();
             }

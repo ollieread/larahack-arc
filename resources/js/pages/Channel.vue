@@ -6,7 +6,7 @@
 
         <div class="box__body channel">
             <main class="chat__body">
-                <div class="box box--grow box--shrink box--footerless box--headerless">
+                <div class="box box--grow box--footerless box--headerless">
                     <h2 class="box__title">Messages</h2>
                     <div class="box__body box__body--scrollable" ref="messages">
                         <div class="channel__messages">
@@ -16,8 +16,8 @@
                     </div>
                 </div>
 
-                <div class="box box--grow box--footerless box--headerless channel__form">
-                    <div class="box__body box__body--bare box__body--flex">
+                <div class="box box--footerless box--headerless channel__form">
+                    <div class="box__body box__body--flex box__body--bare">
                         <div class="input input__field input__field--grow">
                             <textarea name="message" id="channel-message"
                                       class="input__field-input channel__form-message" placeholder="Your message here"

@@ -53,7 +53,7 @@
     }
 
     &__form {
-      @apply h-32 flex-grow flex-shrink-0;
+      @apply h-32 flex-grow-0 flex-shrink-0;
       height : 20rem;
 
       &-message {

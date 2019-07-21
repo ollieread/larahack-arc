@@ -23,9 +23,10 @@ export default {
         resetAuth(state) {
             state.token     = null;
             state.expiresAt = null;
+            state.user      = null;
 
-            localStorage.setItem('token', null);
-            localStorage.setItem('expiresAt', null);
+            localStorage.removeItem('token');
+            localStorage.removeItem('expiresAt');
         },
 
         setUser(state, user) {
@@ -39,12 +40,14 @@ export default {
     },
 
     actions: {
-        async loadUser({commit, state}) {
+        async loadUser({commit, dispatch, state}) {
             if (!state.user) {
                 await api('api:user:me').send().then(async response => {
                     if (response.wasSuccess) {
                         await commit('setUser', response.response);
                         await commit('Users/setCurrentUser', state.user, {root: true});
+                    } else {
+                        dispatch('logout');
                     }
                 });
             }

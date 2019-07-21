@@ -173,7 +173,6 @@ export default {
 
         async addChannelMessage({commit, dispatch, state, getters, rootGetters}, {channel, message}) {
             let user = rootGetters['Users/getUser'](message.user);
-            console.log(message);
             let model  = new Message(message.id, message.type, message.message, message.created_at, user, message.action, message.metadata, message.mentions);
             await commit('addChannelMessage', {channel, message:model});
         },

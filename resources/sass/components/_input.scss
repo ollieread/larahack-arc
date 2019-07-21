@@ -20,6 +20,10 @@
     &:focus {
       @apply shadow-inner;
     }
+
+    &--grow {
+      @apply h-full;
+    }
   }
 
   &__feedback {
