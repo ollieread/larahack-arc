@@ -14,12 +14,16 @@ class Deploy extends Action
     public function __invoke(Request $request)
     {
         try {
+            $json = json_decode($request->input('payload'), true);
             (new PostToChannel)
                 ->setChannel((new GetChannel)->setUuid('3e3fb544-f403-4888-84ce-c5b25cc395b4')->perform())
                 ->setInput([
                     'type'     => Message::ACTION,
-                    'action'   => 'deploy.' . $request->json('status'),
-                    'metadata' => $request->getContent(),
+                    'action'   => 'deploy.' . $json['status'],
+                    'metadata' => [
+                        'start_revision' => $json['start_revision'],
+                        'end_revision'   => $json['end_revision'],
+                    ],
                 ])
                 ->perform();
         } catch (Exception $exception) {
