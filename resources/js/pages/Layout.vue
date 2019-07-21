@@ -12,7 +12,7 @@
                     </header>
                     <div class="box__body text--centered">
                         <p>
-                            Server being updated. Waiting for connection to resume.
+                            The server is being updated. Waiting for connectivity to return.
                         </p>
                         <div class="loader">
                             <div class="loader__body"></div>

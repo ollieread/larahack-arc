@@ -60452,7 +60452,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "box__body text--centered" }, [
         _c("p", [
           _vm._v(
-            "\n                        Server being updated. Waiting for connection to resume.\n                    "
+            "\n                        The server is being updated. Waiting for connectivity to return.\n                    "
           )
         ]),
         _vm._v(" "),
