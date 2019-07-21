@@ -9,9 +9,17 @@ use League\Fractal\TransformerAbstract;
 
 class ChannelTransformer extends TransformerAbstract
 {
-    protected $defaultIncludes = [
+    protected $defaultIncludes = [];
+
+    protected $availableIncludes = [
         'users',
+        'messages',
     ];
+
+    public function includeMessages(Channel $channel): Collection
+    {
+        return $this->collection($channel->messages, new MessageTransformer);
+    }
 
     public function includeUsers(Channel $channel): Collection
     {
@@ -26,8 +34,8 @@ class ChannelTransformer extends TransformerAbstract
             'description' => $channel->description,
             'private'     => $channel->private,
             'active'      => $channel->active,
-            'created_at'  => $channel->created_at,
-            'updated_at'  => $channel->updated_at,
+            'created_at'  => $channel->created_at->timestamp,
+            'updated_at'  => $channel->updated_at->timestamp,
         ];
     }
 }

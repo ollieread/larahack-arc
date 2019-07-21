@@ -2,21 +2,64 @@
   @apply flex h-screen w-screen p-4;
 
   &__sidebar {
-    @apply flex flex-col w-64;
+    @apply flex flex-col w-64 justify-between flex-shrink-0;
   }
 
   &__body {
-    @apply flex flex-col flex-grow mx-2;
+    @apply flex flex-col w-full mr-2;
   }
 
   .channel {
-    @apply flex-grow ml-2;
+    @apply flex overflow-scroll;
 
     &__content {
-      @apply flex flex-grow flex-no-wrap ml-2;
+      @apply flex flex-col justify-between max-h-full h-full;
     }
 
     &__users {
+      @apply flex-shrink flex-grow-0 overflow-x-hidden overflow-y-scroll;
+    }
+
+    &__details {
+      @apply flex-grow-0 flex-shrink-0;
+      height : 20rem;
+    }
+
+    &__messages {
+      @apply flex flex-col-reverse;
+    }
+
+    &__message {
+      @apply relative flex-col mt-2;
+
+      &:hover {
+        .channel__message-time {
+          @apply inline-block;
+        }
+      }
+
+      &-author {
+        @apply block text-gray-600 text-sm w-full;
+      }
+
+      &-content {
+        @apply block w-full pl-2;
+      }
+
+      &-time {
+        @apply absolute top-0 text-xs text-gray-600 hidden;
+        right : 0.75rem;
+      }
+    }
+
+    &__form {
+      @apply h-32 flex-grow flex-shrink-0;
+      height : 20rem;
+
+      &-message {
+        @apply w-full h-full;
+        resize: none;
+      }
     }
 
     &__user {

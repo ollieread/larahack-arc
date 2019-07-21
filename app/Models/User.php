@@ -34,6 +34,10 @@ class User extends BaseModel implements AuthorizableContract, CanResetPasswordCo
         'remember_token',
     ];
 
+    protected $casts = [
+        'uuid' => 'uuid',
+    ];
+
     public function channels(): BelongsToMany
     {
         return $this->belongsToMany(Channel::class, 'user_channels', 'user_id', 'channel_id')
@@ -41,13 +45,13 @@ class User extends BaseModel implements AuthorizableContract, CanResetPasswordCo
                     ->withTimestamps();
     }
 
-    public function setPasswordAttribute(string $password)
-    {
-        $this->attributes['password'] = bcrypt($password);
-    }
-
     public function getAuthIdentifier()
     {
         return $this->uuid;
+    }
+
+    public function setPasswordAttribute(string $password)
+    {
+        $this->attributes['password'] = bcrypt($password);
     }
 }

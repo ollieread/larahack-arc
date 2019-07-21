@@ -12,7 +12,7 @@ class GetChannel
      */
     private $uuid;
 
-    public function perform()
+    public function perform(): ?Channel
     {
         return Channel::query()->where('uuid', '=', $this->uuid)->first();
     }

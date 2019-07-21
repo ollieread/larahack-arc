@@ -22,7 +22,17 @@ export default {
         },
     },
 
-    getters: {},
+    getters: {
+        getUser: state => uuid => {
+            let index = window._.findIndex(state.users, user => user.uuid.is(uuid));
+
+            if (index > -1) {
+                return state.users[index];
+            }
+
+            return null;
+        },
+    },
 
     actions: {
         async transformUsers({commit, state}, data) {
@@ -64,6 +74,27 @@ export default {
             commit('addUsers', newUsers);
 
             return existingUsers.concat(newUsers);
+        },
+
+        async transformUser({commit, state}, data) {
+            let rawUser = data.user;
+            let channel = data.channel;
+
+            let userIndex = window._.findIndex(state.users, (existingUser) => {
+                return existingUser.uuid.is(rawUser.id);
+            });
+
+            let model = null;
+
+            if (userIndex > -1) {
+                model = state.users[userIndex];
+            } else {
+                model = user(rawUser.id, rawUser.username, rawUser.updated_at);
+            }
+
+            model.addPermissions(channel.uuid.toString(), rawUser.permissions);
+
+            return model;
         },
     },
 };

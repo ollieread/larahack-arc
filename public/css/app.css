@@ -16315,11 +16315,17 @@ body {
 }
 
 .box {
+  display: flex;
   border-width: 1px;
   position: relative;
   margin-top: 0.25rem;
   background-color: #000;
   padding-bottom: 0.75rem;
+  flex-direction: column;
+}
+
+.box + .box {
+  margin-top: 0.5rem;
 }
 
 .box--headerless {
@@ -16334,6 +16340,19 @@ body {
   flex-grow: 1;
 }
 
+.box--shrink {
+  flex-shrink: 1;
+}
+
+.box--full {
+  height: 100%;
+  width: 100%;
+}
+
+.box--spaced {
+  margin-left: 0.5rem;
+}
+
 .box--centered {
   margin-left: auto;
   margin-right: auto;
@@ -16346,7 +16365,7 @@ body {
   font-size: 1.25rem;
   text-transform: uppercase;
   font-family: larabiefont;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.3em;
   padding-left: 0.4em;
   top: -1.1rem;
   margin-left: 0.75rem;
@@ -16388,6 +16407,23 @@ body {
   padding-right: 0.75rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
+  flex-grow: 1;
+  max-height: 100%;
+}
+
+.box__body--scrollable {
+  overflow-y: auto;
+}
+
+.box__body--bare {
+  padding-right: 0;
+  padding-top: 0;
+}
+
+.box__body--flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .box__item {
@@ -16585,26 +16621,91 @@ body {
   display: flex;
   flex-direction: column;
   width: 16rem;
+  justify-content: space-between;
+  flex-shrink: 0;
 }
 
 .chat__body {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
-  margin-left: 0.5rem;
+  width: 100%;
   margin-right: 0.5rem;
 }
 
 .chat .channel {
-  flex-grow: 1;
-  margin-left: 0.5rem;
+  display: flex;
+  overflow: scroll;
 }
 
 .chat .channel__content {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-height: 100%;
+  height: 100%;
+}
+
+.chat .channel__users {
+  flex-shrink: 1;
+  flex-grow: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.chat .channel__details {
+  flex-grow: 0;
+  flex-shrink: 0;
+  height: 20rem;
+}
+
+.chat .channel__messages {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.chat .channel__message {
+  position: relative;
+  flex-direction: column;
+  margin-top: 0.5rem;
+}
+
+.chat .channel__message:hover .channel__message-time {
+  display: inline-block;
+}
+
+.chat .channel__message-author {
+  display: block;
+  color: #718096;
+  font-size: 0.875rem;
+  width: 100%;
+}
+
+.chat .channel__message-content {
+  display: block;
+  width: 100%;
+  padding-left: 0.5rem;
+}
+
+.chat .channel__message-time {
+  position: absolute;
+  top: 0;
+  font-size: 0.75rem;
+  color: #718096;
+  display: none;
+  right: 0.75rem;
+}
+
+.chat .channel__form {
+  height: 8rem;
   flex-grow: 1;
-  flex-wrap: nowrap;
-  margin-left: 0.5rem;
+  flex-shrink: 0;
+  height: 20rem;
+}
+
+.chat .channel__form-message {
+  width: 100%;
+  height: 100%;
+  resize: none;
 }
 
 .chat .channel__user {
@@ -16729,173 +16830,173 @@ body {
 
 @-webkit-keyframes flicker {
   0% {
-    opacity: 0.890102326;
+    opacity: 0.6557897828;
   }
 
   5% {
-    opacity: 0.6435144162;
+    opacity: 0.4841936901;
   }
 
   10% {
-    opacity: 0.0169608896;
+    opacity: 0.8547158273;
   }
 
   15% {
-    opacity: 0.0908431209;
+    opacity: 0.5604273612;
   }
 
   20% {
-    opacity: 0.7442323202;
+    opacity: 0.902262084;
   }
 
   25% {
-    opacity: 0.3562883489;
+    opacity: 0.7135128845;
   }
 
   30% {
-    opacity: 0.6676466389;
+    opacity: 0.6884373599;
   }
 
   35% {
-    opacity: 0.6093957204;
+    opacity: 0.7163204854;
   }
 
   40% {
-    opacity: 0.5799296614;
+    opacity: 0.1994927161;
   }
 
   45% {
-    opacity: 0.6655161623;
+    opacity: 0.3635311276;
   }
 
   50% {
-    opacity: 0.6611061449;
+    opacity: 0.373211001;
   }
 
   55% {
-    opacity: 0.010886673;
+    opacity: 0.5001801872;
   }
 
   60% {
-    opacity: 0.761587686;
+    opacity: 0.2886365471;
   }
 
   65% {
-    opacity: 0.7558995463;
+    opacity: 0.1804115331;
   }
 
   70% {
-    opacity: 0.6422974956;
+    opacity: 0.0244630717;
   }
 
   75% {
-    opacity: 0.5615739596;
+    opacity: 0.5908313093;
   }
 
   80% {
-    opacity: 0.316827696;
+    opacity: 0.9904793997;
   }
 
   85% {
-    opacity: 0.6427750432;
+    opacity: 0.4630428494;
   }
 
   90% {
-    opacity: 0.1998016714;
+    opacity: 0.573219286;
   }
 
   95% {
-    opacity: 0.9880005645;
+    opacity: 0.6232203835;
   }
 
   100% {
-    opacity: 0.2637784017;
+    opacity: 0.4633712295;
   }
 }
 
 @keyframes flicker {
   0% {
-    opacity: 0.890102326;
+    opacity: 0.6557897828;
   }
 
   5% {
-    opacity: 0.6435144162;
+    opacity: 0.4841936901;
   }
 
   10% {
-    opacity: 0.0169608896;
+    opacity: 0.8547158273;
   }
 
   15% {
-    opacity: 0.0908431209;
+    opacity: 0.5604273612;
   }
 
   20% {
-    opacity: 0.7442323202;
+    opacity: 0.902262084;
   }
 
   25% {
-    opacity: 0.3562883489;
+    opacity: 0.7135128845;
   }
 
   30% {
-    opacity: 0.6676466389;
+    opacity: 0.6884373599;
   }
 
   35% {
-    opacity: 0.6093957204;
+    opacity: 0.7163204854;
   }
 
   40% {
-    opacity: 0.5799296614;
+    opacity: 0.1994927161;
   }
 
   45% {
-    opacity: 0.6655161623;
+    opacity: 0.3635311276;
   }
 
   50% {
-    opacity: 0.6611061449;
+    opacity: 0.373211001;
   }
 
   55% {
-    opacity: 0.010886673;
+    opacity: 0.5001801872;
   }
 
   60% {
-    opacity: 0.761587686;
+    opacity: 0.2886365471;
   }
 
   65% {
-    opacity: 0.7558995463;
+    opacity: 0.1804115331;
   }
 
   70% {
-    opacity: 0.6422974956;
+    opacity: 0.0244630717;
   }
 
   75% {
-    opacity: 0.5615739596;
+    opacity: 0.5908313093;
   }
 
   80% {
-    opacity: 0.316827696;
+    opacity: 0.9904793997;
   }
 
   85% {
-    opacity: 0.6427750432;
+    opacity: 0.4630428494;
   }
 
   90% {
-    opacity: 0.1998016714;
+    opacity: 0.573219286;
   }
 
   95% {
-    opacity: 0.9880005645;
+    opacity: 0.6232203835;
   }
 
   100% {
-    opacity: 0.2637784017;
+    opacity: 0.4633712295;
   }
 }
 
@@ -17229,6 +17330,337 @@ body {
 
   100% {
     content: "//";
+  }
+}
+
+.loader {
+  background-color: #000;
+  position: relative;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  color: #a0aec0;
+  font-family: larabiefont;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 1;
+  display: inline-flex;
+}
+
+.loader__body {
+  position: relative;
+  width: 197px;
+}
+
+.loader__body:before {
+  content: "--------------------";
+  -webkit-animation: loaderBar 1s infinite;
+          animation: loaderBar 1s infinite;
+  white-space: pre;
+}
+
+.loader:before, .loader:after {
+  position: absolute;
+  color: #006900;
+}
+
+.loader:before {
+  font-size: 1.25rem;
+  margin-right: 0.25rem;
+  font-family: larabiefont;
+  margin-left: -0.25rem;
+  content: "[";
+  color: #006900;
+  left: 0.5rem;
+  bottom: 0.02rem;
+}
+
+.loader:after {
+  font-size: 1.25rem;
+  margin-left: 0.25rem;
+  font-family: larabiefont;
+  margin-right: -0.25rem;
+  content: "]";
+  color: #006900;
+  right: 0.5rem;
+  bottom: 0.02rem;
+}
+
+@-webkit-keyframes loaderBar {
+  0% {
+    content: "====----------------";
+  }
+
+  3% {
+    content: "-====---------------";
+  }
+
+  6% {
+    content: "--====--------------";
+  }
+
+  9% {
+    content: "---====-------------";
+  }
+
+  12% {
+    content: "----====------------";
+  }
+
+  15% {
+    content: "-----====-----------";
+  }
+
+  18% {
+    content: "------====----------";
+  }
+
+  21% {
+    content: "-------====---------";
+  }
+
+  24% {
+    content: "--------====--------";
+  }
+
+  27% {
+    content: "---------====-------";
+  }
+
+  30% {
+    content: "----------====------";
+  }
+
+  33% {
+    content: "-----------====-----";
+  }
+
+  36% {
+    content: "------------====----";
+  }
+
+  39% {
+    content: "-------------====---";
+  }
+
+  42% {
+    content: "--------------====--";
+  }
+
+  45% {
+    content: "---------------====-";
+  }
+
+  48% {
+    content: "----------------====";
+  }
+
+  51% {
+    content: "---------------====-";
+  }
+
+  54% {
+    content: "--------------====--";
+  }
+
+  57% {
+    content: "-------------====---";
+  }
+
+  60% {
+    content: "------------====----";
+  }
+
+  63% {
+    content: "-----------====-----";
+  }
+
+  66% {
+    content: "----------====------";
+  }
+
+  69% {
+    content: "---------====-------";
+  }
+
+  72% {
+    content: "--------====--------";
+  }
+
+  75% {
+    content: "-------====---------";
+  }
+
+  78% {
+    content: "------====----------";
+  }
+
+  81% {
+    content: "-----====-----------";
+  }
+
+  84% {
+    content: "----====------------";
+  }
+
+  87% {
+    content: "---====-------------";
+  }
+
+  90% {
+    content: "--====--------------";
+  }
+
+  94% {
+    content: "-====---------------";
+  }
+
+  97% {
+    content: "====----------------";
+  }
+
+  100% {
+    content: "--------------------";
+  }
+}
+
+@keyframes loaderBar {
+  0% {
+    content: "====----------------";
+  }
+
+  3% {
+    content: "-====---------------";
+  }
+
+  6% {
+    content: "--====--------------";
+  }
+
+  9% {
+    content: "---====-------------";
+  }
+
+  12% {
+    content: "----====------------";
+  }
+
+  15% {
+    content: "-----====-----------";
+  }
+
+  18% {
+    content: "------====----------";
+  }
+
+  21% {
+    content: "-------====---------";
+  }
+
+  24% {
+    content: "--------====--------";
+  }
+
+  27% {
+    content: "---------====-------";
+  }
+
+  30% {
+    content: "----------====------";
+  }
+
+  33% {
+    content: "-----------====-----";
+  }
+
+  36% {
+    content: "------------====----";
+  }
+
+  39% {
+    content: "-------------====---";
+  }
+
+  42% {
+    content: "--------------====--";
+  }
+
+  45% {
+    content: "---------------====-";
+  }
+
+  48% {
+    content: "----------------====";
+  }
+
+  51% {
+    content: "---------------====-";
+  }
+
+  54% {
+    content: "--------------====--";
+  }
+
+  57% {
+    content: "-------------====---";
+  }
+
+  60% {
+    content: "------------====----";
+  }
+
+  63% {
+    content: "-----------====-----";
+  }
+
+  66% {
+    content: "----------====------";
+  }
+
+  69% {
+    content: "---------====-------";
+  }
+
+  72% {
+    content: "--------====--------";
+  }
+
+  75% {
+    content: "-------====---------";
+  }
+
+  78% {
+    content: "------====----------";
+  }
+
+  81% {
+    content: "-----====-----------";
+  }
+
+  84% {
+    content: "----====------------";
+  }
+
+  87% {
+    content: "---====-------------";
+  }
+
+  90% {
+    content: "--====--------------";
+  }
+
+  94% {
+    content: "-====---------------";
+  }
+
+  97% {
+    content: "====----------------";
+  }
+
+  100% {
+    content: "--------------------";
   }
 }
 

@@ -94,6 +94,10 @@ class Api {
             call = () => this.instance.patch(this.uri, this.data);
         }
 
+        if (this.method === 'put') {
+            call = () => this.instance.put(this.uri, this.data);
+        }
+
         if (this.method === 'delete') {
             call = () => this.instance.delete(this.uri, this.data);
         }
@@ -123,8 +127,6 @@ class Api {
 
                         // If there was an auth error
                         if (error.response.status === 401) {
-                            // We want to tell the app the reauth and provide the handler
-                            store.dispatch('Auth/requiresReauth', this.reauthHandler);
                             // We resolve with an empty, because we don't want the underlying code to assume
                             // there was an error, as we will replay it using the handler
                             resolve(new Response(error.response.status, error.response.data.data));

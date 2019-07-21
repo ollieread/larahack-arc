@@ -1,24 +1,51 @@
 <template>
-    <div class="channel box" v-if="channel">
+    <div class="box box--grow box--spaced box--footerless" v-if="channel">
         <header class="box__header">
             <h1 class="box__header-title">{{ channel.name }}</h1>
         </header>
 
-        <div class="box__body channel__content">
-
+        <div class="box__body channel">
             <main class="chat__body">
+                <div class="box box--grow box--shrink box--footerless box--headerless">
+                    <h2 class="box__title">Messages</h2>
+                    <div class="box__body box__body--scrollable" ref="messages">
+                        <div class="channel__messages">
+                            <channel-message v-for="message in channel.messages" :key="message.id"
+                                             :message="message"></channel-message>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="box box--grow box--footerless box--headerless channel__form">
+                    <div class="box__body box__body--bare box__body--flex">
+                        <div class="input input__field input__field--grow">
+                            <textarea name="message" id="channel-message"
+                                      class="input__field-input channel__form-message" placeholder="Your message here"
+                                      v-model="message"></textarea>
+                        </div>
+                        <div>
+                            <button class="button button--simple" @click.prevent="sendMessage">Send</button>
+                            <button class="button button--simple" @click.prevent="resetMessage">Reset</button>
+                        </div>
+                    </div>
+                </div>
             </main>
 
             <aside class="chat__sidebar">
-                <div class="box box--grow box--headerless">
+                <div class="box box--full box--headerless">
                     <h2 class="box__title">Users</h2>
-                    <div class="box__body channel__users">
-                        <a href="#" class="box__item channel__user"
-                           :class="{'channel__user--current':user.isCurrent, 'channel__user--offline':! channel.isUserOnline(user), 'channel__user--admin':user.can(channel.uuid.toString(), 64)}"
-                           v-for="(user, index) in channel.users" :key="user.uuid.toString()">
-                            {{ user.username }}
-                        </a>
+                    <div class="box__body box__body--scrollable">
+                        <div class="channel__users">
+                            <channel-user v-for="user in channel.users" :key="user.uuid.toString()" :user="user"
+                                          :channel="channel"></channel-user>
+                        </div>
+                    </div>
+                </div>
+                <div class="box box--headerless channel__details">
+                    <h2 class="box__title">Details</h2>
+                    <div class="box__body">
+                        <div class="input">
+                        </div>
                     </div>
                 </div>
             </aside>
@@ -28,13 +55,16 @@
 
 <script>
     import {mapGetters} from 'vuex';
+    import ChannelUser  from '../components/ChannelUser';
 
     export default {
         name: "Channel",
-
+        components: {ChannelUser},
         data: () => {
             return {
                 channel: null,
+                messages: [],
+                message: '',
             };
         },
 
@@ -50,6 +80,10 @@
                 if (!this.channel) {
                     this.loadChannel(this.$route.params.channel);
                 }
+            },
+
+            messages() {
+                this.stayScrolled();
             },
         },
 
@@ -68,6 +102,24 @@
 
                 if (this.channel) {
                     await this.$store.dispatch('Channels/setCurrentChannel', this.channel);
+                    this.messages = this.channel.messages;
+                }
+            },
+
+            stayScrolled() {
+                this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
+            },
+
+            resetMessage() {
+                this.message     = '';
+                this.inputHeight = '150px';
+            },
+
+            sendMessage() {
+                if (this.message && this.message !== '') {
+                    if (this.$store.dispatch('Channels/sendChannelMessage', this.message)) {
+                        this.resetMessage();
+                    }
                 }
             },
         },

@@ -2,9 +2,8 @@
 
 namespace Arc\Providers;
 
-use Arc\Http\Middleware\SetRequestUserResolver;
 use Arc\Models\User;
-use Arc\Transformers\UserTransformer;
+use Arc\Transformers\Channels\ChannelUserTransformer;
 use Illuminate\Broadcasting\BroadcastManager;
 use Illuminate\Container\Container;
 use Illuminate\Support\ServiceProvider;
@@ -21,7 +20,7 @@ class BroadcastServiceProvider extends ServiceProvider
     {
         $broadcast = Container::getInstance()->make(BroadcastManager::class);
         $broadcast->routes([
-            'middleware' => 'user'
+            'middleware' => 'user',
         ]);
 
         /**
@@ -31,8 +30,11 @@ class BroadcastServiceProvider extends ServiceProvider
         $connection->channel('users', static function (?User $user) {
             return $user !== null;
         })->channel('channel.{channelUuid}', static function (User $user, $channelUuid) {
-            if ($user->channels()->where('channels.uuid', '=', $channelUuid)->count() !== 0) {
-                return $user->uuid;
+            $channel = $user->channels()->where('channels.uuid', '=', $channelUuid)->withPivot(['permissions'])->first();
+
+            if ($channel) {
+                $user->channel_permissions = $channel->pivot->permissions;
+                return (new ChannelUserTransformer)->transform($user);
             }
         });
     }

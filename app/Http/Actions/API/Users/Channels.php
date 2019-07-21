@@ -25,6 +25,7 @@ class Channels extends Action
             ->setUser($this->auth->user())
             ->setUserOnly(true)
             ->setIncludePrivate(true)
+            ->setWithMessages(true)
             ->perform();
 
         return $this->transform($channels, ChannelTransformer::class);

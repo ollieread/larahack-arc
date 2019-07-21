@@ -1,5 +1,6 @@
 import api     from '../../services/api';
 import channel from '../../models/Channel';
+import Message from '../../models/Message';
 
 export default {
     namespaced: true,
@@ -24,8 +25,20 @@ export default {
             state.loaded = loaded;
         },
 
-        setChannelOnlineUsers(state, data) {
-            data.channel.setOnlineUsers(data.users);
+        setChannelOnlineUsers(state, {channel, users}) {
+            channel.setOnlineUsers(users);
+        },
+
+        addChannelMessage(state, {message, channel}) {
+            channel.addMessage(message);
+        },
+
+        addOnlineUser(state, {user, channel}) {
+            channel.addOnlineUser(user);
+        },
+
+        removeOnlineUser(state, {user, channel}) {
+            channel.removeOnlineUser(user);
         },
     },
 
@@ -55,8 +68,10 @@ export default {
     },
 
     actions: {
-        async loadChannels({commit, dispatch}) {
-            await api('api:user:channels').send().then(async response => {
+        async loadChannels({commit, dispatch, rootGetters}) {
+            await api('api:user:channels', {
+                include: 'users,messages',
+            }).send().then(async response => {
                 if (response.wasSuccess) {
                     let channels = await Promise.all(response.response.map(async data => {
                         let model = channel(data.id, data.name, data.description);
@@ -64,27 +79,49 @@ export default {
                             users: data.users.data,
                             channel: model,
                         }, {root: true})
-                            .then(users => {
+                            .then(async users => {
                                 model.setUsers(users);
-                                window.Echo
-                                      .join('channel.' + model.uuid.toString())
-                                      .here((onlineUsers) => {
-                                          commit('setChannelOnlineUsers', {
-                                              channel: model,
-                                              users: onlineUsers,
-                                          });
-                                      })
-                                      .joining((user) => {
-                                          console.log(user);
-                                      })
-                                      .leaving((user) => {
-                                          console.log(user);
-                                      });
+                                let events = window.Echo.join('channel.' + model.uuid.toString());
+
+                                events.here(async onlineUsers => {
+                                    await dispatch('Users/transformUsers', {
+                                        users: onlineUsers,
+                                        channel: model,
+                                    }, {root: true})
+                                        .then(async onlineUsers =>
+                                            await commit('setChannelOnlineUsers', {
+                                                channel: model,
+                                                users: onlineUsers,
+                                            }));
+                                });
+
+                                events.joining(async rawUser => {
+                                    await dispatch('Users/transformUser', {user: rawUser, channel: model}, {root: true})
+                                        .then(async user => {
+                                            await commit('addOnlineUser', {user: user, channel: model});
+                                        });
+                                });
+
+                                events.leaving(async rawUser => {
+                                    await dispatch('Users/transformUser', {user: rawUser, channel: model}, {root: true})
+                                        .then(async user => {
+                                            await commit('removeOnlineUser', {user: user, channel: model});
+                                        });
+                                });
+
+                                events.listen('.message.received', async data => {
+                                    await dispatch('addChannelMessage', {message: data.message, channel: model});
+                                });
                             });
+
+                        model.messages = await Promise.all(data.messages.data.map(async data => {
+                            let user = rootGetters['Users/getUser'](data.user);
+                            return new Message(data.id, data.type, data.message, data.created_at, user, data.action, data.metadata, data.messages);
+                        }));
+
                         return model;
                     }));
                     await commit('setChannels', channels);
-                    //await dispatch('loadCurrentChannel');
                     await commit('setLoaded', true);
                 }
             });
@@ -125,6 +162,20 @@ export default {
                     }
                 }
             }
+        },
+
+        async sendChannelMessage({commit, dispatch, state, getters}, message) {
+            let channel = getters.getCurrentChannel;
+            return await api('api:channel:post', channel.uuid.toString())
+                .send({message})
+                .then(async response => response.wasSuccess);
+        },
+
+        async addChannelMessage({commit, dispatch, state, getters, rootGetters}, {channel, message}) {
+            let user = rootGetters['Users/getUser'](message.user);
+            console.log(message);
+            let model  = new Message(message.id, message.type, message.message, message.created_at, user, message.action, message.metadata, message.mentions);
+            await commit('addChannelMessage', {channel, message:model});
         },
     },
 };

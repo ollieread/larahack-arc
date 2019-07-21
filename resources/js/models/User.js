@@ -9,6 +9,7 @@ class User {
         this.current      = current;
         this.typing       = typing;
         this.permissions  = [];
+        this.online       = false;
     }
 
     setUuid(value) {
@@ -25,6 +26,10 @@ class User {
 
     get isTyping() {
         return this.typing;
+    }
+
+    get isOnline() {
+        return this.online;
     }
 
     addPermissions(channel, permissions) {

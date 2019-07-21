@@ -5,6 +5,7 @@ namespace Arc\Models;
 use Arc\Support\Concerns\GeneratesUUIDs;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int               $id
@@ -36,11 +37,17 @@ class Channel extends Model
         'private' => 'bool',
         'active'  => 'bool',
         'default' => 'bool',
+        'uuid'    => 'uuid',
     ];
 
     public function getRouteKeyName(): string
     {
         return 'uuid';
+    }
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'channel_id');
     }
 
     public function users(): BelongsToMany

@@ -1722,6 +1722,47 @@ module.exports = function isBuffer (obj) {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChannelMessage.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ChannelMessage.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "ChannelMessage",
+  props: {
+    message: {
+      required: true,
+      type: Object
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChannelSidebar.vue?vue&type=script&lang=js&":
 /*!*************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ChannelSidebar.vue?vue&type=script&lang=js& ***!
@@ -1763,6 +1804,38 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
     isCurrent: 'Channels/isCurrent'
   }))
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChannelUser.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ChannelUser.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "ChannelUser",
+  props: {
+    user: {
+      required: true,
+      type: Object
+    },
+    channel: {
+      required: true,
+      type: Object
+    }
+  }
 });
 
 /***/ }),
@@ -1861,6 +1934,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _components_ChannelUser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/ChannelUser */ "./resources/js/components/ChannelUser.vue");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -1901,12 +1975,45 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Channel",
+  components: {
+    ChannelUser: _components_ChannelUser__WEBPACK_IMPORTED_MODULE_2__["default"]
+  },
   data: function data() {
     return {
-      channel: null
+      channel: null,
+      messages: [],
+      message: ''
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
@@ -1918,6 +2025,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (!this.channel) {
         this.loadChannel(this.$route.params.channel);
       }
+    },
+    messages: function messages() {
+      this.stayScrolled();
     }
   },
   created: function () {
@@ -1985,7 +2095,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 this.channel = this.getChannel(name);
 
                 if (!this.channel) {
-                  _context3.next = 4;
+                  _context3.next = 5;
                   break;
                 }
 
@@ -1993,6 +2103,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 return this.$store.dispatch('Channels/setCurrentChannel', this.channel);
 
               case 4:
+                this.messages = this.channel.messages;
+
+              case 5:
               case "end":
                 return _context3.stop();
             }
@@ -2005,7 +2118,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
 
       return loadChannel;
-    }()
+    }(),
+    stayScrolled: function stayScrolled() {
+      this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
+    },
+    resetMessage: function resetMessage() {
+      this.message = '';
+      this.inputHeight = '150px';
+    },
+    sendMessage: function sendMessage() {
+      if (this.message && this.message !== '') {
+        if (this.$store.dispatch('Channels/sendChannelMessage', this.message)) {
+          this.resetMessage();
+        }
+      }
+    }
   }
 });
 
@@ -2058,24 +2185,41 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Chat",
   data: function data() {
     return {
-      currentChannels: []
+      currentChannels: [],
+      loading: true,
+      animating: false
     };
   },
   mounted: function () {
     var _mounted = _asyncToGenerator(
     /*#__PURE__*/
     _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var _this = this;
+
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               if (this.$store.getters['Channels/hasLoaded']) {
-                _context.next = 3;
+                _context.next = 5;
                 break;
               }
 
@@ -2083,6 +2227,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               return this.$store.dispatch('Channels/loadChannels');
 
             case 3:
+              this.animating = true;
+              setTimeout(function () {
+                return _this.loading = false;
+              }, 550);
+
+            case 5:
             case "end":
               return _context.stop();
           }
@@ -59642,6 +59792,66 @@ VeeValidate$1.withValidation = withValidation;
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChannelMessage.vue?vue&type=template&id=cc2deaa2&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ChannelMessage.vue?vue&type=template&id=cc2deaa2& ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "box__item channel__message" },
+    [
+      _vm.message.isAction()
+        ? [
+            _c(
+              "div",
+              { staticClass: "channel__message-content" },
+              [
+                _c("strong", [_vm._v(_vm._s(_vm.message.user.username))]),
+                _vm._v(" "),
+                _vm.message.action === "join" ? [_vm._v("joined")] : _vm._e()
+              ],
+              2
+            )
+          ]
+        : _vm.message.isText()
+        ? [
+            _c("span", { staticClass: "channel__message-author" }, [
+              _vm._v(
+                _vm._s(_vm.message.user ? _vm.message.user.username : "SYSTEM")
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "channel__message-content" }, [
+              _vm._v(_vm._s(_vm.message.message))
+            ])
+          ]
+        : _vm._e(),
+      _vm._v(" "),
+      _c("time", { staticClass: "channel__message-time" }, [
+        _vm._v(_vm._s(_vm.message.postedAt.format("L LT")))
+      ])
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChannelSidebar.vue?vue&type=template&id=950f38f8&scoped=true&":
 /*!*****************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ChannelSidebar.vue?vue&type=template&id=950f38f8&scoped=true& ***!
@@ -59685,6 +59895,42 @@ var render = function() {
       1
     )
   ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChannelUser.vue?vue&type=template&id=12c1915a&scoped=true&":
+/*!**************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ChannelUser.vue?vue&type=template&id=12c1915a&scoped=true& ***!
+  \**************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "a",
+    {
+      staticClass: "box__item channel__user",
+      class: {
+        "channel__user--current": _vm.user.isCurrent,
+        "channel__user--offline": !_vm.user.isOnline,
+        "channel__user--admin": _vm.user.can(_vm.channel.uuid.toString(), 64)
+      },
+      attrs: { href: "#" }
+    },
+    [_vm._v("\n    " + _vm._s(_vm.user.username) + "\n")]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -59815,59 +60061,165 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _vm.channel
-    ? _c("div", { staticClass: "channel box" }, [
+    ? _c("div", { staticClass: "box box--grow box--spaced box--footerless" }, [
         _c("header", { staticClass: "box__header" }, [
           _c("h1", { staticClass: "box__header-title" }, [
             _vm._v(_vm._s(_vm.channel.name))
           ])
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "box__body channel__content" }, [
-          _c("main", { staticClass: "chat__body" }),
+        _c("div", { staticClass: "box__body channel" }, [
+          _c("main", { staticClass: "chat__body" }, [
+            _c(
+              "div",
+              {
+                staticClass:
+                  "box box--grow box--shrink box--footerless box--headerless"
+              },
+              [
+                _c("h2", { staticClass: "box__title" }, [_vm._v("Messages")]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    ref: "messages",
+                    staticClass: "box__body box__body--scrollable"
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "channel__messages" },
+                      _vm._l(_vm.channel.messages, function(message) {
+                        return _c("channel-message", {
+                          key: message.id,
+                          attrs: { message: message }
+                        })
+                      }),
+                      1
+                    )
+                  ]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "box box--grow box--footerless box--headerless channel__form"
+              },
+              [
+                _c(
+                  "div",
+                  { staticClass: "box__body box__body--bare box__body--flex" },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "input input__field input__field--grow" },
+                      [
+                        _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.message,
+                              expression: "message"
+                            }
+                          ],
+                          staticClass:
+                            "input__field-input channel__form-message",
+                          attrs: {
+                            name: "message",
+                            id: "channel-message",
+                            placeholder: "Your message here"
+                          },
+                          domProps: { value: _vm.message },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.message = $event.target.value
+                            }
+                          }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "button button--simple",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.sendMessage($event)
+                            }
+                          }
+                        },
+                        [_vm._v("Send")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "button button--simple",
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.resetMessage($event)
+                            }
+                          }
+                        },
+                        [_vm._v("Reset")]
+                      )
+                    ])
+                  ]
+                )
+              ]
+            )
+          ]),
           _vm._v(" "),
           _c("aside", { staticClass: "chat__sidebar" }, [
-            _c("div", { staticClass: "box box--grow box--headerless" }, [
+            _c("div", { staticClass: "box box--full box--headerless" }, [
               _c("h2", { staticClass: "box__title" }, [_vm._v("Users")]),
               _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "box__body channel__users" },
-                _vm._l(_vm.channel.users, function(user, index) {
-                  return _c(
-                    "a",
-                    {
+              _c("div", { staticClass: "box__body box__body--scrollable" }, [
+                _c(
+                  "div",
+                  { staticClass: "channel__users" },
+                  _vm._l(_vm.channel.users, function(user) {
+                    return _c("channel-user", {
                       key: user.uuid.toString(),
-                      staticClass: "box__item channel__user",
-                      class: {
-                        "channel__user--current": user.isCurrent,
-                        "channel__user--offline": !_vm.channel.isUserOnline(
-                          user
-                        ),
-                        "channel__user--admin": user.can(
-                          _vm.channel.uuid.toString(),
-                          64
-                        )
-                      },
-                      attrs: { href: "#" }
-                    },
-                    [
-                      _vm._v(
-                        "\n                        " +
-                          _vm._s(user.username) +
-                          "\n                    "
-                      )
-                    ]
-                  )
-                }),
-                0
-              )
-            ])
+                      attrs: { user: user, channel: _vm.channel }
+                    })
+                  }),
+                  1
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._m(0)
           ])
         ])
       ])
     : _vm._e()
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box box--headerless channel__details" }, [
+      _c("h2", { staticClass: "box__title" }, [_vm._v("Details")]),
+      _vm._v(" "),
+      _c("div", { staticClass: "box__body" }, [
+        _c("div", { staticClass: "input" })
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -59906,7 +60258,18 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("router-view")
+      _c("router-view"),
+      _vm._v(" "),
+      _vm.loading
+        ? _c(
+            "div",
+            {
+              staticClass: "modal",
+              class: { "crt--in": !_vm.animating, "crt--off": _vm.animating }
+            },
+            [_vm._m(1)]
+          )
+        : _vm._e()
     ],
     1
   )
@@ -59922,6 +60285,22 @@ var staticRenderFns = [
           _vm._v(
             '  :::.    :::::::..     .,-:::::\n  ;;`;;   ;;;;``;;;;  ,;;;\'````\'\n ,[[ \'[[,  [[[,/[[[\'  [[[\nc$$$cc$$$c $$$$$$c    $$$\n 888   888,888b "88bo,`88bo,__,o,\n YMM   ""` MMMM   "W"   "YUMMMMMP"\n            '
           )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box box--small" }, [
+      _c("header", { staticClass: "box__header" }, [
+        _c("h2", { staticClass: "box__header-title" }, [_vm._v("Loading")])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "box__body text--centered" }, [
+        _c("div", { staticClass: "loader" }, [
+          _c("div", { staticClass: "loader__body" })
         ])
       ])
     ])
@@ -76529,7 +76908,9 @@ __webpack_require__(/*! ./features/axios */ "./resources/js/features/axios.js");
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./ChannelMessage.vue": "./resources/js/components/ChannelMessage.vue",
 	"./ChannelSidebar.vue": "./resources/js/components/ChannelSidebar.vue",
+	"./ChannelUser.vue": "./resources/js/components/ChannelUser.vue",
 	"./Photosensitive.vue": "./resources/js/components/Photosensitive.vue"
 };
 
@@ -76552,6 +76933,75 @@ webpackContext.keys = function webpackContextKeys() {
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
 webpackContext.id = "./resources/js/components sync recursive \\.vue$/";
+
+/***/ }),
+
+/***/ "./resources/js/components/ChannelMessage.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/ChannelMessage.vue ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ChannelMessage_vue_vue_type_template_id_cc2deaa2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChannelMessage.vue?vue&type=template&id=cc2deaa2& */ "./resources/js/components/ChannelMessage.vue?vue&type=template&id=cc2deaa2&");
+/* harmony import */ var _ChannelMessage_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ChannelMessage.vue?vue&type=script&lang=js& */ "./resources/js/components/ChannelMessage.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ChannelMessage_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ChannelMessage_vue_vue_type_template_id_cc2deaa2___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ChannelMessage_vue_vue_type_template_id_cc2deaa2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ChannelMessage.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/ChannelMessage.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/ChannelMessage.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ChannelMessage_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ChannelMessage.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChannelMessage.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ChannelMessage_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ChannelMessage.vue?vue&type=template&id=cc2deaa2&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/ChannelMessage.vue?vue&type=template&id=cc2deaa2& ***!
+  \***********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChannelMessage_vue_vue_type_template_id_cc2deaa2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ChannelMessage.vue?vue&type=template&id=cc2deaa2& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChannelMessage.vue?vue&type=template&id=cc2deaa2&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChannelMessage_vue_vue_type_template_id_cc2deaa2___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChannelMessage_vue_vue_type_template_id_cc2deaa2___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 
@@ -76619,6 +77069,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChannelSidebar_vue_vue_type_template_id_950f38f8_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChannelSidebar_vue_vue_type_template_id_950f38f8_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ChannelUser.vue":
+/*!*************************************************!*\
+  !*** ./resources/js/components/ChannelUser.vue ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _ChannelUser_vue_vue_type_template_id_12c1915a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ChannelUser.vue?vue&type=template&id=12c1915a&scoped=true& */ "./resources/js/components/ChannelUser.vue?vue&type=template&id=12c1915a&scoped=true&");
+/* harmony import */ var _ChannelUser_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ChannelUser.vue?vue&type=script&lang=js& */ "./resources/js/components/ChannelUser.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ChannelUser_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ChannelUser_vue_vue_type_template_id_12c1915a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _ChannelUser_vue_vue_type_template_id_12c1915a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "12c1915a",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ChannelUser.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/ChannelUser.vue?vue&type=script&lang=js&":
+/*!**************************************************************************!*\
+  !*** ./resources/js/components/ChannelUser.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ChannelUser_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./ChannelUser.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChannelUser.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ChannelUser_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ChannelUser.vue?vue&type=template&id=12c1915a&scoped=true&":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/components/ChannelUser.vue?vue&type=template&id=12c1915a&scoped=true& ***!
+  \********************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChannelUser_vue_vue_type_template_id_12c1915a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./ChannelUser.vue?vue&type=template&id=12c1915a&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ChannelUser.vue?vue&type=template&id=12c1915a&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChannelUser_vue_vue_type_template_id_12c1915a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ChannelUser_vue_vue_type_template_id_12c1915a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -76735,11 +77254,10 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
   key: "akey",
-  wsHost: 'arc.ollieread.dev',
+  wsHost: window.location.hostname,
   wsPort: 6001,
   disableStats: true,
-  encrypted: true,
-  enabledTransports: ['ws', 'https'],
+  enabledTransports: ['ws'],
   auth: {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -76819,6 +77337,7 @@ function () {
     this.archived = archived;
     this.onlineUsers = [];
     this.users = [];
+    this.messages = [];
   }
 
   _createClass(Channel, [{
@@ -76833,13 +77352,64 @@ function () {
   }, {
     key: "setOnlineUsers",
     value: function setOnlineUsers(users) {
-      this.onlineUsers = users;
-      this.setUsers(this.users);
+      this.onlineUsers = users.map(function (user) {
+        user.online = true;
+        return user.uuid.toString();
+      });
+      this.sortUsers();
     }
   }, {
     key: "setUsers",
     value: function setUsers(users) {
+      this.users = users;
+      this.sortUsers();
+    }
+  }, {
+    key: "setEvents",
+    value: function setEvents(events) {
+      this.events = events;
+    }
+  }, {
+    key: "isUserOnline",
+    value: function isUserOnline(user) {
+      return this.onlineUsers.includes(user.uuid.toString());
+    }
+  }, {
+    key: "addMessage",
+    value: function addMessage(message) {
+      var firstMessage = this.messages[0];
+
+      if (firstMessage && firstMessage.postedAt.isBefore(message.postedAt)) {
+        var oldMessages = this.messages;
+        this.messages = [message].concat(oldMessages);
+      } else {
+        this.messages.push(message);
+      }
+    }
+  }, {
+    key: "addOnlineUser",
+    value: function addOnlineUser(user) {
+      user.online = true;
+      this.onlineUsers.push(user.uuid.toString());
+      this.sortUsers();
+    }
+  }, {
+    key: "removeOnlineUser",
+    value: function removeOnlineUser(user) {
+      user.online = false;
+
+      window._.remove(this.onlineUsers, function (uuid) {
+        return user.uuid.is(uuid);
+      });
+
+      this.sortUsers();
+    }
+  }, {
+    key: "sortUsers",
+    value: function sortUsers() {
       var _this = this;
+
+      var users = this.users;
 
       var adminUsers = window._.filter(users, function (user) {
         return user.can(_this.uuid.toString(), 0x00000040);
@@ -76854,16 +77424,6 @@ function () {
       });
 
       this.users = adminUsers.concat(onlineUsers.concat(otherUsers));
-    }
-  }, {
-    key: "setEvents",
-    value: function setEvents(events) {
-      this.events = events;
-    }
-  }, {
-    key: "isUserOnline",
-    value: function isUserOnline(user) {
-      return this.onlineUsers.includes(user.uuid.toString());
     }
   }, {
     key: "isCurrent",
@@ -76890,6 +77450,85 @@ function () {
   var locked = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
   var archived = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : false;
   return new Channel(uuid, name, description, current, locked, archived);
+});
+
+/***/ }),
+
+/***/ "./resources/js/models/Message.js":
+/*!****************************************!*\
+  !*** ./resources/js/models/Message.js ***!
+  \****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Uuid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Uuid */ "./resources/js/models/Uuid.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_1__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+var Message =
+/*#__PURE__*/
+function () {
+  function Message(uuid, type, body, postedAt, user) {
+    var action = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;
+    var metadata = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : [];
+    var mentions = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : [];
+
+    _classCallCheck(this, Message);
+
+    this.setUuid(uuid);
+    this.type = type;
+    this.body = body;
+    this.postedAt = moment__WEBPACK_IMPORTED_MODULE_1___default.a.unix(postedAt);
+    this.user = user;
+    this.action = action;
+    this.metadata = metadata;
+    this.mentions = mentions;
+  }
+
+  _createClass(Message, [{
+    key: "setUuid",
+    value: function setUuid(value) {
+      if (!(value instanceof _Uuid__WEBPACK_IMPORTED_MODULE_0__["default"])) {
+        value = new _Uuid__WEBPACK_IMPORTED_MODULE_0__["default"](value);
+      }
+
+      this.uuid = value;
+    }
+  }, {
+    key: "isText",
+    value: function isText() {
+      return this.type & 0x00000001;
+    }
+  }, {
+    key: "isAction",
+    value: function isAction() {
+      return this.type & 0x00000020;
+    }
+  }, {
+    key: "message",
+    get: function get() {
+      return this.body;
+    }
+  }]);
+
+  return Message;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (function (uuid, type, message, postedAt, user) {
+  var action = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;
+  var metadata = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : [];
+  var mentions = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : [];
+  return new Message(uuid, type, message, postedAt, user, action, metadata, mentions);
 });
 
 /***/ }),
@@ -76930,6 +77569,7 @@ function () {
     this.current = current;
     this.typing = typing;
     this.permissions = [];
+    this.online = false;
   }
 
   _createClass(User, [{
@@ -76960,6 +77600,11 @@ function () {
     key: "isTyping",
     get: function get() {
       return this.typing;
+    }
+  }, {
+    key: "isOnline",
+    get: function get() {
+      return this.online;
     }
   }]);
 
@@ -77638,6 +78283,12 @@ function () {
         };
       }
 
+      if (this.method === 'put') {
+        call = function call() {
+          return _this.instance.put(_this.uri, _this.data);
+        };
+      }
+
       if (this.method === 'delete') {
         call = function call() {
           return _this.instance["delete"](_this.uri, _this.data);
@@ -77667,10 +78318,8 @@ function () {
 
 
             if (error.response.status === 401) {
-              // We want to tell the app the reauth and provide the handler
-              _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch('Auth/requiresReauth', _this.reauthHandler); // We resolve with an empty, because we don't want the underlying code to assume
+              // We resolve with an empty, because we don't want the underlying code to assume
               // there was an error, as we will replay it using the handler
-
               resolve(new _response__WEBPACK_IMPORTED_MODULE_2__["default"](error.response.status, error.response.data.data));
             } // If there was a validation error
 
@@ -78095,11 +78744,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _services_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/api */ "./resources/js/services/api.js");
 /* harmony import */ var _models_Channel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../models/Channel */ "./resources/js/models/Channel.js");
+/* harmony import */ var _models_Message__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../models/Message */ "./resources/js/models/Message.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 
 
@@ -78121,8 +78772,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setLoaded: function setLoaded(state, loaded) {
       state.loaded = loaded;
     },
-    setChannelOnlineUsers: function setChannelOnlineUsers(state, data) {
-      data.channel.setOnlineUsers(data.users);
+    setChannelOnlineUsers: function setChannelOnlineUsers(state, _ref) {
+      var channel = _ref.channel,
+          users = _ref.users;
+      channel.setOnlineUsers(users);
+    },
+    addChannelMessage: function addChannelMessage(state, _ref2) {
+      var message = _ref2.message,
+          channel = _ref2.channel;
+      channel.addMessage(message);
+    },
+    addOnlineUser: function addOnlineUser(state, _ref3) {
+      var user = _ref3.user,
+          channel = _ref3.channel;
+      channel.addOnlineUser(user);
+    },
+    removeOnlineUser: function removeOnlineUser(state, _ref4) {
+      var user = _ref4.user,
+          channel = _ref4.channel;
+      channel.removeOnlineUser(user);
     }
   },
   getters: {
@@ -78184,107 +78852,354 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loadChannels: function () {
       var _loadChannels = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref) {
-        var commit, dispatch;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12(_ref5) {
+        var commit, dispatch, rootGetters;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
-                commit = _ref.commit, dispatch = _ref.dispatch;
-                _context3.next = 3;
-                return Object(_services_api__WEBPACK_IMPORTED_MODULE_1__["default"])('api:user:channels').send().then(
+                commit = _ref5.commit, dispatch = _ref5.dispatch, rootGetters = _ref5.rootGetters;
+                _context12.next = 3;
+                return Object(_services_api__WEBPACK_IMPORTED_MODULE_1__["default"])('api:user:channels', {
+                  include: 'users,messages'
+                }).send().then(
                 /*#__PURE__*/
                 function () {
-                  var _ref2 = _asyncToGenerator(
+                  var _ref6 = _asyncToGenerator(
                   /*#__PURE__*/
-                  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(response) {
+                  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee11(response) {
                     var channels;
-                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee11$(_context11) {
                       while (1) {
-                        switch (_context2.prev = _context2.next) {
+                        switch (_context11.prev = _context11.next) {
                           case 0:
                             if (!response.wasSuccess) {
-                              _context2.next = 8;
+                              _context11.next = 8;
                               break;
                             }
 
-                            _context2.next = 3;
+                            _context11.next = 3;
                             return Promise.all(response.response.map(
                             /*#__PURE__*/
                             function () {
-                              var _ref3 = _asyncToGenerator(
+                              var _ref7 = _asyncToGenerator(
                               /*#__PURE__*/
-                              _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(data) {
+                              _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee10(data) {
                                 var model;
-                                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+                                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee10$(_context10) {
                                   while (1) {
-                                    switch (_context.prev = _context.next) {
+                                    switch (_context10.prev = _context10.next) {
                                       case 0:
                                         model = Object(_models_Channel__WEBPACK_IMPORTED_MODULE_2__["default"])(data.id, data.name, data.description);
-                                        _context.next = 3;
+                                        _context10.next = 3;
                                         return dispatch('Users/transformUsers', {
                                           users: data.users.data,
                                           channel: model
                                         }, {
                                           root: true
-                                        }).then(function (users) {
-                                          model.setUsers(users);
-                                          window.Echo.join('channel.' + model.uuid.toString()).here(function (onlineUsers) {
-                                            commit('setChannelOnlineUsers', {
-                                              channel: model,
-                                              users: onlineUsers
-                                            });
-                                          }).joining(function (user) {
-                                            console.log(user);
-                                          }).leaving(function (user) {
-                                            console.log(user);
-                                          });
-                                        });
+                                        }).then(
+                                        /*#__PURE__*/
+                                        function () {
+                                          var _ref8 = _asyncToGenerator(
+                                          /*#__PURE__*/
+                                          _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8(users) {
+                                            var events;
+                                            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+                                              while (1) {
+                                                switch (_context8.prev = _context8.next) {
+                                                  case 0:
+                                                    model.setUsers(users);
+                                                    events = window.Echo.join('channel.' + model.uuid.toString());
+                                                    events.here(
+                                                    /*#__PURE__*/
+                                                    function () {
+                                                      var _ref9 = _asyncToGenerator(
+                                                      /*#__PURE__*/
+                                                      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(onlineUsers) {
+                                                        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+                                                          while (1) {
+                                                            switch (_context2.prev = _context2.next) {
+                                                              case 0:
+                                                                _context2.next = 2;
+                                                                return dispatch('Users/transformUsers', {
+                                                                  users: onlineUsers,
+                                                                  channel: model
+                                                                }, {
+                                                                  root: true
+                                                                }).then(
+                                                                /*#__PURE__*/
+                                                                function () {
+                                                                  var _ref10 = _asyncToGenerator(
+                                                                  /*#__PURE__*/
+                                                                  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(onlineUsers) {
+                                                                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+                                                                      while (1) {
+                                                                        switch (_context.prev = _context.next) {
+                                                                          case 0:
+                                                                            _context.next = 2;
+                                                                            return commit('setChannelOnlineUsers', {
+                                                                              channel: model,
+                                                                              users: onlineUsers
+                                                                            });
+
+                                                                          case 2:
+                                                                            return _context.abrupt("return", _context.sent);
+
+                                                                          case 3:
+                                                                          case "end":
+                                                                            return _context.stop();
+                                                                        }
+                                                                      }
+                                                                    }, _callee);
+                                                                  }));
+
+                                                                  return function (_x6) {
+                                                                    return _ref10.apply(this, arguments);
+                                                                  };
+                                                                }());
+
+                                                              case 2:
+                                                              case "end":
+                                                                return _context2.stop();
+                                                            }
+                                                          }
+                                                        }, _callee2);
+                                                      }));
+
+                                                      return function (_x5) {
+                                                        return _ref9.apply(this, arguments);
+                                                      };
+                                                    }());
+                                                    events.joining(
+                                                    /*#__PURE__*/
+                                                    function () {
+                                                      var _ref11 = _asyncToGenerator(
+                                                      /*#__PURE__*/
+                                                      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(rawUser) {
+                                                        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+                                                          while (1) {
+                                                            switch (_context4.prev = _context4.next) {
+                                                              case 0:
+                                                                _context4.next = 2;
+                                                                return dispatch('Users/transformUser', {
+                                                                  user: rawUser,
+                                                                  channel: model
+                                                                }, {
+                                                                  root: true
+                                                                }).then(
+                                                                /*#__PURE__*/
+                                                                function () {
+                                                                  var _ref12 = _asyncToGenerator(
+                                                                  /*#__PURE__*/
+                                                                  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(user) {
+                                                                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+                                                                      while (1) {
+                                                                        switch (_context3.prev = _context3.next) {
+                                                                          case 0:
+                                                                            _context3.next = 2;
+                                                                            return commit('addOnlineUser', {
+                                                                              user: user,
+                                                                              channel: model
+                                                                            });
+
+                                                                          case 2:
+                                                                          case "end":
+                                                                            return _context3.stop();
+                                                                        }
+                                                                      }
+                                                                    }, _callee3);
+                                                                  }));
+
+                                                                  return function (_x8) {
+                                                                    return _ref12.apply(this, arguments);
+                                                                  };
+                                                                }());
+
+                                                              case 2:
+                                                              case "end":
+                                                                return _context4.stop();
+                                                            }
+                                                          }
+                                                        }, _callee4);
+                                                      }));
+
+                                                      return function (_x7) {
+                                                        return _ref11.apply(this, arguments);
+                                                      };
+                                                    }());
+                                                    events.leaving(
+                                                    /*#__PURE__*/
+                                                    function () {
+                                                      var _ref13 = _asyncToGenerator(
+                                                      /*#__PURE__*/
+                                                      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(rawUser) {
+                                                        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+                                                          while (1) {
+                                                            switch (_context6.prev = _context6.next) {
+                                                              case 0:
+                                                                _context6.next = 2;
+                                                                return dispatch('Users/transformUser', {
+                                                                  user: rawUser,
+                                                                  channel: model
+                                                                }, {
+                                                                  root: true
+                                                                }).then(
+                                                                /*#__PURE__*/
+                                                                function () {
+                                                                  var _ref14 = _asyncToGenerator(
+                                                                  /*#__PURE__*/
+                                                                  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(user) {
+                                                                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+                                                                      while (1) {
+                                                                        switch (_context5.prev = _context5.next) {
+                                                                          case 0:
+                                                                            _context5.next = 2;
+                                                                            return commit('removeOnlineUser', {
+                                                                              user: user,
+                                                                              channel: model
+                                                                            });
+
+                                                                          case 2:
+                                                                          case "end":
+                                                                            return _context5.stop();
+                                                                        }
+                                                                      }
+                                                                    }, _callee5);
+                                                                  }));
+
+                                                                  return function (_x10) {
+                                                                    return _ref14.apply(this, arguments);
+                                                                  };
+                                                                }());
+
+                                                              case 2:
+                                                              case "end":
+                                                                return _context6.stop();
+                                                            }
+                                                          }
+                                                        }, _callee6);
+                                                      }));
+
+                                                      return function (_x9) {
+                                                        return _ref13.apply(this, arguments);
+                                                      };
+                                                    }());
+                                                    events.listen('.message.received',
+                                                    /*#__PURE__*/
+                                                    function () {
+                                                      var _ref15 = _asyncToGenerator(
+                                                      /*#__PURE__*/
+                                                      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7(data) {
+                                                        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+                                                          while (1) {
+                                                            switch (_context7.prev = _context7.next) {
+                                                              case 0:
+                                                                _context7.next = 2;
+                                                                return dispatch('addChannelMessage', {
+                                                                  message: data.message,
+                                                                  channel: model
+                                                                });
+
+                                                              case 2:
+                                                              case "end":
+                                                                return _context7.stop();
+                                                            }
+                                                          }
+                                                        }, _callee7);
+                                                      }));
+
+                                                      return function (_x11) {
+                                                        return _ref15.apply(this, arguments);
+                                                      };
+                                                    }());
+
+                                                  case 6:
+                                                  case "end":
+                                                    return _context8.stop();
+                                                }
+                                              }
+                                            }, _callee8);
+                                          }));
+
+                                          return function (_x4) {
+                                            return _ref8.apply(this, arguments);
+                                          };
+                                        }());
 
                                       case 3:
-                                        return _context.abrupt("return", model);
+                                        _context10.next = 5;
+                                        return Promise.all(data.messages.data.map(
+                                        /*#__PURE__*/
+                                        function () {
+                                          var _ref16 = _asyncToGenerator(
+                                          /*#__PURE__*/
+                                          _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee9(data) {
+                                            var user;
+                                            return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee9$(_context9) {
+                                              while (1) {
+                                                switch (_context9.prev = _context9.next) {
+                                                  case 0:
+                                                    user = rootGetters['Users/getUser'](data.user);
+                                                    return _context9.abrupt("return", new _models_Message__WEBPACK_IMPORTED_MODULE_3__["default"](data.id, data.type, data.message, data.created_at, user, data.action, data.metadata, data.messages));
 
-                                      case 4:
+                                                  case 2:
+                                                  case "end":
+                                                    return _context9.stop();
+                                                }
+                                              }
+                                            }, _callee9);
+                                          }));
+
+                                          return function (_x12) {
+                                            return _ref16.apply(this, arguments);
+                                          };
+                                        }()));
+
+                                      case 5:
+                                        model.messages = _context10.sent;
+                                        return _context10.abrupt("return", model);
+
+                                      case 7:
                                       case "end":
-                                        return _context.stop();
+                                        return _context10.stop();
                                     }
                                   }
-                                }, _callee);
+                                }, _callee10);
                               }));
 
                               return function (_x3) {
-                                return _ref3.apply(this, arguments);
+                                return _ref7.apply(this, arguments);
                               };
                             }()));
 
                           case 3:
-                            channels = _context2.sent;
-                            _context2.next = 6;
+                            channels = _context11.sent;
+                            _context11.next = 6;
                             return commit('setChannels', channels);
 
                           case 6:
-                            _context2.next = 8;
+                            _context11.next = 8;
                             return commit('setLoaded', true);
 
                           case 8:
                           case "end":
-                            return _context2.stop();
+                            return _context11.stop();
                         }
                       }
-                    }, _callee2);
+                    }, _callee11);
                   }));
 
                   return function (_x2) {
-                    return _ref2.apply(this, arguments);
+                    return _ref6.apply(this, arguments);
                   };
                 }());
 
               case 3:
               case "end":
-                return _context3.stop();
+                return _context12.stop();
             }
           }
-        }, _callee3);
+        }, _callee12);
       }));
 
       function loadChannels(_x) {
@@ -78296,13 +79211,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loadCurrentChannel: function () {
       var _loadCurrentChannel = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(_ref4) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13(_ref17) {
         var commit, state, currentChannel, channelIndex;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
-                commit = _ref4.commit, state = _ref4.state;
+                commit = _ref17.commit, state = _ref17.state;
                 currentChannel = null;
 
                 if (state.current) {
@@ -78318,25 +79233,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }
 
                 if (!currentChannel) {
-                  _context4.next = 6;
+                  _context13.next = 6;
                   break;
                 }
 
-                _context4.next = 6;
+                _context13.next = 6;
                 return commit('setCurrentChannel', currentChannel);
 
               case 6:
-                return _context4.abrupt("return", currentChannel);
+                return _context13.abrupt("return", currentChannel);
 
               case 7:
               case "end":
-                return _context4.stop();
+                return _context13.stop();
             }
           }
-        }, _callee4);
+        }, _callee13);
       }));
 
-      function loadCurrentChannel(_x4) {
+      function loadCurrentChannel(_x13) {
         return _loadCurrentChannel.apply(this, arguments);
       }
 
@@ -78345,110 +79260,200 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setCurrentChannel: function () {
       var _setCurrentChannel = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(_ref5, newChannel) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee14(_ref18, newChannel) {
         var commit, state, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, existingChannel;
 
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee14$(_context14) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context14.prev = _context14.next) {
               case 0:
-                commit = _ref5.commit, state = _ref5.state;
+                commit = _ref18.commit, state = _ref18.state;
 
                 if (!(state.channels && state.channels.length > 0)) {
-                  _context5.next = 35;
+                  _context14.next = 35;
                   break;
                 }
 
                 if (newChannel instanceof String) {
-                  _context5.next = 7;
+                  _context14.next = 7;
                   break;
                 }
 
-                _context5.next = 5;
+                _context14.next = 5;
                 return commit('setCurrentChannel', newChannel);
 
               case 5:
-                _context5.next = 35;
+                _context14.next = 35;
                 break;
 
               case 7:
                 _iteratorNormalCompletion2 = true;
                 _didIteratorError2 = false;
                 _iteratorError2 = undefined;
-                _context5.prev = 10;
+                _context14.prev = 10;
                 _iterator2 = state.channels[Symbol.iterator]();
 
               case 12:
                 if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-                  _context5.next = 21;
+                  _context14.next = 21;
                   break;
                 }
 
                 existingChannel = _step2.value;
 
                 if (!(existingChannel.uuid.is(newChannel) || existingChannel.name === newChannel)) {
-                  _context5.next = 18;
+                  _context14.next = 18;
                   break;
                 }
 
-                _context5.next = 17;
+                _context14.next = 17;
                 return commit('setCurrentChannel', existingChannel);
 
               case 17:
-                return _context5.abrupt("break", 21);
+                return _context14.abrupt("break", 21);
 
               case 18:
                 _iteratorNormalCompletion2 = true;
-                _context5.next = 12;
+                _context14.next = 12;
                 break;
 
               case 21:
-                _context5.next = 27;
+                _context14.next = 27;
                 break;
 
               case 23:
-                _context5.prev = 23;
-                _context5.t0 = _context5["catch"](10);
+                _context14.prev = 23;
+                _context14.t0 = _context14["catch"](10);
                 _didIteratorError2 = true;
-                _iteratorError2 = _context5.t0;
+                _iteratorError2 = _context14.t0;
 
               case 27:
-                _context5.prev = 27;
-                _context5.prev = 28;
+                _context14.prev = 27;
+                _context14.prev = 28;
 
                 if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
                   _iterator2["return"]();
                 }
 
               case 30:
-                _context5.prev = 30;
+                _context14.prev = 30;
 
                 if (!_didIteratorError2) {
-                  _context5.next = 33;
+                  _context14.next = 33;
                   break;
                 }
 
                 throw _iteratorError2;
 
               case 33:
-                return _context5.finish(30);
+                return _context14.finish(30);
 
               case 34:
-                return _context5.finish(27);
+                return _context14.finish(27);
 
               case 35:
               case "end":
-                return _context5.stop();
+                return _context14.stop();
             }
           }
-        }, _callee5, null, [[10, 23, 27, 35], [28,, 30, 34]]);
+        }, _callee14, null, [[10, 23, 27, 35], [28,, 30, 34]]);
       }));
 
-      function setCurrentChannel(_x5, _x6) {
+      function setCurrentChannel(_x14, _x15) {
         return _setCurrentChannel.apply(this, arguments);
       }
 
       return setCurrentChannel;
+    }(),
+    sendChannelMessage: function () {
+      var _sendChannelMessage = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee16(_ref19, message) {
+        var commit, dispatch, state, getters, channel;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee16$(_context16) {
+          while (1) {
+            switch (_context16.prev = _context16.next) {
+              case 0:
+                commit = _ref19.commit, dispatch = _ref19.dispatch, state = _ref19.state, getters = _ref19.getters;
+                channel = getters.getCurrentChannel;
+                _context16.next = 4;
+                return Object(_services_api__WEBPACK_IMPORTED_MODULE_1__["default"])('api:channel:post', channel.uuid.toString()).send({
+                  message: message
+                }).then(
+                /*#__PURE__*/
+                function () {
+                  var _ref20 = _asyncToGenerator(
+                  /*#__PURE__*/
+                  _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee15(response) {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee15$(_context15) {
+                      while (1) {
+                        switch (_context15.prev = _context15.next) {
+                          case 0:
+                            return _context15.abrupt("return", response.wasSuccess);
+
+                          case 1:
+                          case "end":
+                            return _context15.stop();
+                        }
+                      }
+                    }, _callee15);
+                  }));
+
+                  return function (_x18) {
+                    return _ref20.apply(this, arguments);
+                  };
+                }());
+
+              case 4:
+                return _context16.abrupt("return", _context16.sent);
+
+              case 5:
+              case "end":
+                return _context16.stop();
+            }
+          }
+        }, _callee16);
+      }));
+
+      function sendChannelMessage(_x16, _x17) {
+        return _sendChannelMessage.apply(this, arguments);
+      }
+
+      return sendChannelMessage;
+    }(),
+    addChannelMessage: function () {
+      var _addChannelMessage = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee17(_ref21, _ref22) {
+        var commit, dispatch, state, getters, rootGetters, channel, message, user, model;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee17$(_context17) {
+          while (1) {
+            switch (_context17.prev = _context17.next) {
+              case 0:
+                commit = _ref21.commit, dispatch = _ref21.dispatch, state = _ref21.state, getters = _ref21.getters, rootGetters = _ref21.rootGetters;
+                channel = _ref22.channel, message = _ref22.message;
+                user = rootGetters['Users/getUser'](message.user);
+                console.log(message);
+                model = new _models_Message__WEBPACK_IMPORTED_MODULE_3__["default"](message.id, message.type, message.message, message.created_at, user, message.action, message.metadata, message.mentions);
+                _context17.next = 7;
+                return commit('addChannelMessage', {
+                  channel: channel,
+                  message: model
+                });
+
+              case 7:
+              case "end":
+                return _context17.stop();
+            }
+          }
+        }, _callee17);
+      }));
+
+      function addChannelMessage(_x19, _x20) {
+        return _addChannelMessage.apply(this, arguments);
+      }
+
+      return addChannelMessage;
     }()
   }
 });
@@ -78491,7 +79496,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       state.currentUser = user;
     }
   },
-  getters: {},
+  getters: {
+    getUser: function getUser(state) {
+      return function (uuid) {
+        var index = window._.findIndex(state.users, function (user) {
+          return user.uuid.is(uuid);
+        });
+
+        if (index > -1) {
+          return state.users[index];
+        }
+
+        return null;
+      };
+    }
+  },
   actions: {
     transformUsers: function () {
       var _transformUsers = _asyncToGenerator(
@@ -78550,6 +79569,46 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       return transformUsers;
+    }(),
+    transformUser: function () {
+      var _transformUser = _asyncToGenerator(
+      /*#__PURE__*/
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(_ref2, data) {
+        var commit, state, rawUser, channel, userIndex, model;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                commit = _ref2.commit, state = _ref2.state;
+                rawUser = data.user;
+                channel = data.channel;
+                userIndex = window._.findIndex(state.users, function (existingUser) {
+                  return existingUser.uuid.is(rawUser.id);
+                });
+                model = null;
+
+                if (userIndex > -1) {
+                  model = state.users[userIndex];
+                } else {
+                  model = Object(_models_User__WEBPACK_IMPORTED_MODULE_1__["default"])(rawUser.id, rawUser.username, rawUser.updated_at);
+                }
+
+                model.addPermissions(channel.uuid.toString(), rawUser.permissions);
+                return _context2.abrupt("return", model);
+
+              case 8:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }));
+
+      function transformUser(_x3, _x4) {
+        return _transformUser.apply(this, arguments);
+      }
+
+      return transformUser;
     }()
   }
 });

@@ -5,6 +5,8 @@ namespace Arc\Operations\Channels;
 use Arc\Models\Channel;
 use Arc\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\JoinClause;
 
 class GetChannels
 {
@@ -33,6 +35,11 @@ class GetChannels
      */
     private $default = false;
 
+    /**
+     * @var bool
+     */
+    private $withMessages = false;
+
     public function perform()
     {
         $query = Channel::query();
@@ -45,6 +52,18 @@ class GetChannels
 
         if ($this->default) {
             $query->where('default', '=', 1);
+        }
+
+        if ($this->withMessages) {
+            $query->with(['messages' => static function (HasMany $query) {
+                $query->select(['messages.*'])
+                      ->selectRaw('users.uuid as user_uuid')
+                      ->join('users', static function (JoinClause $join) {
+                          $join->on('users.id', '=', 'messages.user_id');
+                      })
+                      ->orderBy('created_at', 'desc')
+                      ->limit(100);
+            }]);
         }
 
         if (! $this->userOnly && $this->user) {
@@ -120,6 +139,17 @@ class GetChannels
     public function setUserOnly(bool $userOnly): self
     {
         $this->userOnly = $userOnly;
+        return $this;
+    }
+
+    /**
+     * @param bool $withMessages
+     *
+     * @return $this
+     */
+    public function setWithMessages(bool $withMessages): self
+    {
+        $this->withMessages = $withMessages;
         return $this;
     }
 }

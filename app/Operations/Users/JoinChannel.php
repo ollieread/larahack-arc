@@ -4,7 +4,9 @@ namespace Arc\Operations\Users;
 
 use Arc\Events\Channels\Joined;
 use Arc\Models\Channel;
+use Arc\Models\Message;
 use Arc\Models\User;
+use Arc\Operations\Channels\PostToChannel;
 use Arc\Support\Permissions\ChannelPermissions;
 
 class JoinChannel
@@ -33,6 +35,17 @@ class JoinChannel
 
         if (! $presence) {
             $this->user->channels()->save($this->channel, ['permissions' => $this->permissions ?? ChannelPermissions::DEFAULT_PERMISSIONS]);
+            (new PostToChannel)
+                ->setUser($this->user)
+                ->setChannel($this->channel)
+                ->setInput([
+                    'type'     => Message::ACTION,
+                    'action'   => 'join',
+                    'metadata' => [
+                        'automated' => true,
+                    ],
+                ])->perform();
+
             broadcast(new Joined($this->channel, $this->user));
         }
 

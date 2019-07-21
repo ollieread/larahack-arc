@@ -14,6 +14,7 @@ class ChannelRoutes implements Routes
         $router->group(['prefix' => '/channels', 'as' => 'channel:', 'middleware' => 'user'], static function (Router $router) {
             $router->get('/')->name('directory')->uses(Actions\Directory::class);
             $router->post('/{uuid}')->name('join')->uses(Actions\Join::class);
+            $router->put('/{uuid}')->name('post')->uses(Actions\Post::class);
         });
     }
 }

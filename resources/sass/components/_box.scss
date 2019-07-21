@@ -1,5 +1,9 @@
 .box {
-  @apply border relative mt-1 bg-black pb-3;
+  @apply flex border relative mt-1 bg-black pb-3 flex-col;
+
+  & + & {
+    @apply mt-2;
+  }
 
   &--headerless {
     @apply pt-3;
@@ -13,13 +17,25 @@
     @apply flex-grow;
   }
 
+  &--shrink {
+    @apply flex-shrink;
+  }
+
+  &--full {
+    @apply h-full w-full;
+  }
+
+  &--spaced {
+    @apply ml-2;
+  }
+
   &--centered {
     @apply mx-auto;
   }
 
   &__title {
     @apply absolute bg-black inline-block text-xl uppercase font-secondary;
-    letter-spacing : 0.4em;
+    letter-spacing : 0.3em;
     padding-left   : .4em;
     top            : -1.1rem;
     margin-left    : .75rem;
@@ -37,7 +53,7 @@
 
     &-title {
       @apply font-secondary uppercase bg-black pr-2 font-bold;
-      padding-left: 0.9em;
+      padding-left   : 0.9em;
       letter-spacing : 0.4em;
     }
 
@@ -48,7 +64,19 @@
   }
 
   &__body {
-    @apply px-3 py-4;
+    @apply px-3 py-4 flex-grow max-h-full;
+
+    &--scrollable {
+      @apply overflow-y-auto;
+    }
+
+    &--bare {
+      @apply pr-0 pt-0;
+    }
+
+    &--flex {
+      @apply flex flex-col justify-between;
+    }
   }
 
   &__item {

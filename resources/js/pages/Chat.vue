@@ -18,6 +18,19 @@ c$$$cc$$$c $$$$$$c    $$$
         </aside>
 
         <router-view></router-view>
+
+        <div class="modal" :class="{'crt--in':!animating, 'crt--off':animating}" v-if="loading">
+            <div class="box box--small">
+                <header class="box__header">
+                    <h2 class="box__header-title">Loading</h2>
+                </header>
+                <div class="box__body text--centered">
+                    <div class="loader">
+                        <div class="loader__body"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -30,12 +43,16 @@ c$$$cc$$$c $$$$$$c    $$$
         data: () => {
             return {
                 currentChannels: [],
+                loading: true,
+                animating: false,
             };
         },
 
         async mounted() {
             if (!this.$store.getters['Channels/hasLoaded']) {
                 await this.$store.dispatch('Channels/loadChannels');
+                this.animating = true;
+                setTimeout(() => this.loading = false, 550);
             }
         },
 
