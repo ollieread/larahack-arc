@@ -76735,10 +76735,11 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
 window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
   key: "akey",
-  wsHost: "localhost",
-  wsPort: "6001",
+  wsHost: '127.0.0.1',
+  wsPort: 6001,
   disableStats: true,
-  enabledTransports: ['ws', 'wss'],
+  encrypted: true,
+  enabledTransports: ['ws', 'https'],
   auth: {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -76948,8 +76949,6 @@ function () {
   }, {
     key: "can",
     value: function can(channel, permission) {
-      console.log(channel);
-      console.log(permission);
       return this.permissions[channel] & permission;
     }
   }, {
