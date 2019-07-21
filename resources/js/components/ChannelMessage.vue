@@ -11,14 +11,14 @@
             <template v-if="message.action === 'deploy.running'">
                 <span class="channel__message-author">{{ message.user ? message.user.username : 'SYSTEM' }}</span>
                 <div class="channel__message-content">
-                    Deployment running <br>
-                    "<span>{{ message.metadata.end_revision.message }}</span>"
+                    Deployment running
                 </div>
             </template>
             <template v-if="message.action === 'deploy.completed'">
                 <span class="channel__message-author">{{ message.user ? message.user.username : 'SYSTEM' }}</span>
                 <div class="channel__message-content">
-                    Deployment completed
+                    Deployment completed <br>
+                    "<span>{{ message.metadata.end_revision.message }}</span>"
                 </div>
             </template>
         </template>

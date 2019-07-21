@@ -61677,13 +61677,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "channel__message-content" }, [
-                    _vm._v("\n                Deployment running "),
-                    _c("br"),
-                    _vm._v('\n                "'),
-                    _c("span", [
-                      _vm._v(_vm._s(_vm.message.metadata.end_revision.message))
-                    ]),
-                    _vm._v('"\n            ')
+                    _vm._v("\n                Deployment running\n            ")
                   ])
                 ]
               : _vm._e(),
@@ -61699,9 +61693,13 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "channel__message-content" }, [
-                    _vm._v(
-                      "\n                Deployment completed\n            "
-                    )
+                    _vm._v("\n                Deployment completed "),
+                    _c("br"),
+                    _vm._v('\n                "'),
+                    _c("span", [
+                      _vm._v(_vm._s(_vm.message.metadata.end_revision.message))
+                    ]),
+                    _vm._v('"\n            ')
                   ])
                 ]
               : _vm._e()
