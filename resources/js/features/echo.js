@@ -6,10 +6,10 @@ window.Pusher = require('pusher-js');
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: process.env.MIX_PUSHER_APP_KEY,
-    wsHost: process.env.MIX_WS_HOST,
-    wsPort: process.env.MIX_WS_PORT,
+    wsHost: process.env.NODE_ENV === 'production' ? 'arc.ollieread.dev' : 'localhost',
+    wsPort: 6001,
     disableStats: true,
-    enabledTransports: ['ws', 'wss'],
+    enabledTransports: ['ws'],
     auth: {
         headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token'),
