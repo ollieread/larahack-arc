@@ -26,7 +26,7 @@ class Deploy extends Action
                 ])
                 ->perform();
         } catch (Exception $exception) {
-
+            report($exception);
         }
     }
 }
