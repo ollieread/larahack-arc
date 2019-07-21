@@ -2143,15 +2143,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     startTyping: function startTyping() {
       var _this = this;
 
-      this.$store.dispatch('Channels/startTyping', this.channel);
+      if (this.message) {
+        this.$store.dispatch('Channels/startTyping', this.channel);
 
-      if (this.timeout) {
-        clearTimeout(this.timeout);
+        if (this.timeout) {
+          clearTimeout(this.timeout);
+        }
+
+        this.timeout = setTimeout(function () {
+          _this.stopTyping();
+        }, 5000);
       }
 
-      this.timeout = setTimeout(function () {
-        _this.stopTyping();
-      }, 5000);
+      this.stopTyping();
     },
     stopTyping: function stopTyping() {
       if (this.timeout) {
@@ -79089,6 +79093,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }
       };
     },
+    getChannelByUUID: function getChannelByUUID(state) {
+      return function (uuid) {
+        var _iteratorNormalCompletion2 = true;
+        var _didIteratorError2 = false;
+        var _iteratorError2 = undefined;
+
+        try {
+          for (var _iterator2 = state.channels[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+            var _channel2 = _step2.value;
+
+            if (_channel2.uuid.is(uuid)) {
+              return _channel2;
+            }
+          }
+        } catch (err) {
+          _didIteratorError2 = true;
+          _iteratorError2 = err;
+        } finally {
+          try {
+            if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
+              _iterator2["return"]();
+            }
+          } finally {
+            if (_didIteratorError2) {
+              throw _iteratorError2;
+            }
+          }
+        }
+      };
+    },
     getCurrentChannel: function getCurrentChannel(state) {
       var channelIndex = window._.findIndex(state.channels, function (channel) {
         return channel.uuid.is(state.current);
@@ -79109,12 +79143,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _loadChannels = _asyncToGenerator(
       /*#__PURE__*/
       _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee18(_ref9) {
-        var commit, dispatch, rootGetters;
+        var commit, dispatch, getters, rootGetters;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee18$(_context18) {
           while (1) {
             switch (_context18.prev = _context18.next) {
               case 0:
-                commit = _ref9.commit, dispatch = _ref9.dispatch, rootGetters = _ref9.rootGetters;
+                commit = _ref9.commit, dispatch = _ref9.dispatch, getters = _ref9.getters, rootGetters = _ref9.rootGetters;
                 _context18.next = 3;
                 return Object(_services_api__WEBPACK_IMPORTED_MODULE_1__["default"])('api:user:channels', {
                   include: 'users,messages'
@@ -79485,22 +79519,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                     events.listenForWhisper('typing.start',
                                                     /*#__PURE__*/
                                                     function () {
-                                                      var _ref25 = _asyncToGenerator(
+                                                      var _ref24 = _asyncToGenerator(
                                                       /*#__PURE__*/
-                                                      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12(_ref24) {
-                                                        var user, channel;
+                                                      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee12(data) {
+                                                        var channel, user;
                                                         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee12$(_context12) {
                                                           while (1) {
                                                             switch (_context12.prev = _context12.next) {
                                                               case 0:
-                                                                user = _ref24.user, channel = _ref24.channel;
-                                                                _context12.next = 3;
+                                                                channel = getters.getChannelByUUID(data.channel);
+                                                                user = rootGetters['Users/getUser'](data.user);
+                                                                _context12.next = 4;
                                                                 return commit('userStartedTyping', {
                                                                   user: user,
                                                                   channel: channel
                                                                 });
 
-                                                              case 3:
+                                                              case 4:
                                                               case "end":
                                                                 return _context12.stop();
                                                             }
@@ -79509,28 +79544,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                       }));
 
                                                       return function (_x16) {
-                                                        return _ref25.apply(this, arguments);
+                                                        return _ref24.apply(this, arguments);
                                                       };
                                                     }());
                                                     events.listenForWhisper('typing.stop',
                                                     /*#__PURE__*/
                                                     function () {
-                                                      var _ref27 = _asyncToGenerator(
+                                                      var _ref25 = _asyncToGenerator(
                                                       /*#__PURE__*/
-                                                      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13(_ref26) {
-                                                        var user, channel;
+                                                      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee13(data) {
+                                                        var channel, user;
                                                         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee13$(_context13) {
                                                           while (1) {
                                                             switch (_context13.prev = _context13.next) {
                                                               case 0:
-                                                                user = _ref26.user, channel = _ref26.channel;
-                                                                _context13.next = 3;
+                                                                channel = getters.getChannelByUUID(data.channel);
+                                                                user = rootGetters['Users/getUser'](data.user);
+                                                                _context13.next = 4;
                                                                 return commit('userStoppedTyping', {
                                                                   user: user,
                                                                   channel: channel
                                                                 });
 
-                                                              case 3:
+                                                              case 4:
                                                               case "end":
                                                                 return _context13.stop();
                                                             }
@@ -79539,7 +79575,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                                       }));
 
                                                       return function (_x17) {
-                                                        return _ref27.apply(this, arguments);
+                                                        return _ref25.apply(this, arguments);
                                                       };
                                                     }());
 
@@ -79561,7 +79597,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                         return Promise.all(data.messages.data.map(
                                         /*#__PURE__*/
                                         function () {
-                                          var _ref28 = _asyncToGenerator(
+                                          var _ref26 = _asyncToGenerator(
                                           /*#__PURE__*/
                                           _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee15(data) {
                                             var user;
@@ -79581,7 +79617,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                                           }));
 
                                           return function (_x18) {
-                                            return _ref28.apply(this, arguments);
+                                            return _ref26.apply(this, arguments);
                                           };
                                         }()));
 
@@ -79641,13 +79677,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     loadCurrentChannel: function () {
       var _loadCurrentChannel = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee19(_ref29) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee19(_ref27) {
         var commit, state, currentChannel, channelIndex;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee19$(_context19) {
           while (1) {
             switch (_context19.prev = _context19.next) {
               case 0:
-                commit = _ref29.commit, state = _ref29.state;
+                commit = _ref27.commit, state = _ref27.state;
                 currentChannel = null;
 
                 if (state.current) {
@@ -79690,14 +79726,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     setCurrentChannel: function () {
       var _setCurrentChannel = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee20(_ref30, newChannel) {
-        var commit, state, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, existingChannel;
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee20(_ref28, newChannel) {
+        var commit, state, _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, existingChannel;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee20$(_context20) {
           while (1) {
             switch (_context20.prev = _context20.next) {
               case 0:
-                commit = _ref30.commit, state = _ref30.state;
+                commit = _ref28.commit, state = _ref28.state;
 
                 if (!(state.channels && state.channels.length > 0)) {
                   _context20.next = 35;
@@ -79717,19 +79753,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 break;
 
               case 7:
-                _iteratorNormalCompletion2 = true;
-                _didIteratorError2 = false;
-                _iteratorError2 = undefined;
+                _iteratorNormalCompletion3 = true;
+                _didIteratorError3 = false;
+                _iteratorError3 = undefined;
                 _context20.prev = 10;
-                _iterator2 = state.channels[Symbol.iterator]();
+                _iterator3 = state.channels[Symbol.iterator]();
 
               case 12:
-                if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
+                if (_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done) {
                   _context20.next = 21;
                   break;
                 }
 
-                existingChannel = _step2.value;
+                existingChannel = _step3.value;
 
                 if (!(existingChannel.uuid.is(newChannel) || existingChannel.name === newChannel)) {
                   _context20.next = 18;
@@ -79743,7 +79779,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 return _context20.abrupt("break", 21);
 
               case 18:
-                _iteratorNormalCompletion2 = true;
+                _iteratorNormalCompletion3 = true;
                 _context20.next = 12;
                 break;
 
@@ -79754,26 +79790,26 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 23:
                 _context20.prev = 23;
                 _context20.t0 = _context20["catch"](10);
-                _didIteratorError2 = true;
-                _iteratorError2 = _context20.t0;
+                _didIteratorError3 = true;
+                _iteratorError3 = _context20.t0;
 
               case 27:
                 _context20.prev = 27;
                 _context20.prev = 28;
 
-                if (!_iteratorNormalCompletion2 && _iterator2["return"] != null) {
-                  _iterator2["return"]();
+                if (!_iteratorNormalCompletion3 && _iterator3["return"] != null) {
+                  _iterator3["return"]();
                 }
 
               case 30:
                 _context20.prev = 30;
 
-                if (!_didIteratorError2) {
+                if (!_didIteratorError3) {
                   _context20.next = 33;
                   break;
                 }
 
-                throw _iteratorError2;
+                throw _iteratorError3;
 
               case 33:
                 return _context20.finish(30);
@@ -79798,13 +79834,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     sendChannelMessage: function () {
       var _sendChannelMessage = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee22(_ref31, message) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee22(_ref29, message) {
         var commit, dispatch, state, getters, channel;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee22$(_context22) {
           while (1) {
             switch (_context22.prev = _context22.next) {
               case 0:
-                commit = _ref31.commit, dispatch = _ref31.dispatch, state = _ref31.state, getters = _ref31.getters;
+                commit = _ref29.commit, dispatch = _ref29.dispatch, state = _ref29.state, getters = _ref29.getters;
                 channel = getters.getCurrentChannel;
                 _context22.next = 4;
                 return Object(_services_api__WEBPACK_IMPORTED_MODULE_1__["default"])('api:channel:post', channel.uuid.toString()).send({
@@ -79812,7 +79848,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 }).then(
                 /*#__PURE__*/
                 function () {
-                  var _ref32 = _asyncToGenerator(
+                  var _ref30 = _asyncToGenerator(
                   /*#__PURE__*/
                   _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee21(response) {
                     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee21$(_context21) {
@@ -79830,7 +79866,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }));
 
                   return function (_x24) {
-                    return _ref32.apply(this, arguments);
+                    return _ref30.apply(this, arguments);
                   };
                 }());
 
@@ -79854,25 +79890,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     addChannelMessage: function () {
       var _addChannelMessage = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee23(_ref33, _ref34) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee23(_ref31, _ref32) {
         var commit, dispatch, state, getters, rootGetters, channel, message, user, model;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee23$(_context23) {
           while (1) {
             switch (_context23.prev = _context23.next) {
               case 0:
-                commit = _ref33.commit, dispatch = _ref33.dispatch, state = _ref33.state, getters = _ref33.getters, rootGetters = _ref33.rootGetters;
-                channel = _ref34.channel, message = _ref34.message;
+                commit = _ref31.commit, dispatch = _ref31.dispatch, state = _ref31.state, getters = _ref31.getters, rootGetters = _ref31.rootGetters;
+                channel = _ref32.channel, message = _ref32.message;
                 user = rootGetters['Users/getUser'](message.user);
-                console.log(user);
-                console.log(message);
                 model = new _models_Message__WEBPACK_IMPORTED_MODULE_3__["default"](message.id, message.type, message.message, message.created_at, user, message.action, message.metadata, message.mentions);
-                _context23.next = 8;
+                _context23.next = 6;
                 return commit('addChannelMessage', {
                   channel: channel,
                   message: model
                 });
 
-              case 8:
+              case 6:
               case "end":
                 return _context23.stop();
             }
@@ -79889,17 +79923,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     startTyping: function () {
       var _startTyping = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee24(_ref35, channel) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee24(_ref33, channel) {
         var commit, state, rootGetters, user;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee24$(_context24) {
           while (1) {
             switch (_context24.prev = _context24.next) {
               case 0:
-                commit = _ref35.commit, state = _ref35.state, rootGetters = _ref35.rootGetters;
+                commit = _ref33.commit, state = _ref33.state, rootGetters = _ref33.rootGetters;
                 user = rootGetters['Users/getCurrentUser'];
                 window.Echo.join('channel.' + channel.uuid.toString()).whisper('typing.start', {
-                  user: user,
-                  channel: channel
+                  user: user.uuid.toString(),
+                  channel: channel.uuid.toString()
                 });
                 _context24.next = 5;
                 return commit('userStartedTyping', {
@@ -79924,17 +79958,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     stopTyping: function () {
       var _stopTyping = _asyncToGenerator(
       /*#__PURE__*/
-      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee25(_ref36, channel) {
+      _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee25(_ref34, channel) {
         var commit, state, rootGetters, user;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee25$(_context25) {
           while (1) {
             switch (_context25.prev = _context25.next) {
               case 0:
-                commit = _ref36.commit, state = _ref36.state, rootGetters = _ref36.rootGetters;
+                commit = _ref34.commit, state = _ref34.state, rootGetters = _ref34.rootGetters;
                 user = rootGetters['Users/getCurrentUser'];
                 window.Echo.join('channel.' + channel.uuid.toString()).whisper('typing.stop', {
-                  user: user,
-                  channel: channel
+                  user: user.uuid.toString(),
+                  channel: channel.uuid.toString()
                 });
                 _context25.next = 5;
                 return commit('userStoppedTyping', {

@@ -77,6 +77,13 @@ export default {
                 }
             }
         },
+        getChannelByUUID: state => uuid => {
+            for (let channel of state.channels) {
+                if (channel.uuid.is(uuid)) {
+                    return channel;
+                }
+            }
+        },
         getCurrentChannel: state => {
             let channelIndex = window._.findIndex(state.channels, (channel) => {
                 return channel.uuid.is(state.current);
@@ -92,7 +99,7 @@ export default {
     },
 
     actions: {
-        async loadChannels({commit, dispatch, rootGetters}) {
+        async loadChannels({commit, dispatch, getters, rootGetters}) {
             await api('api:user:channels', {
                 include: 'users,messages',
             }).send().then(async response => {
@@ -157,11 +164,15 @@ export default {
                                         });
                                 });
 
-                                events.listenForWhisper('typing.start', async ({user, channel}) => {
+                                events.listenForWhisper('typing.start', async (data) => {
+                                    let channel = getters.getChannelByUUID(data.channel);
+                                    let user    = rootGetters['Users/getUser'](data.user);
                                     await commit('userStartedTyping', {user, channel});
                                 });
 
-                                events.listenForWhisper('typing.stop', async ({user, channel}) => {
+                                events.listenForWhisper('typing.stop', async (data) => {
+                                    let channel = getters.getChannelByUUID(data.channel);
+                                    let user    = rootGetters['Users/getUser'](data.user);
                                     await commit('userStoppedTyping', {user, channel});
                                 });
                             });
@@ -224,22 +235,26 @@ export default {
         },
 
         async addChannelMessage({commit, dispatch, state, getters, rootGetters}, {channel, message}) {
-            let user = rootGetters['Users/getUser'](message.user);
-            console.log(user);
-            console.log(message);
+            let user  = rootGetters['Users/getUser'](message.user);
             let model = new Message(message.id, message.type, message.message, message.created_at, user, message.action, message.metadata, message.mentions);
             await commit('addChannelMessage', {channel, message: model});
         },
 
         async startTyping({commit, state, rootGetters}, channel) {
             let user = rootGetters['Users/getCurrentUser'];
-            window.Echo.join('channel.' + channel.uuid.toString()).whisper('typing.start', {user, channel});
+            window.Echo.join('channel.' + channel.uuid.toString()).whisper('typing.start', {
+                user: user.uuid.toString(),
+                channel: channel.uuid.toString(),
+            });
             await commit('userStartedTyping', {user, channel});
         },
 
         async stopTyping({commit, state, rootGetters}, channel) {
             let user = rootGetters['Users/getCurrentUser'];
-            window.Echo.join('channel.' + channel.uuid.toString()).whisper('typing.stop', {user, channel});
+            window.Echo.join('channel.' + channel.uuid.toString()).whisper('typing.stop', {
+                user: user.uuid.toString(),
+                channel: channel.uuid.toString(),
+            });
             await commit('userStoppedTyping', {user, channel});
         },
     },
