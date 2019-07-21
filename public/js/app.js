@@ -1753,6 +1753,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ChannelMessage",
@@ -61640,7 +61645,32 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _vm.message.action === "join" ? [_vm._v("joined")] : _vm._e()
+                _vm.message.action === "join" ? [_vm._v("joined")] : _vm._e(),
+                _vm._v(" "),
+                _vm.message.action === "deploy.started"
+                  ? [
+                      _c("p", { staticClass: "mb-1" }, [
+                        _vm._v(
+                          "System deployment started (" +
+                            _vm._s(_vm.message.metadata.start_revision.ref) +
+                            " - " +
+                            _vm._s(_vm.message.metadata.end_revision.ref) +
+                            ")"
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v(
+                          "Commit message: " +
+                            _vm._s(_vm.message.metadata.end_revision.message)
+                        )
+                      ])
+                    ]
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.message.action === "deploy.completed"
+                  ? [_vm._v("System deployment completed")]
+                  : _vm._e()
               ],
               2
             )
