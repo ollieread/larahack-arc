@@ -23,8 +23,9 @@ class Post extends Action
 
     public function __invoke(string $channelUuid, Request $request)
     {
-        $input         = $request->only(['message']);
-        $input['type'] = Message::TEXT;
+        $input            = $request->only(['message']);
+        $input['type']    = Message::TEXT;
+        $input['message'] = strip_tags($input['message']);
 
         $user    = $this->auth->user();
         $channel = (new GetChannel)

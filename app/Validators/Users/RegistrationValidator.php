@@ -14,7 +14,7 @@ class RegistrationValidator extends Validator
     public function rules(): array
     {
         return [
-            'username' => ['required', 'regex:/^[a-z0-9\.]*$/', 'min:3', Rule::unique((new User)->getTable(), 'username')],
+            'username' => ['required', 'regex:/^[a-zA-Z0-9\.]*$/', 'min:3', Rule::unique((new User)->getTable(), 'username')],
             'email'    => ['required', 'email', Rule::unique((new User)->getTable(), 'email')],
             'password' => ['required', 'confirmed', 'min:8'],
         ];

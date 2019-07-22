@@ -27,6 +27,6 @@ class Register extends Action
             return $this->transform($user, UserTransformer::class);
         }
 
-        throw new BadRequestHttpException;
+        return $this->response()->json(['message' => 'unexpected error'], 400);
     }
 }

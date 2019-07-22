@@ -2651,6 +2651,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Login",
   data: function data() {
@@ -2662,7 +2671,8 @@ __webpack_require__.r(__webpack_exports__);
       rules: {
         username: {
           required: true,
-          min: 3
+          min: 3,
+          regex: /^[a-zA-Z0-9\.]*$/
         },
         email: {
           required: true,
@@ -87031,7 +87041,12 @@ var render = function() {
                         "input__feedback--error": _vm.errors.has("username")
                       }
                     },
-                    [_vm._v(_vm._s(_vm.errors.first("username")))]
+                    [
+                      _vm._v(
+                        _vm._s(_vm.errors.first("username")) +
+                          "\n                        "
+                      )
+                    ]
                   )
                 : _vm._e()
             ]),
@@ -87087,7 +87102,12 @@ var render = function() {
                         "input__feedback--error": _vm.errors.has("email")
                       }
                     },
-                    [_vm._v(_vm._s(_vm.errors.first("email")))]
+                    [
+                      _vm._v(
+                        _vm._s(_vm.errors.first("email")) +
+                          "\n                        "
+                      )
+                    ]
                   )
                 : _vm._e()
             ]),
@@ -87146,7 +87166,12 @@ var render = function() {
                         "input__feedback--error": _vm.errors.has("password")
                       }
                     },
-                    [_vm._v(_vm._s(_vm.errors.first("password")))]
+                    [
+                      _vm._v(
+                        _vm._s(_vm.errors.first("password")) +
+                          "\n                        "
+                      )
+                    ]
                   )
                 : _vm._e()
             ]),

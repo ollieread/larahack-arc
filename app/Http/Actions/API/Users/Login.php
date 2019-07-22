@@ -6,7 +6,6 @@ use Arc\Services\Auth;
 use Arc\Support\Action;
 use Arc\Transformers\TokenTransformer;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class Login extends Action
 {
@@ -29,6 +28,6 @@ class Login extends Action
             return $this->transform($token, TokenTransformer::class);
         }
 
-        throw new BadRequestHttpException;
+        return $this->response()->json(['message' => 'invalid credentials'], 400);
     }
 }

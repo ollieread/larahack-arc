@@ -20,7 +20,9 @@ c$$$cc$$$c $$$$$$c    $$$
                                    name="username"
                                    v-validate="rules.username" placeholder="username">
                         </div>
-                        <div class="input__feedback" :class="{'input__feedback--error' : errors.has('username')}" v-if="errors.has('username')">{{ errors.first('username') }}</div>
+                        <div class="input__feedback" :class="{'input__feedback--error' : errors.has('username')}"
+                             v-if="errors.has('username')">{{ errors.first('username') }}
+                        </div>
                     </div>
                     <div class="input">
                         <label for="login-email" class="input__label">Email</label>
@@ -28,7 +30,9 @@ c$$$cc$$$c $$$$$$c    $$$
                             <input type="email" class="input__field-input" id="login-email" v-model="email" name="email"
                                    v-validate="rules.email" placeholder="email">
                         </div>
-                        <div class="input__feedback" :class="{'input__feedback--error' : errors.has('email')}" v-if="errors.has('email')">{{ errors.first('email') }}</div>
+                        <div class="input__feedback" :class="{'input__feedback--error' : errors.has('email')}"
+                             v-if="errors.has('email')">{{ errors.first('email') }}
+                        </div>
                     </div>
                     <div class="input">
                         <label for="login-password" class="input__label">Password</label>
@@ -36,16 +40,21 @@ c$$$cc$$$c $$$$$$c    $$$
                             <input type="password" class="input__field-input" id="login-password" v-model="password"
                                    name="password" v-validate="rules.password" placeholder="password">
                         </div>
-                        <div class="input__feedback" :class="{'input__feedback--error' : errors.has('password')}" v-if="errors.has('password')">{{ errors.first('password') }}</div>
+                        <div class="input__feedback" :class="{'input__feedback--error' : errors.has('password')}"
+                             v-if="errors.has('password')">{{ errors.first('password') }}
+                        </div>
                     </div>
                     <div class="input">
                         <label for="login-password_confirmation" class="input__label">Password Confirmation</label>
                         <div class="input__field">
                             <input type="password" class="input__field-input" id="login-password_confirmation"
                                    v-model="password_confirmation"
-                                   name="password" v-validate="rules.password_confirmation" placeholder="confirm_password">
+                                   name="password" v-validate="rules.password_confirmation"
+                                   placeholder="confirm_password">
                         </div>
-                        <div class="input__feedback" :class="{'input__feedback--error' : errors.has('password_confirmation')}" v-if="errors.has('password_confirmation')">{{
+                        <div class="input__feedback"
+                             :class="{'input__feedback--error' : errors.has('password_confirmation')}"
+                             v-if="errors.has('password_confirmation')">{{
                             errors.first('password_confirmation') }}
                         </div>
                     </div>
@@ -103,6 +112,7 @@ c$$$cc$$$c $$$$$$c    $$$
                     username: {
                         required: true,
                         min: 3,
+                        regex: /^[a-zA-Z0-9\.]*$/,
                     },
                     email: {
                         required: true,
