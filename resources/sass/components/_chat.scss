@@ -34,7 +34,7 @@
     }
 
     &__messages {
-      @apply flex flex-col-reverse;
+      @apply flex flex-col-reverse min-h-full;
     }
 
     &__message {
