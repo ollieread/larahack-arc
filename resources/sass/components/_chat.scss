@@ -56,6 +56,38 @@
 
       &-content {
         @apply block w-full pl-2;
+
+        pre {
+          code {
+            @apply text-sm;
+          }
+        }
+
+        ul {
+          li {
+            @apply ml-4;
+            list-style-type : none;
+
+            &:before {
+              @apply font-secondary inline-block w-2 -ml-4 mr-2;
+              color: $greenLighter;
+              content: '+';
+            }
+          }
+        }
+
+        table {
+          @apply w-full;
+
+          th, td {
+            @apply px-2 py-1 border-black border-8;
+          }
+
+          th {
+            @apply text-black font-secondary uppercase;
+            background-color : $green;
+          }
+        }
       }
 
       &-time {

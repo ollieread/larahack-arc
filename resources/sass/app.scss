@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "~highlight.js/styles/xt256.css";
 @import "fonts";
 @import "variables";
 @import "mixins";

@@ -34,8 +34,6 @@
 </template>
 
 <script>
-    import * as marked from 'marked';
-
     export default {
         name: "ChannelMessage",
 
@@ -48,7 +46,7 @@
 
         computed: {
             markdown() {
-                return marked(this.message.message);
+                return this.$marked(this.message.message);
             },
         },
     };
